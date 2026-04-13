@@ -1,0 +1,46 @@
+schema_version: 1
+version: 1
+packs:
+  - slug: secrets
+    name: Secrets Detection
+    kind: detection
+    action: block
+    version: 5
+    tags: [secrets, owasp, credentials]
+    languages: ["*"]
+    description: Detects hardcoded secrets, API keys, tokens, and connection strings
+    default: true
+    author: pullminder
+
+  - slug: go-security
+    name: Go Security
+    kind: detection
+    action: warn
+    version: 4
+    tags: [go, injection, crypto, tls]
+    languages: [go]
+    description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
+    default: false
+    author: pullminder
+
+  - slug: python-security
+    name: Python Security
+    kind: detection
+    action: warn
+    version: 5
+    tags: [python, injection, deserialization, django, flask]
+    languages: [python]
+    description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
+    default: false
+    author: pullminder
+
+  - slug: rust-security
+    name: Rust Security
+    kind: detection
+    action: warn
+    version: 5
+    tags: [rust, unsafe, memory, ffi, crypto]
+    languages: [rust]
+    description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
+    default: false
+    author: pullminder

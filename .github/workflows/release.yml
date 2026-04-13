@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    name: Create release on version bump
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for version change
+        id: version_check
+        run: |
+          CURRENT_VERSION=$(grep '^version:' registry.yaml | awk '{print $2}')
+          git show HEAD~1:registry.yaml > /tmp/prev_registry.yaml 2>/dev/null || echo "version: 0" > /tmp/prev_registry.yaml
+          PREV_VERSION=$(grep '^version:' /tmp/prev_registry.yaml | awk '{print $2}')
+          echo "current=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "previous=$PREV_VERSION" >> "$GITHUB_OUTPUT"
+          if [ "$CURRENT_VERSION" != "$PREV_VERSION" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        if: steps.version_check.outputs.changed == 'true'
+        env:
+          REGISTRY_VERSION: ${{ steps.version_check.outputs.current }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = process.env.REGISTRY_VERSION;
+            const tag = `v${version}`;
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              name: `Registry ${tag}`,
+              body: `Registry version ${version}`,
+              generate_release_notes: true,
+            });

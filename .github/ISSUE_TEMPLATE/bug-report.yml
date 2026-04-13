@@ -1,0 +1,52 @@
+name: Bug Report
+description: Report a false positive, false negative, or other issue with a pack
+title: "[Bug] "
+labels: ["bug"]
+
+body:
+  - type: input
+    id: pack_slug
+    attributes:
+      label: Pack Slug
+      description: The slug of the affected pack
+      placeholder: "e.g., secrets"
+    validations:
+      required: true
+
+  - type: input
+    id: rule_id
+    attributes:
+      label: Pattern Rule ID
+      description: The rule_id of the specific pattern, if applicable
+      placeholder: "e.g., SEC-001"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What kind of issue is this?
+      options:
+        - False positive (flagged code that is not a problem)
+        - False negative (missed code that should be flagged)
+        - Regex error
+        - Incorrect severity
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: Reproduction Steps
+      description: Provide the code snippet or steps to reproduce the issue
+      placeholder: |
+        1. Create a file with the following content:
+        ```
+        // paste code here
+        ```
+        2. Run pullminder check
+        3. Observe the incorrect result
+    validations:
+      required: true

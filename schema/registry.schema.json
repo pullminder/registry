@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pullminder.com/schema/registry.schema.json",
+  "title": "Pullminder Registry",
+  "description": "Schema for validating registry.yaml in the Pullminder registry",
+  "type": "object",
+  "required": ["schema_version", "version", "packs"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version, must be 1"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Registry version number"
+    },
+    "packs": {
+      "type": "array",
+      "description": "List of registered rule packs",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "kind",
+          "action",
+          "version",
+          "tags",
+          "languages",
+          "description",
+          "default"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "Unique identifier of the pack"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name of the pack"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["detection", "policy"],
+            "description": "Type of rule pack"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["block", "warn", "info"],
+            "description": "Default action when a pattern matches"
+          },
+          "version": {
+            "type": "integer",
+            "description": "Pack version number"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for categorizing the pack"
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Programming languages covered by the pack"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the pack"
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Whether this pack is enabled by default"
+          },
+          "author": {
+            "type": "string",
+            "description": "Author of the pack"
+          }
+        }
+      }
+    }
+  }
+}

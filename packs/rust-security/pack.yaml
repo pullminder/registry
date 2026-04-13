@@ -1,0 +1,132 @@
+slug: rust-security
+name: Rust Security
+kind: detection
+action: warn
+version: 5
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  # --- Existing patterns (1-6) ---
+
+  - name: Unsafe block usage
+    rule_id: RUST_UNSAFE_BLOCK
+    regex: '\bunsafe\s*\{'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+
+  - name: Raw SQL string formatting
+    rule_id: RUST_SQL_FORMAT
+    regex: '(?i)format!\s*\(.*(?:SELECT|INSERT|UPDATE|DELETE|DROP|ALTER)'
+    language: rust
+    severity: error
+    category: insecure_pattern
+
+  - name: Command injection
+    rule_id: RUST_CMD_INJECT
+    regex: '(?i)std::process::Command::new\s*\(.*\+'
+    language: rust
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded connection string
+    rule_id: RUST_HARDCODED_CONN
+    regex: '(?i)(let|const)\s+\w+.*=\s*["''](postgres|mysql|mongodb|redis)://'
+    language: rust
+    severity: critical
+    category: secret
+
+  - name: Unwrap on network/IO result
+    rule_id: RUST_UNWRAP_IO
+    regex: '\.(send|recv|connect|read|write|accept)\s*\([^)]*\)\s*\.unwrap\(\)'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+
+  - name: Disabled TLS verification
+    rule_id: RUST_TLS_DISABLED
+    regex: '(?i)(danger_accept_invalid_certs|danger_accept_invalid_hostnames)\s*\(\s*true\s*\)'
+    language: rust
+    severity: error
+    category: insecure_pattern
+
+  # --- New patterns (7-14) ---
+
+  - name: std::mem::transmute usage
+    rule_id: RUST_TRANSMUTE
+    regex: '(?i)(mem::transmute|transmute::<)'
+    language: rust
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      rust: 'Prefer safe type conversions: From/Into traits, as casts, or TryFrom'
+
+  - name: std::ptr::null usage
+    rule_id: RUST_NULL_PTR
+    regex: '(?i)std::ptr::(null|null_mut)\b'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+
+  - name: Allow unused unsafe
+    rule_id: RUST_ALLOW_UNSAFE
+    regex: '#\[allow\(unused_unsafe\)\]'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      rust: 'Remove #[allow(unused_unsafe)] - if unsafe is not needed, remove the unsafe block'
+
+  - name: Deprecated crypto crates
+    rule_id: RUST_DEPRECATED_CRYPTO
+    regex: '(?i)(extern crate |use )(rust-crypto|crypto::)'
+    language: rust
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      rust: 'Use ring, RustCrypto crates, or rustls instead of deprecated crypto crates'
+
+  - name: Unwrap on parse/conversion
+    rule_id: RUST_UNWRAP_PARSE
+    regex: '\.(parse|from_str|try_into|try_from)\s*\([^)]*\)\s*\.unwrap\(\)'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      rust: 'Use .unwrap_or_default(), .expect("reason"), or proper error handling with ?'
+
+  - name: FFI boundary without safety checks
+    rule_id: RUST_FFI_UNSAFE
+    regex: '(?i)extern\s+"C"\s*\{'
+    language: rust
+    severity: warning
+    category: insecure_pattern
+
+  - name: Panic across FFI boundary
+    rule_id: RUST_PANIC_IN_FFI
+    regex: '(?i)(panic!|unwrap|expect)\s*\(.*\).*// ?FFI'
+    language: rust
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      rust: 'Use catch_unwind at FFI boundaries to prevent UB from panics'
+
+  - name: User input in format strings
+    rule_id: RUST_FORMAT_STRING_USER
+    regex: '(?i)format!\s*\(\s*(req|request|input|user|args)'
+    language: rust
+    severity: error
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: 'Scoring Tiers'
+    description: 'Finding count thresholds and their corresponding weight scores'
+    default_from: scoring

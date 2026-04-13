@@ -1,0 +1,150 @@
+slug: python-security
+name: Python Security
+kind: detection
+action: warn
+version: 5
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  # --- Existing patterns (1-6) ---
+
+  - name: F-string SQL Injection
+    rule_id: PY_SQL_FSTRING
+    regex: '(?i)f["''].*(?:SELECT|INSERT|UPDATE|DELETE|DROP|ALTER).*\{'
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  - name: Subprocess with shell=True
+    rule_id: PY_SUBPROCESS_SHELL
+    regex: '(?i)subprocess\.\w+\(.*shell\s*=\s*True'
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  - name: Unsafe Deserialization
+    rule_id: PY_UNSAFE_DESER
+    regex: '(?i)(pickle\.loads?|yaml\.load)\s*\('
+    language: python
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      python: "Use yaml.safe_load() instead of yaml.load()"
+
+  - name: OS System Command
+    rule_id: PY_OS_SYSTEM
+    regex: '(?i)os\.system\s*\(.*\+'
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  - name: Eval Execution
+    rule_id: PY_EVAL
+    regex: '(?i)\beval\s*\('
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded Credentials
+    rule_id: PY_HARDCODED_CREDS
+    regex: '(?i)(password|passwd|pwd)\s*[:=]\s*[''"][^''"]{4,}[''"]'
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  # --- New patterns (7-16) ---
+
+  - name: Weak Hash for Passwords
+    rule_id: PY_WEAK_HASH
+    regex: '(?i)hashlib\.(md5|sha1)\s*\('
+    language: python
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      python: "Use bcrypt or argon2 for password hashing"
+
+  - name: Django DEBUG=True
+    rule_id: PY_DJANGO_DEBUG
+    regex: '(?i)DEBUG\s*=\s*True'
+    language: python
+    severity: warning
+    category: insecure_pattern
+
+  - name: Django SECRET_KEY in Settings
+    rule_id: PY_DJANGO_SECRET
+    regex: '(?i)SECRET_KEY\s*=\s*[''"][^''"]{8,}[''"]'
+    language: python
+    severity: critical
+    category: secret
+
+  - name: Jinja2 Autoescape Disabled
+    rule_id: PY_JINJA_AUTOESCAPE
+    regex: '(?i)autoescape\s*=\s*False'
+    language: python
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      python: "Set autoescape=True or use select_autoescape()"
+
+  - name: SQLAlchemy Raw Text with Format
+    rule_id: PY_SQLA_RAW
+    regex: '(?i)text\s*\(\s*f?["''].*(?:SELECT|INSERT|UPDATE|DELETE)'
+    language: python
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      python: "Use parameterized queries: text(\"SELECT * FROM t WHERE id = :id\").bindparams(id=value)"
+
+  - name: Assert for Security Checks
+    rule_id: PY_ASSERT_SECURITY
+    regex: '(?i)assert\s+.*(?:authenticated|authorized|permission|role|admin|is_valid|is_secure)'
+    language: python
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      python: "Replace assert with explicit if/raise - asserts are stripped with python -O"
+
+  - name: Requests verify=False
+    rule_id: PY_REQUESTS_NO_VERIFY
+    regex: '(?i)requests\.(get|post|put|delete|patch|head)\(.*verify\s*=\s*False'
+    language: python
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      python: "Remove verify=False to enable TLS certificate verification"
+
+  - name: Exec Execution
+    rule_id: PY_EXEC
+    regex: '(?i)\bexec\s*\('
+    language: python
+    severity: error
+    category: insecure_pattern
+
+  - name: Insecure Temp File
+    rule_id: PY_TEMPFILE_INSECURE
+    regex: '(?i)tempfile\.mk(s?temp|d?temp)\s*\('
+    language: python
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      python: "Use tempfile.NamedTemporaryFile() or tempfile.mkstemp() with proper permissions"
+
+  - name: Flask Debug Mode
+    rule_id: PY_FLASK_DEBUG
+    regex: '(?i)app\.run\(.*debug\s*=\s*True'
+    language: python
+    severity: warning
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores"
+    default_from: scoring

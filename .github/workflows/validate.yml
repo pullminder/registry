@@ -1,0 +1,39 @@
+name: Validate Registry
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate schemas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli ajv-formats
+
+      - name: Validate registry.yaml
+        run: ajv validate -s schema/registry.schema.json -d registry.yaml --spec=draft2020 -c ajv-formats
+
+      - name: Validate pack schemas
+        run: |
+          found=0
+          for pack_file in packs/*/pack.yaml; do
+            if [ -f "$pack_file" ]; then
+              echo "Validating $pack_file..."
+              ajv validate -s schema/pack.schema.json -d "$pack_file" --spec=draft2020 -c ajv-formats
+              found=1
+            fi
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No pack files found to validate. Skipping."
+          fi

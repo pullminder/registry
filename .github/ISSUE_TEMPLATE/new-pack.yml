@@ -1,0 +1,53 @@
+name: New Pack Proposal
+description: Propose a new detection or policy pack for the registry
+title: "[Pack Proposal] "
+labels: ["new-pack"]
+
+body:
+  - type: input
+    id: pack_name
+    attributes:
+      label: Pack Name
+      description: Human-readable name for the pack
+      placeholder: "e.g., Java Security"
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: Slug
+      description: Unique identifier (lowercase, hyphens only)
+      placeholder: "e.g., java-security"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What does this pack detect or enforce?
+      placeholder: Describe the purpose and scope of this pack
+    validations:
+      required: true
+
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: Target programming language, or * for all languages
+      placeholder: "e.g., java, python, *, etc."
+    validations:
+      required: true
+
+  - type: textarea
+    id: patterns_overview
+    attributes:
+      label: Patterns Overview
+      description: List the key patterns this pack would include
+      placeholder: |
+        - SQL injection via string concatenation
+        - Deserialization of untrusted data
+        - Hardcoded credentials in config files
+    validations:
+      required: true

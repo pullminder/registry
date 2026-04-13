@@ -1,0 +1,124 @@
+slug: go-security
+name: Go Security
+kind: detection
+action: warn
+version: 4
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: SQL string concatenation
+    rule_id: GO_SQL_CONCAT
+    regex: '(?i)(query|exec|execute|prepare)\s*\(.*\+\s*(req|request|params|body|input|user|args)'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: SQL format string
+    rule_id: GO_SQL_FMT
+    regex: '(?i)fmt\.Sprintf\s*\(\s*["''].*(?:SELECT|INSERT|UPDATE|DELETE|DROP|ALTER)'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: Shell command injection
+    rule_id: GO_CMD_INJECT
+    regex: '(?i)exec\.Command\s*\(.*\+'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded credential comparison
+    rule_id: GO_HARDCODED_CREDS_CMP
+    regex: '(?i)\.(password|passwd|pwd|secret|token)\s*==\s*[''"][^''"]{4,}[''"]'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: JWT built by string concatenation
+    rule_id: GO_JWT_CONCAT
+    regex: '(?i)(token|jwt)\s*[:=].*["'']ey[A-Za-z0-9].*["'']\s*\+'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: Token built by multi-segment concatenation
+    rule_id: GO_TOKEN_CONCAT
+    regex: '(?i)(token|jwt)\s*[:=]\s*[^+\n]+\+\s*[^+\n]+\+'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: InsecureSkipVerify enabled
+    rule_id: GO_INSECURE_TLS
+    regex: 'InsecureSkipVerify\s*:\s*true'
+    language: go
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      go: 'Remove InsecureSkipVerify or set to false'
+
+  - name: Weak random number generator in crypto context
+    rule_id: GO_WEAK_RAND
+    regex: '(?i)math/rand|rand\.(Int|Intn|Float|Read)\b'
+    language: go
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      go: 'Use crypto/rand instead of math/rand for security-sensitive operations'
+
+  - name: Use of unsafe package
+    rule_id: GO_UNSAFE_PKG
+    regex: '\bunsafe\.(Pointer|Sizeof|Offsetof|Alignof|Slice|Add)\b'
+    language: go
+    severity: warning
+    category: insecure_pattern
+
+  - name: Hardcoded TLS cipher suites
+    rule_id: GO_HARDCODED_TLS_CIPHER
+    regex: '(?i)tls\.(TLS_|CipherSuites).*\{'
+    language: go
+    severity: warning
+    category: insecure_pattern
+
+  - name: HTTP client without timeout
+    rule_id: GO_NO_HTTP_TIMEOUT
+    regex: '(?i)http\.Client\s*\{[^}]*\}'
+    language: go
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      go: 'Set http.Client{Timeout: 30 * time.Second}'
+
+  - name: SSRF via unvalidated URLs
+    rule_id: GO_SSRF
+    regex: '(?i)http\.(Get|Post|Head|PostForm)\s*\(\s*(req|request|params|body|input|user|args)'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: os/exec with user-controlled arguments
+    rule_id: GO_EXEC_USER_INPUT
+    regex: '(?i)exec\.Command\s*\(\s*(req|request|params|body|input|user|args)'
+    language: go
+    severity: error
+    category: insecure_pattern
+
+  - name: Unhandled errors on security calls
+    rule_id: GO_UNHANDLED_ERR_SECURITY
+    regex: '(?i)(Encrypt|Decrypt|Sign|Verify|Hash|Hmac)\s*\([^)]*\)\s*$'
+    language: go
+    severity: warning
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores"
+    default_from: scoring

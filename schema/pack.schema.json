@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pullminder.com/schema/pack.schema.json",
+  "title": "Pullminder Rule Pack",
+  "description": "Schema for validating pack.yaml files in the Pullminder registry",
+  "type": "object",
+  "required": [
+    "slug",
+    "name",
+    "kind",
+    "action",
+    "version",
+    "schema_version",
+    "author",
+    "max_weight",
+    "scoring",
+    "patterns"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Unique identifier in kebab-case"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the rule pack"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["detection", "policy"],
+      "description": "Type of rule pack"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["block", "warn", "info"],
+      "description": "Default action when a pattern matches"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Pack version number"
+    },
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version, must be 1"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author of the rule pack"
+    },
+    "max_weight": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Maximum weight for scoring (1-100)"
+    },
+    "scoring": {
+      "type": "array",
+      "description": "Scoring thresholds based on number of findings",
+      "items": {
+        "type": "object",
+        "required": ["min_findings", "score"],
+        "properties": {
+          "min_findings": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Minimum number of findings to trigger this score"
+          },
+          "score": {
+            "type": "number",
+            "description": "Score value assigned when threshold is met"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "patterns": {
+      "type": "array",
+      "description": "List of detection or policy patterns",
+      "items": {
+        "type": "object",
+        "required": ["name", "rule_id", "regex", "language", "severity", "category"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name of the pattern"
+          },
+          "rule_id": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$",
+            "description": "Unique rule identifier in UPPER_SNAKE_CASE"
+          },
+          "regex": {
+            "type": "string",
+            "description": "Regular expression to match against code"
+          },
+          "language": {
+            "type": "string",
+            "description": "Programming language this pattern applies to"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "error", "warning", "info"],
+            "description": "Severity level of the finding"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["secret", "insecure_pattern", "policy_violation", "quality"],
+            "description": "Category of the finding"
+          },
+          "fix_templates": {
+            "type": "object",
+            "description": "Fix suggestion templates keyed by language name",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "description": "Optional overrides for pack configuration"
+    }
+  }
+}
