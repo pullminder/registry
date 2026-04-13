@@ -1,0 +1,55 @@
+slug: ai-detection
+name: AI Code Detection
+kind: detection
+action: warn
+version: 3
+schema_version: 1
+author: pullminder
+co_authors:
+  - copilot
+  - anthropic.com
+  - cursor
+  - cody
+  - devin
+  - windsurf
+  - tabnine
+  - chatgpt
+  - openai.com
+  - claude
+  - augment
+  - bolt
+  - v0
+branch_prefixes:
+  - cursor/
+  - devin/
+  - copilot/
+  - windsurf/
+  - claude/
+  - cody/
+  - ai/
+  - bot/
+  - augment/
+tool_files:
+  - .cursorrules
+  - .cursorignore
+  - .github/copilot-instructions.md
+  - .aider.conf.yml
+  - .codeium
+  - .augment
+  - CLAUDE.md
+overrides:
+  co_authors:
+    type: string_list
+    label: "AI Co-authors"
+    description: "Patterns in commit co-author fields that indicate AI tools"
+    default_from: co_authors
+  branch_prefixes:
+    type: string_list
+    label: "Branch Prefixes"
+    description: "Branch name prefixes that suggest AI-generated PRs"
+    default_from: branch_prefixes
+  tool_files:
+    type: string_list
+    label: "Tool Config Files"
+    description: "Files whose presence signals AI tool usage"
+    default_from: tool_files

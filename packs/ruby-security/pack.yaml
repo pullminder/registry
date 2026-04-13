@@ -1,0 +1,130 @@
+slug: ruby-security
+name: Ruby Security
+kind: detection
+action: warn
+version: 5
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: Dynamic code evaluation
+    rule_id: RUBY_EVAL
+    regex: '\b(eval|instance_eval|class_eval|module_eval)\s*[\(]'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Command injection via interpolation
+    rule_id: RUBY_CMD_INJECT
+    regex: '(?i)(system|exec|%x)\s*[\(\[].*#\{'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Dynamic dispatch with user input
+    rule_id: RUBY_SEND_INJECT
+    regex: '\.(send|public_send)\s*\(.*params'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Mass assignment bypass
+    rule_id: RUBY_MASS_ASSIGN
+    regex: '\.permit!'
+    language: ruby
+    severity: warning
+    category: insecure_pattern
+
+  - name: SQL injection via interpolation
+    rule_id: RUBY_SQL_INJECT
+    regex: '(?i)(where|find_by_sql|execute)\s*[\(\[]?\s*["''].*#\{'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Unsafe deserialization with Marshal
+    rule_id: RUBY_MARSHAL_LOAD
+    regex: 'Marshal\.(load|restore)\s*\('
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded credentials
+    rule_id: RUBY_HARDCODED_CREDS
+    regex: '(?i)(password|secret_key|api_key)\s*[:=]\s*[''"][^''"]{4,}[''"]'
+    language: ruby
+    severity: critical
+    category: secret
+
+  - name: Unsafe constantize on user input
+    rule_id: RUBY_CONSTANTIZE
+    regex: '(?i)\.(constantize|safe_constantize)\s*'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Use an allowlist: ALLOWED_CLASSES.fetch(params[:type])'
+
+  - name: html_safe on unescaped content
+    rule_id: RUBY_HTML_SAFE
+    regex: '(?i)\.html_safe\b'
+    language: ruby
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Use sanitize() or content_tag() instead of html_safe'
+
+  - name: ERB rendering of user strings
+    rule_id: RUBY_ERB_RENDER
+    regex: '(?i)ERB\.new\s*\(.*params'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Raw SQL in ActiveRecord
+    rule_id: RUBY_RAW_SQL
+    regex: '(?i)\.(execute|select_all|find_by_sql)\s*\(.*#\{'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Use parameterized queries: where("col = ?", value)'
+
+  - name: open-uri SSRF
+    rule_id: RUBY_OPEN_URI
+    regex: '(?i)(open|URI\.open|Kernel\.open)\s*\(.*params'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Validate and allowlist URLs before opening'
+
+  - name: Unsafe YAML load
+    rule_id: RUBY_YAML_LOAD
+    regex: '(?i)YAML\.(load|unsafe_load)\s*\('
+    language: ruby
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Use YAML.safe_load() instead'
+
+  - name: Open redirect
+    rule_id: RUBY_REDIRECT
+    regex: '(?i)redirect_to\s*.*params'
+    language: ruby
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      ruby: 'Validate redirect URLs against allowlist'
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores"
+    default_from: scoring

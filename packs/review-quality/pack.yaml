@@ -1,0 +1,39 @@
+slug: review-quality
+name: Review Quality
+kind: detection
+action: warn
+version: 3
+schema_version: 1
+author: pullminder
+diff_size:
+  max_weight: 15
+  thresholds:
+    - min_lines: 200
+      score: 5
+      severity: info
+    - min_lines: 500
+      score: 10
+      severity: info
+    - min_lines: 1000
+      score: 15
+      severity: warning
+files_changed:
+  max_weight: 10
+  thresholds:
+    - min_files: 5
+      score: 5
+      severity: info
+    - min_files: 15
+      score: 10
+      severity: warning
+overrides:
+  diff_size.thresholds:
+    type: scored_tiers
+    label: "Diff Size Thresholds"
+    description: "Score tiers based on number of lines changed"
+    default_from: diff_size.thresholds
+  files_changed.thresholds:
+    type: scored_tiers
+    label: "Files Changed Thresholds"
+    description: "Score tiers based on number of files changed"
+    default_from: files_changed.thresholds

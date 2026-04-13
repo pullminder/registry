@@ -1,0 +1,52 @@
+slug: bot-detection
+name: Bot PR Detection
+kind: detection
+action: warn
+version: 4
+schema_version: 1
+author: pullminder
+
+bot_authors:
+  - login: "dependabot[bot]"
+    name: dependabot
+    category: dependency
+  - login: "renovate[bot]"
+    name: renovate
+    category: dependency
+  - login: "snyk-bot"
+    name: snyk
+    category: security
+  - login: "github-actions[bot]"
+    name: github-actions
+    category: ci
+  - login: "depfu[bot]"
+    name: depfu
+    category: dependency
+  - login: "greenkeeper[bot]"
+    name: greenkeeper
+    category: dependency
+
+bot_branches:
+  - prefix: "dependabot/"
+    name: dependabot
+    category: dependency
+  - prefix: "renovate/"
+    name: renovate
+    category: dependency
+  - prefix: "snyk-"
+    name: snyk
+    category: security
+
+behavior:
+  skip_analyzers: [test_gap, insecure_patterns]
+  skip_ai_brief: true
+  inline_comments: critical_only
+  slack_alerts: block_only
+  comment_template: compact
+
+overrides:
+  behavior.skip_analyzers:
+    type: string_list
+    label: "Skip Analyzers"
+    description: "Analyzers to skip for bot-authored PRs"
+    default_from: behavior.skip_analyzers

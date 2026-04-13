@@ -1,0 +1,45 @@
+slug: sensitive-paths
+name: Sensitive Paths
+kind: detection
+action: warn
+version: 3
+schema_version: 1
+author: pullminder
+max_weight: 20
+scoring:
+  - min_findings: 1
+    score: 10
+  - min_findings: 2
+    score: 15
+  - min_findings: 3
+    score: 20
+paths:
+  - pattern: "auth/"
+    label: Authentication
+  - pattern: "billing/"
+    label: Billing
+  - pattern: "infra/"
+    label: Infrastructure
+  - pattern: "security/"
+    label: Security
+  - pattern: ".env"
+    label: Environment config
+  - pattern: "migrations/"
+    label: Database migrations
+  - pattern: "deploy/"
+    label: Deployment
+  - pattern: "payments/"
+    label: Payments
+  - pattern: "crypto/"
+    label: Cryptography
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Map finding counts to risk scores"
+    default_from: scoring
+  paths:
+    type: labeled_patterns
+    label: "Sensitive Paths"
+    description: "File paths that trigger extra review"
+    default_from: paths

@@ -1,0 +1,139 @@
+slug: php-security
+name: PHP Security
+kind: detection
+action: warn
+version: 5
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  # --- Existing patterns (1-8) ---
+
+  - name: Eval Execution
+    rule_id: PHP_EVAL
+    regex: '(?i)\b(eval|assert)\s*\(\s*\$'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Command Injection
+    rule_id: PHP_CMD_INJECT
+    regex: '(?i)\b(exec|system|passthru|shell_exec|popen|proc_open)\s*\(.*\$'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: File Inclusion Injection
+    rule_id: PHP_INCLUDE_INJECT
+    regex: '(?i)\b(include|require)(_once)?\s*\(?\s*\$_(GET|POST|REQUEST|COOKIE)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: SQL Injection
+    rule_id: PHP_SQL_INJECT
+    regex: '(?i)(mysql_query|mysqli_query|pg_query)\s*\(.*\$_(GET|POST|REQUEST)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Cross-Site Scripting (XSS)
+    rule_id: PHP_XSS
+    regex: '(?i)\becho\s+.*\$_(GET|POST|REQUEST|COOKIE)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Unsafe Deserialization
+    rule_id: PHP_UNSERIALIZE
+    regex: '(?i)\bunserialize\s*\(\s*\$_(GET|POST|REQUEST|COOKIE)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Weak Hash for Passwords
+    rule_id: PHP_WEAK_HASH
+    regex: '(?i)\b(md5|sha1)\s*\(\s*\$'
+    language: php
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      php: "Use password_hash() with PASSWORD_BCRYPT or PASSWORD_ARGON2ID"
+
+  - name: Hardcoded Credentials
+    rule_id: PHP_HARDCODED_CREDS
+    regex: '(?i)(password|passwd|pwd)\s*[:=]\s*[''"][^''"]{4,}[''"]'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  # --- New patterns (9-15) ---
+
+  - name: Extract on Request Data
+    rule_id: PHP_EXTRACT
+    regex: '(?i)\bextract\s*\(\s*\$_(GET|POST|REQUEST|COOKIE|SERVER)'
+    language: php
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      php: "Explicitly assign needed variables instead of extract()"
+
+  - name: preg_replace with /e Modifier
+    rule_id: PHP_PREG_E
+    regex: '(?i)preg_replace\s*\(\s*[''"].*\/e[''"]'
+    language: php
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      php: "Use preg_replace_callback() instead of /e modifier"
+
+  - name: Mail Header Injection
+    rule_id: PHP_MAIL_INJECT
+    regex: '(?i)\bmail\s*\(.*\$_(GET|POST|REQUEST)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Assert with String Input
+    rule_id: PHP_ASSERT_STRING
+    regex: '(?i)\bassert\s*\(\s*\$'
+    language: php
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      php: "Use explicit conditionals instead of assert() with variable input"
+
+  - name: Unsafe File Upload
+    rule_id: PHP_FILE_UPLOAD
+    regex: '(?i)move_uploaded_file\s*\(.*\$_(GET|POST|REQUEST)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Header Injection
+    rule_id: PHP_HEADER_INJECT
+    regex: '(?i)\bheader\s*\(\s*[''"].*\$_(GET|POST|REQUEST)'
+    language: php
+    severity: error
+    category: insecure_pattern
+
+  - name: Disabled SSL Verification
+    rule_id: PHP_CURL_SSL
+    regex: '(?i)CURLOPT_SSL_VERIFYPEER\s*,\s*(false|0)'
+    language: php
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      php: "Set CURLOPT_SSL_VERIFYPEER to true"
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores"
+    default_from: scoring

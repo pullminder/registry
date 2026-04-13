@@ -1,0 +1,60 @@
+slug: test-conventions
+name: Test Conventions
+kind: detection
+action: warn
+version: 3
+schema_version: 1
+author: pullminder
+max_weight: 15
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 2
+    score: 10
+  - min_findings: 3
+    score: 15
+source_dirs: [src/, internal/, lib/, pkg/, app/, handlers/, services/, cmd/]
+test_suffixes: [_test.go, .test.ts, .test.tsx, .test.js, .test.jsx, .spec.ts, .spec.tsx, .spec.js, .spec.jsx, _test.py, _test.rb]
+non_source_extensions: [.md, .txt, .yml, .yaml, .toml, .json, .lock, .sum, .css, .scss, .svg, .png, .jpg, .gif, .ico]
+coverage_thresholds:
+  good: 80
+  low: 50
+heuristic_thresholds:
+  untested_warning: 1
+  untested_medium: 2
+  untested_high: 3
+overrides:
+  source_dirs:
+    type: string_list
+    label: "Source Directories"
+    description: "Directories that contain production source code"
+    default_from: source_dirs
+  test_suffixes:
+    type: string_list
+    label: "Test Suffixes"
+    description: "File suffixes that identify test files"
+    default_from: test_suffixes
+  non_source_extensions:
+    type: string_list
+    label: "Non-Source Extensions"
+    description: "File extensions to exclude from test coverage analysis"
+    default_from: non_source_extensions
+  coverage_thresholds.good:
+    type: number
+    label: "Good Coverage Threshold"
+    description: "Percentage above which coverage is considered good"
+    min: 0
+    max: 100
+    default_from: coverage_thresholds.good
+  coverage_thresholds.low:
+    type: number
+    label: "Low Coverage Threshold"
+    description: "Percentage below which coverage is flagged"
+    min: 0
+    max: 100
+    default_from: coverage_thresholds.low
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Map untested file counts to risk scores"
+    default_from: scoring

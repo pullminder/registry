@@ -44,3 +44,113 @@ packs:
     description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
     default: false
     author: pullminder
+
+  - slug: ruby-security
+    name: Ruby Security
+    kind: detection
+    action: warn
+    version: 5
+    tags: [ruby, injection, eval, rails]
+    languages: [ruby]
+    description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
+    default: false
+    author: pullminder
+
+  - slug: php-security
+    name: PHP Security
+    kind: detection
+    action: warn
+    version: 5
+    tags: [php, injection, include, xss]
+    languages: [php]
+    description: PHP-specific security patterns including command injection, file inclusion, and XSS
+    default: false
+    author: pullminder
+
+  - slug: react-security
+    name: React & JavaScript Security
+    kind: detection
+    action: warn
+    version: 5
+    tags: [react, javascript, xss, dom, prototype]
+    languages: [javascript, typescript]
+    description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
+    default: false
+    author: pullminder
+
+  - slug: infra-security
+    name: Infrastructure Security
+    kind: detection
+    action: block
+    version: 4
+    tags: [docker, kubernetes, terraform, ci-cd]
+    languages: ["*"]
+    description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
+    default: true
+    author: pullminder
+
+  - slug: bot-detection
+    name: Bot PR Detection
+    kind: detection
+    action: warn
+    version: 4
+    tags: [bots, automation, dependency-management]
+    languages: ["*"]
+    description: Identifies and adapts analysis for bot-authored PRs
+    default: true
+    author: pullminder
+
+  - slug: ai-detection
+    name: AI Code Detection
+    kind: detection
+    action: warn
+    version: 3
+    tags: [ai, governance, detection]
+    languages: ["*"]
+    description: Detects AI-generated code via co-author trailers, branch patterns, and tool files
+    default: true
+    author: pullminder
+
+  - slug: sensitive-paths
+    name: Sensitive Paths
+    kind: detection
+    action: warn
+    version: 3
+    tags: [governance, paths, review]
+    languages: ["*"]
+    description: Flags modifications to security-critical directories
+    default: true
+    author: pullminder
+
+  - slug: dependency-detection
+    name: Dependency Detection
+    kind: detection
+    action: warn
+    version: 4
+    tags: [dependencies, supply-chain]
+    languages: ["*"]
+    description: Detects dependency manifest and lockfile changes
+    default: true
+    author: pullminder
+
+  - slug: test-conventions
+    name: Test Conventions
+    kind: detection
+    action: warn
+    version: 3
+    tags: [testing, coverage, quality]
+    languages: ["*"]
+    description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
+    default: true
+    author: pullminder
+
+  - slug: review-quality
+    name: Review Quality
+    kind: detection
+    action: warn
+    version: 3
+    tags: [quality, review, thresholds]
+    languages: ["*"]
+    description: Configurable thresholds for diff size and files changed
+    default: true
+    author: pullminder

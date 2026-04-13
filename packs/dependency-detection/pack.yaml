@@ -1,0 +1,65 @@
+slug: dependency-detection
+name: Dependency Detection
+kind: detection
+action: warn
+version: 4
+schema_version: 1
+author: pullminder
+customizable: false
+max_weight: 5
+
+manifest_files:
+  - file: package.json
+    ecosystem: npm
+    is_lockfile: false
+  - file: package-lock.json
+    ecosystem: npm
+    is_lockfile: true
+  - file: pnpm-lock.yaml
+    ecosystem: npm
+    is_lockfile: true
+  - file: yarn.lock
+    ecosystem: npm
+    is_lockfile: true
+  - file: bun.lock
+    ecosystem: bun
+    is_lockfile: true
+  - file: go.mod
+    ecosystem: go
+    is_lockfile: false
+  - file: go.sum
+    ecosystem: go
+    is_lockfile: true
+  - file: requirements.txt
+    ecosystem: python
+    is_lockfile: false
+  - file: pyproject.toml
+    ecosystem: python
+    is_lockfile: false
+  - file: poetry.lock
+    ecosystem: python
+    is_lockfile: true
+  - file: Gemfile
+    ecosystem: ruby
+    is_lockfile: false
+  - file: Gemfile.lock
+    ecosystem: ruby
+    is_lockfile: true
+  - file: Cargo.toml
+    ecosystem: rust
+    is_lockfile: false
+  - file: Cargo.lock
+    ecosystem: rust
+    is_lockfile: true
+  - file: composer.json
+    ecosystem: php
+    is_lockfile: false
+  - file: composer.lock
+    ecosystem: php
+    is_lockfile: true
+  - file: deno.lock
+    ecosystem: deno
+    is_lockfile: true
+  - file: Package.resolved
+    ecosystem: swift
+    is_lockfile: true

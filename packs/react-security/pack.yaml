@@ -1,0 +1,136 @@
+slug: react-security
+name: React & JavaScript Security
+kind: detection
+action: warn
+version: 5
+schema_version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: React dangerouslySetInnerHTML
+    rule_id: REACT_INNER_HTML
+    regex: '(?i)dangerouslySetInnerHTML'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+  - name: Dangerous HTML injection
+    rule_id: REACT_DANGEROUS_HTML
+    regex: '(?i)__html\s*:\s*[^''"]'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Use of eval()
+    rule_id: JS_EVAL
+    regex: '(?i)\beval\s*\('
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: HTTP URL in source
+    rule_id: JS_HTTP_URL
+    regex: '(?i)http://[a-zA-Z0-9]'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+    exclude_pattern: '(?i)http://localhost|http://127\.0\.0\.1|http://0\.0\.0\.0|http://example\.com'
+
+  - name: Hardcoded credentials
+    rule_id: JS_HARDCODED_CREDS
+    regex: '(?i)(password|passwd|secret|api_key|apikey|token)\s*[:=]\s*[''"][^''"]{8,}[''"]'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Direct DOM manipulation
+    rule_id: REACT_DIRECT_DOM
+    regex: '(?i)document\.(getElementById|querySelector|getElementsBy)'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+  - name: document.write() usage
+    rule_id: JS_DOCUMENT_WRITE
+    regex: '(?i)document\.write\s*\('
+    language: "*"
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Use DOM manipulation methods instead of document.write()'
+
+  - name: postMessage without origin check
+    rule_id: JS_POSTMESSAGE
+    regex: '(?i)\.addEventListener\s*\(\s*[''"]message[''"]'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Always verify event.origin in message handlers'
+
+  - name: window.open with user URLs
+    rule_id: JS_WINDOW_OPEN
+    regex: '(?i)window\.open\s*\(.*(?:params|query|input|user|req)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: new Function() constructor
+    rule_id: JS_NEW_FUNCTION
+    regex: '(?i)new\s+Function\s*\('
+    language: "*"
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Avoid new Function() - use proper function definitions'
+
+  - name: Prototype pollution
+    rule_id: JS_PROTO_POLLUTION
+    regex: '(?i)(__proto__|constructor\.prototype|Object\.assign\s*\(\s*\{\})'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Use Object.create(null) or Map instead of plain objects for user data'
+
+  - name: localStorage for sensitive data
+    rule_id: JS_LOCALSTORAGE_SENSITIVE
+    regex: '(?i)localStorage\.(setItem|getItem)\s*\(\s*[''"](?:token|jwt|session|auth|password|secret|key|credential)'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Use httpOnly cookies instead of localStorage for sensitive tokens'
+
+  - name: outerHTML assignment
+    rule_id: JS_INNERHTML_ASSIGN
+    regex: '(?i)\.outerHTML\s*='
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Unescaped template literals in DOM
+    rule_id: JS_TEMPLATE_UNESCAPED
+    regex: '(?i)\$\{.*\}.*\.innerHTML'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Open redirect
+    rule_id: JS_OPEN_REDIRECT
+    regex: '(?i)(window\.location|location\.href)\s*=\s*(?:params|query|req|request|input)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores"
+    default_from: scoring
