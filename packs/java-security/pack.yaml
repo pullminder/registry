@@ -1,0 +1,92 @@
+slug: java-security
+name: Java Security
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: SQL injection via string concatenation
+    rule_id: JAVA_SQL_CONCAT
+    regex: '(?i)(?:createQuery|prepareStatement|executeQuery|executeUpdate)\s*\(.*\+'
+    language: java
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      java: 'Use PreparedStatement with ? placeholders: ps.setString(1, value)'
+
+  - name: Runtime.exec with user input
+    rule_id: JAVA_RUNTIME_EXEC
+    regex: '(?i)Runtime\.getRuntime\(\)\.exec\s*\(.*\+'
+    language: java
+    severity: error
+    category: insecure_pattern
+
+  - name: XXE via DocumentBuilderFactory
+    rule_id: JAVA_XXE
+    regex: '(?i)DocumentBuilderFactory\.newInstance\s*\(\s*\)'
+    language: java
+    severity: warning
+    category: insecure_pattern
+
+  - name: Insecure deserialization
+    rule_id: JAVA_UNSAFE_DESER
+    regex: '(?i)ObjectInputStream\s*\(.*\)\.readObject\s*\('
+    language: java
+    severity: critical
+    category: insecure_pattern
+
+  - name: Weak cryptographic algorithm
+    rule_id: JAVA_WEAK_CRYPTO
+    regex: '(?i)(?:MessageDigest|Cipher|SecretKeyFactory)\.getInstance\s*\(\s*["\u0027](?:MD5|SHA-?1|DES|DESede|RC4)["\u0027]'
+    language: java
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded credentials
+    rule_id: JAVA_HARDCODED_CREDS
+    regex: '(?i)(?:password|passwd|pwd|secret)\s*=\s*["\u0027][^"\u0027]{4,}["\u0027]'
+    language: java
+    severity: error
+    category: secret
+
+  - name: LDAP injection via string concatenation
+    rule_id: JAVA_LDAP_INJECT
+    regex: '(?i)(?:search|lookup|DirContext)\s*\(.*\+\s*(?:request|input|param|user|args)'
+    language: java
+    severity: error
+    category: insecure_pattern
+
+  - name: Path traversal via File constructor
+    rule_id: JAVA_PATH_TRAVERSAL
+    regex: '(?i)new\s+File\s*\(.*(?:request|param|input|getParameter|getHeader)\s*\('
+    language: java
+    severity: error
+    category: insecure_pattern
+
+  - name: SSRF via URL.openConnection
+    rule_id: JAVA_SSRF
+    regex: '(?i)new\s+URL\s*\(.*(?:request|param|input|getParameter|getHeader).*\)\.openConnection'
+    language: java
+    severity: warning
+    category: insecure_pattern
+
+  - name: Insecure random number generator
+    rule_id: JAVA_INSECURE_RANDOM
+    regex: '(?i)new\s+java\.util\.Random\s*\('
+    language: java
+    severity: warning
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

@@ -1,0 +1,78 @@
+slug: csharp-security
+name: "C# Security"
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: SQL injection via SqlCommand string concatenation
+    rule_id: CSHARP_SQL_CONCAT
+    regex: '(?i)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    language: csharp
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
+
+  - name: BinaryFormatter deserialization
+    rule_id: CSHARP_UNSAFE_DESER
+    regex: '(?i)BinaryFormatter\s*\(\s*\)\.Deserialize'
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+
+  - name: Process.Start with user input
+    rule_id: CSHARP_PROCESS_START
+    regex: '(?i)Process\.Start\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+
+  - name: XmlDocument without XmlResolver null
+    rule_id: CSHARP_XXE
+    regex: '(?i)new\s+XmlDocument\s*\(\s*\)\s*[;{]'
+    language: csharp
+    severity: error
+    category: insecure_pattern
+
+  - name: Weak cryptographic hash for passwords
+    rule_id: CSHARP_WEAK_CRYPTO
+    regex: '(?i)(?:MD5|SHA1)\.(?:Create|ComputeHash)'
+    language: csharp
+    severity: warning
+    category: insecure_pattern
+
+  - name: Hardcoded connection string
+    rule_id: CSHARP_HARDCODED_CONN
+    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\u0027](?:Server|Data Source|Host).*["\u0027]'
+    language: csharp
+    severity: error
+    category: secret
+
+  - name: LDAP injection via string concatenation
+    rule_id: CSHARP_LDAP_INJECT
+    regex: '(?i)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    language: csharp
+    severity: error
+    category: insecure_pattern
+
+  - name: Response.Write without encoding
+    rule_id: CSHARP_XSS_RESPONSE
+    regex: '(?i)Response\.Write\s*\(\s*(?:request|input|param|user|args|query|model|form|Request)'
+    language: csharp
+    severity: error
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

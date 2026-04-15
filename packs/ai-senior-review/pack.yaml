@@ -1,0 +1,14 @@
+slug: ai-senior-review
+name: AI Senior Review Required
+schema_version: 1
+description: Requires senior reviewer approval for high-risk AI-generated PRs
+kind: detection
+action: warn
+version: 3
+author: pullminder
+customizable: false
+
+rule_type: ai_senior_review
+config:
+  risk_level: "high"
+  require_codeowner: true
