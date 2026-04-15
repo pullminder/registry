@@ -164,6 +164,5 @@
       "type": "object",
       "description": "Optional overrides for pack configuration"
     }
-  },
-  "additionalProperties": false
+  }
 }
