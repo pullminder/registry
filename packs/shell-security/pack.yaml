@@ -1,0 +1,69 @@
+slug: shell-security
+name: Shell Security
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: Unquoted variable expansion
+    rule_id: SHELL_UNQUOTED_VAR
+    regex: '(?:rm|mv|cp|cat|chmod|chown|mkdir)\s+(?:-\w+\s+)*\$\{?\w+\}?(?:\s|$)'
+    language: shell
+    severity: warning
+    category: insecure_pattern
+
+  - name: Eval on external input
+    rule_id: SHELL_EVAL
+    regex: 'eval\s+.*\$(?:\{?\w+\}?|\()'
+    language: shell
+    severity: critical
+    category: insecure_pattern
+
+  - name: Curl piped to shell
+    rule_id: SHELL_CURL_BASH
+    regex: 'curl\s+[^|]*\|\s*(?:ba)?sh'
+    language: shell
+    severity: error
+    category: insecure_pattern
+
+  - name: World-readable permissions on sensitive files
+    rule_id: SHELL_WORLD_READABLE
+    regex: 'chmod\s+(?:0?[0-7][0-7][4-7])\s+.*(?:\.pem|\.key|\.env|id_rsa|\.secret|passwd|shadow|credentials)'
+    language: shell
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded credentials in scripts
+    rule_id: SHELL_HARDCODED_CREDS
+    regex: '(?i)(?:password|passwd|secret|api_key|apikey|token|auth_token)\s*=\s*[\u0027"][^\u0027"$]{4,}[\u0027"]'
+    language: shell
+    severity: critical
+    category: secret
+
+  - name: Chmod 777
+    rule_id: SHELL_CHMOD_777
+    regex: 'chmod\s+(?:-\w+\s+)*0?777\s+'
+    language: shell
+    severity: error
+    category: insecure_pattern
+
+  - name: Insecure temp file creation
+    rule_id: SHELL_INSECURE_TEMP
+    regex: '(?:>\s*|=\s*)/tmp/[a-zA-Z0-9_.-]+(?:\s|$|")'
+    language: shell
+    severity: warning
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

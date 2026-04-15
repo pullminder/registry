@@ -1,0 +1,62 @@
+slug: swift-security
+name: Swift Security
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: NSLog with sensitive data
+    rule_id: SWIFT_NSLOG_SENSITIVE
+    regex: '(?i)NSLog\s*\(.*(?:password|token|secret|credential|apiKey|accessToken|auth)'
+    language: swift
+    severity: warning
+    category: insecure_pattern
+
+  - name: App Transport Security bypass
+    rule_id: SWIFT_ATS_BYPASS
+    regex: '(?i)NSAllowsArbitraryLoads.*true'
+    language: swift
+    severity: error
+    category: insecure_pattern
+
+  - name: Insecure keychain access level
+    rule_id: SWIFT_KEYCHAIN_ACCESS
+    regex: '(?i)kSecAttrAccessible(?:Always|AlwaysThisDeviceOnly)\b'
+    language: swift
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded staging/dev URL
+    rule_id: SWIFT_HARDCODED_URL
+    regex: '(?i)["\u0027]https?://(?:staging|dev|test|localhost|127\.0\.0\.1|0\.0\.0\.0)'
+    language: swift
+    severity: warning
+    category: insecure_pattern
+
+  - name: UIPasteboard data exposure
+    rule_id: SWIFT_PASTEBOARD
+    regex: '(?i)UIPasteboard\.general\.(?:string|setValue|setData|items)'
+    language: swift
+    severity: warning
+    category: insecure_pattern
+
+  - name: Biometric auth without server verification
+    rule_id: SWIFT_BIOMETRIC_BYPASS
+    regex: '(?i)canEvaluatePolicy\s*\(\s*\.deviceOwnerAuthentication'
+    language: swift
+    severity: critical
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

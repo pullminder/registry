@@ -1,0 +1,125 @@
+slug: owasp-mapping
+name: OWASP Top 10 Mapping
+schema_version: 1
+kind: policy
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 3
+  - min_findings: 5
+    score: 7
+  - min_findings: 10
+    score: 10
+mappings:
+  - owasp_id: A01
+    name: "Broken Access Control"
+    rule_ids:
+      - GO_HARDCODED_CREDS_CMP
+      - PY_HARDCODED_CREDS
+      - RUST_HARDCODED_CONN
+      - JAVA_HARDCODED_CREDS
+      - CSHARP_HARDCODED_CONN
+      - KOTLIN_EXPORTED_COMPONENT
+      - SHELL_HARDCODED_CREDS
+
+  - owasp_id: A02
+    name: "Cryptographic Failures"
+    rule_ids:
+      - JAVA_WEAK_CRYPTO
+      - CSHARP_WEAK_CRYPTO
+      - CRYPTO_WEAK_HASH
+      - CRYPTO_WEAK_CIPHER
+      - CRYPTO_ECB_MODE
+      - CRYPTO_HARDCODED_IV
+      - CRYPTO_SMALL_RSA
+      - CRYPTO_SMALL_AES
+      - CRYPTO_INSECURE_RANDOM
+
+  - owasp_id: A03
+    name: "Injection"
+    rule_ids:
+      - GO_SQL_CONCAT
+      - GO_SQL_FMT
+      - GO_CMD_INJECT
+      - PY_SQL_FSTRING
+      - PY_SUBPROCESS_SHELL
+      - PY_OS_SYSTEM
+      - PY_EVAL
+      - RUST_SQL_FORMAT
+      - RUST_CMD_INJECT
+      - JAVA_SQL_CONCAT
+      - JAVA_RUNTIME_EXEC
+      - JAVA_LDAP_INJECT
+      - CSHARP_SQL_CONCAT
+      - CSHARP_LDAP_INJECT
+      - CSHARP_XSS_RESPONSE
+      - SHELL_EVAL
+      - SHELL_CURL_BASH
+
+  - owasp_id: A04
+    name: "Insecure Design"
+    rule_ids:
+      - JAVA_INSECURE_RANDOM
+      - SWIFT_BIOMETRIC_BYPASS
+      - CRYPTO_CUSTOM_IMPL
+
+  - owasp_id: A05
+    name: "Security Misconfiguration"
+    rule_ids:
+      - JAVA_XXE
+      - CSHARP_XXE
+      - KOTLIN_CLEARTEXT
+      - KOTLIN_WEBVIEW_JS
+      - SWIFT_ATS_BYPASS
+      - SHELL_CHMOD_777
+      - SHELL_WORLD_READABLE
+      - RUST_TLS_DISABLED
+
+  - owasp_id: A06
+    name: "Vulnerable and Outdated Components"
+    rule_ids:
+      - LICENSE_COPYLEFT
+      - LICENSE_GPL
+      - LICENSE_AGPL
+
+  - owasp_id: A07
+    name: "Identification and Authentication Failures"
+    rule_ids:
+      - KOTLIN_INSECURE_PREFS
+      - SWIFT_KEYCHAIN_ACCESS
+      - KOTLIN_HARDCODED_SIGNING
+
+  - owasp_id: A08
+    name: "Software and Data Integrity Failures"
+    rule_ids:
+      - JAVA_UNSAFE_DESER
+      - CSHARP_UNSAFE_DESER
+      - PY_UNSAFE_DESER
+      - MIGRATION_DROP_TABLE
+      - MIGRATION_DROP_COLUMN
+
+  - owasp_id: A09
+    name: "Security Logging and Monitoring Failures"
+    rule_ids:
+      - KOTLIN_SENSITIVE_LOG
+      - SWIFT_NSLOG_SENSITIVE
+      - PII_EMAIL_LOG
+      - PII_SSN
+      - PII_CREDIT_CARD
+      - PII_FIELD_LOG
+
+  - owasp_id: A10
+    name: "Server-Side Request Forgery"
+    rule_ids:
+      - JAVA_SSRF
+      - JAVA_PATH_TRAVERSAL
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "OWASP Scoring Tiers"
+    description: "OWASP category hit thresholds for compliance scoring"
+    default_from: scoring

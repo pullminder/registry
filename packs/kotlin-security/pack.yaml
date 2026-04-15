@@ -1,0 +1,62 @@
+slug: kotlin-security
+name: Kotlin Security
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: WebView JavaScript enabled
+    rule_id: KOTLIN_WEBVIEW_JS
+    regex: '(?i)setJavaScriptEnabled\s*\(\s*true\s*\)'
+    language: kotlin
+    severity: warning
+    category: insecure_pattern
+
+  - name: Cleartext traffic allowed
+    rule_id: KOTLIN_CLEARTEXT
+    regex: '(?i)(?:cleartextTrafficPermitted|usesCleartextTraffic)\s*=\s*["\u0027]?true'
+    language: kotlin
+    severity: error
+    category: insecure_pattern
+
+  - name: Logging sensitive data
+    rule_id: KOTLIN_SENSITIVE_LOG
+    regex: '(?i)Log\.(?:d|i|w|e|v)\s*\(.*(?:password|token|secret|credential|apiKey|auth)'
+    language: kotlin
+    severity: warning
+    category: insecure_pattern
+
+  - name: Exported component without permission
+    rule_id: KOTLIN_EXPORTED_COMPONENT
+    regex: '(?i)android:exported\s*=\s*["\u0027]true["\u0027]'
+    language: kotlin
+    severity: error
+    category: insecure_pattern
+
+  - name: Insecure SharedPreferences for tokens
+    rule_id: KOTLIN_INSECURE_PREFS
+    regex: '(?i)(?:getSharedPreferences|edit\(\)).*(?:putString).*(?:token|password|secret|key|credential|auth)'
+    language: kotlin
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded signing config
+    rule_id: KOTLIN_HARDCODED_SIGNING
+    regex: '(?i)(?:storePassword|keyPassword|keyAlias)\s*=?\s*["\u0027][^"\u0027$]{4,}["\u0027]'
+    language: kotlin
+    severity: critical
+    category: secret
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

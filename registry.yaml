@@ -1,5 +1,5 @@
 schema_version: 1
-version: 1
+version: 2
 packs:
   - slug: secrets
     name: Secrets Detection
@@ -153,4 +153,125 @@ packs:
     languages: ["*"]
     description: Configurable thresholds for diff size and files changed
     default: true
+    author: pullminder
+
+  - slug: ai-senior-review
+    name: AI Senior Review Required
+    kind: detection
+    action: warn
+    version: 3
+    tags: [ai, governance, review]
+    languages: ["*"]
+    description: Requires senior reviewer approval for high-risk AI-generated PRs
+    default: true
+    author: pullminder
+
+  - slug: java-security
+    name: Java Security
+    kind: detection
+    action: warn
+    version: 1
+    tags: [java, injection, deserialization, crypto]
+    languages: [java]
+    description: Java-specific security patterns including SQL injection, XXE, deserialization
+    default: false
+    author: pullminder
+
+  - slug: csharp-security
+    name: "C# Security"
+    kind: detection
+    action: warn
+    version: 1
+    tags: [csharp, injection, deserialization, xss]
+    languages: [csharp]
+    description: "C#-specific security patterns including SqlCommand injection, BinaryFormatter"
+    default: false
+    author: pullminder
+
+  - slug: kotlin-security
+    name: Kotlin Security
+    kind: detection
+    action: warn
+    version: 1
+    tags: [kotlin, android, mobile, webview]
+    languages: [kotlin]
+    description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
+    default: false
+    author: pullminder
+
+  - slug: swift-security
+    name: Swift Security
+    kind: detection
+    action: warn
+    version: 1
+    tags: [swift, ios, mobile, keychain]
+    languages: [swift]
+    description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
+    default: false
+    author: pullminder
+
+  - slug: shell-security
+    name: Shell Security
+    kind: detection
+    action: warn
+    version: 1
+    tags: [shell, bash, injection, permissions]
+    languages: [shell]
+    description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
+    default: false
+    author: pullminder
+
+  - slug: crypto-anti-patterns
+    name: Cryptographic Anti-Patterns
+    kind: detection
+    action: warn
+    version: 1
+    tags: [crypto, encryption, hashing, security]
+    languages: ["*"]
+    description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
+    default: false
+    author: pullminder
+
+  - slug: pii-leakage
+    name: PII Leakage Detection
+    kind: detection
+    action: warn
+    version: 1
+    tags: [pii, privacy, compliance, logging]
+    languages: ["*"]
+    description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
+    default: false
+    author: pullminder
+
+  - slug: migration-safety
+    name: Migration Safety
+    kind: detection
+    action: warn
+    version: 1
+    tags: [database, migration, sql, safety]
+    languages: ["*"]
+    description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
+    default: false
+    author: pullminder
+
+  - slug: license-risk
+    name: License Risk Detection
+    kind: detection
+    action: warn
+    version: 1
+    tags: [license, compliance, copyleft, legal]
+    languages: ["*"]
+    description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
+    default: false
+    author: pullminder
+
+  - slug: owasp-mapping
+    name: OWASP Top 10 Mapping
+    kind: policy
+    action: warn
+    version: 1
+    tags: [owasp, compliance, security, mapping]
+    languages: ["*"]
+    description: Maps detection rules to OWASP Top 10 categories for compliance reporting
+    default: false
     author: pullminder

@@ -1,0 +1,55 @@
+slug: migration-safety
+name: Migration Safety
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: DROP TABLE in migration
+    rule_id: MIGRATION_DROP_TABLE
+    regex: '(?i)\bDROP\s+TABLE\b'
+    language: "*"
+    severity: critical
+    category: insecure_pattern
+
+  - name: DROP COLUMN in migration
+    rule_id: MIGRATION_DROP_COLUMN
+    regex: '(?i)\bALTER\s+TABLE\s+\w+\s+DROP\s+COLUMN\b'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: ALTER COLUMN type change
+    rule_id: MIGRATION_ALTER_TYPE
+    regex: '(?i)\bALTER\s+(?:TABLE\s+\w+\s+)?(?:ALTER|MODIFY)\s+(?:COLUMN\s+)?\w+\s+(?:TYPE|SET\s+DATA\s+TYPE)\b'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+  - name: NOT NULL without DEFAULT
+    rule_id: MIGRATION_NOT_NULL_NO_DEFAULT
+    regex: '(?i)\bADD\s+(?:COLUMN\s+)?\w+\s+\w+.*\bNOT\s+NULL\b(?!.*\bDEFAULT\b)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Raw SQL execution in migration
+    rule_id: MIGRATION_RAW_SQL
+    regex: '(?i)(?:execute|exec|run)\s*\(\s*["\u0027](?:DELETE|TRUNCATE|DROP|ALTER)\b'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring

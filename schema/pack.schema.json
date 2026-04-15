@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://pullminder.com/schema/pack.schema.json",
   "title": "Pullminder Rule Pack",
   "description": "Schema for validating pack.yaml files in the Pullminder registry",
@@ -11,12 +11,8 @@
     "action",
     "version",
     "schema_version",
-    "author",
-    "max_weight",
-    "scoring",
-    "patterns"
+    "author"
   ],
-  "additionalProperties": false,
   "properties": {
     "slug": {
       "type": "string",
@@ -26,6 +22,10 @@
     "name": {
       "type": "string",
       "description": "Human-readable name of the rule pack"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the rule pack"
     },
     "kind": {
       "type": "string",
@@ -50,6 +50,10 @@
     "author": {
       "type": "string",
       "description": "Author of the rule pack"
+    },
+    "customizable": {
+      "type": "boolean",
+      "description": "Whether the pack supports user customization"
     },
     "max_weight": {
       "type": "integer",
@@ -79,7 +83,7 @@
     },
     "patterns": {
       "type": "array",
-      "description": "List of detection or policy patterns",
+      "description": "List of detection patterns",
       "items": {
         "type": "object",
         "required": ["name", "rule_id", "regex", "language", "severity", "category"],
@@ -108,7 +112,7 @@
           },
           "category": {
             "type": "string",
-            "enum": ["secret", "insecure_pattern", "policy_violation", "quality"],
+            "enum": ["secret", "insecure_pattern", "policy_violation", "quality", "infra"],
             "description": "Category of the finding"
           },
           "fix_templates": {
@@ -117,6 +121,43 @@
             "additionalProperties": {
               "type": "string"
             }
+          },
+          "exclude_pattern": {
+            "type": "string",
+            "description": "Regex pattern to exclude false positives"
+          }
+        }
+      }
+    },
+    "rule_type": {
+      "type": "string",
+      "description": "Rule type for policy packs without patterns"
+    },
+    "config": {
+      "type": "object",
+      "description": "Configuration for policy rule types"
+    },
+    "mappings": {
+      "type": "array",
+      "description": "OWASP or compliance mappings",
+      "items": {
+        "type": "object",
+        "required": ["owasp_id", "name", "rule_ids"],
+        "properties": {
+          "owasp_id": {
+            "type": "string",
+            "description": "OWASP category identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Category name"
+          },
+          "rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of rule IDs mapped to this category"
           }
         },
         "additionalProperties": false

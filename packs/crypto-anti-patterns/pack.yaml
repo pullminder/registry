@@ -1,0 +1,80 @@
+slug: crypto-anti-patterns
+name: Cryptographic Anti-Patterns
+schema_version: 1
+kind: detection
+action: warn
+version: 1
+author: pullminder
+max_weight: 10
+scoring:
+  - min_findings: 1
+    score: 5
+  - min_findings: 3
+    score: 10
+patterns:
+  - name: Weak hash algorithm (MD5/SHA1)
+    rule_id: CRYPTO_WEAK_HASH
+    regex: '(?i)(?:MD5|SHA-?1)(?:\.(?:Create|getInstance|new|digest|update|hexdigest|compute)|[.(])'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      go: 'crypto/sha256 or crypto/sha512'
+      python: 'hashlib.sha256()'
+      javascript: 'crypto.createHash("sha256")'
+
+  - name: Weak cipher (DES/3DES/RC4)
+    rule_id: CRYPTO_WEAK_CIPHER
+    regex: '(?i)(?:["\u0027](?:DES|DESede|3DES|RC4|RC2|Blowfish)["\u0027]|Cipher\.getInstance\s*\(\s*["\u0027]DES)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: ECB mode usage
+    rule_id: CRYPTO_ECB_MODE
+    regex: '(?i)(?:["\u0027](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|mode:\s*["\u0027]?ecb)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Hardcoded initialization vector
+    rule_id: CRYPTO_HARDCODED_IV
+    regex: '(?i)(?:iv|initialization.?vector|nonce)\s*[:=]\s*(?:["\u0027][A-Fa-f0-9]{16,}["\u0027]|\[\s*(?:0x[0-9a-f]+\s*,?\s*){4,})'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Small RSA key size
+    rule_id: CRYPTO_SMALL_RSA
+    regex: '(?i)(?:RSA|generateKeyPair|KeyPairGenerator).*(?:1024|512|768)\b'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+  - name: Small AES key size
+    rule_id: CRYPTO_SMALL_AES
+    regex: '(?i)(?:AES|key.?(?:size|length|bits))\s*[:=]\s*(?:64|128)\b'
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+  - name: Custom crypto implementation
+    rule_id: CRYPTO_CUSTOM_IMPL
+    regex: '(?i)(?:class|function|func|def)\s+\w*(?:encrypt|decrypt|cipher|hash|hmac)\w*\s*\('
+    language: "*"
+    severity: warning
+    category: insecure_pattern
+
+  - name: Insecure random for security
+    rule_id: CRYPTO_INSECURE_RANDOM
+    regex: '(?i)(?:Math\.random|rand\(\)|random\.random|Random\(\)).*(?:token|key|secret|nonce|salt|password|session|csrf)'
+    language: "*"
+    severity: error
+    category: insecure_pattern
+
+overrides:
+  scoring:
+    type: scored_tiers
+    label: "Scoring Tiers"
+    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    default_from: scoring
