@@ -112,7 +112,7 @@
           },
           "category": {
             "type": "string",
-            "enum": ["secret", "insecure_pattern", "policy_violation", "quality"],
+            "enum": ["secret", "insecure_pattern", "policy_violation", "quality", "infra"],
             "description": "Category of the finding"
           },
           "fix_templates": {
@@ -121,9 +121,12 @@
             "additionalProperties": {
               "type": "string"
             }
+          },
+          "exclude_pattern": {
+            "type": "string",
+            "description": "Regex pattern to exclude false positives"
           }
-        },
-        "additionalProperties": false
+        }
       }
     },
     "rule_type": {
