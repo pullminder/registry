@@ -58,7 +58,7 @@ jobs:
           script: |
             const version = process.env.REGISTRY_VERSION;
             await github.rest.repos.createDispatchEvent({
-              owner: 'pullminder',
+              owner: 'Upmate',
               repo: 'pullminder.com',
               event_type: 'registry-updated',
               client_payload: {
