@@ -105,6 +105,11 @@
             "type": "string",
             "description": "Programming language this pattern applies to"
           },
+          "path_patterns": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Doublestar glob patterns the file path must match for this rule to fire. When non-empty, overrides language-based gating."
+          },
           "severity": {
             "type": "string",
             "enum": ["critical", "error", "warning", "info"],

@@ -18,6 +18,7 @@ patterns:
     rule_id: INFRA_DOCKER_PRIVILEGED
     regex: '(?i)privileged:\s*true'
     language: "*"
+    path_patterns: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile"]
     severity: error
     category: infra
 
@@ -25,6 +26,7 @@ patterns:
     rule_id: INFRA_DOCKER_ROOT
     regex: '(?i)^USER\s+root\s*$'
     language: "*"
+    path_patterns: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile"]
     severity: warning
     category: infra
     fix_templates:
@@ -34,6 +36,7 @@ patterns:
     rule_id: INFRA_DOCKER_LATEST
     regex: '(?i)^FROM\s+\S+:latest\b'
     language: "*"
+    path_patterns: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile"]
     severity: warning
     category: infra
     fix_templates:
@@ -43,6 +46,7 @@ patterns:
     rule_id: INFRA_DOCKER_COPY_ALL
     regex: '(?i)^COPY\s+\.\s+\.'
     language: "*"
+    path_patterns: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile"]
     severity: warning
     category: infra
     fix_templates:
@@ -52,6 +56,7 @@ patterns:
     rule_id: INFRA_DOCKER_ADD_REMOTE
     regex: '(?i)^ADD\s+https?://'
     language: "*"
+    path_patterns: ["**/Dockerfile", "**/Dockerfile.*", "**/*.dockerfile"]
     severity: warning
     category: infra
     fix_templates:
@@ -63,6 +68,7 @@ patterns:
     rule_id: INFRA_K8S_HOSTNET
     regex: '(?i)hostNetwork:\s*true'
     language: "*"
+    path_patterns: ["**/*.yml", "**/*.yaml"]
     severity: error
     category: infra
 
@@ -70,6 +76,7 @@ patterns:
     rule_id: INFRA_K8S_HOSTPID
     regex: '(?i)hostPID:\s*true'
     language: "*"
+    path_patterns: ["**/*.yml", "**/*.yaml"]
     severity: error
     category: infra
 
@@ -77,6 +84,7 @@ patterns:
     rule_id: INFRA_K8S_NO_LIMITS
     regex: '(?i)resources:\s*\{\}'
     language: "*"
+    path_patterns: ["**/*.yml", "**/*.yaml"]
     severity: warning
     category: infra
 
@@ -84,6 +92,7 @@ patterns:
     rule_id: INFRA_K8S_AUTOMOUNT
     regex: '(?i)automountServiceAccountToken:\s*true'
     language: "*"
+    path_patterns: ["**/*.yml", "**/*.yaml"]
     severity: warning
     category: infra
     fix_templates:
@@ -93,6 +102,7 @@ patterns:
     rule_id: INFRA_K8S_WILDCARD_RBAC
     regex: '(?i)resources:\s*\[\s*["'']\*["'']\s*\]'
     language: "*"
+    path_patterns: ["**/*.yml", "**/*.yaml"]
     severity: error
     category: infra
 
@@ -102,6 +112,7 @@ patterns:
     rule_id: INFRA_TF_SECRET
     regex: '(?i)(password|secret|token)\s*=\s*"[^"]{8,}"'
     language: "*"
+    path_patterns: ["**/*.tf", "**/*.tfvars"]
     severity: error
     category: infra
 
@@ -109,6 +120,7 @@ patterns:
     rule_id: INFRA_TF_OPEN_CIDR
     regex: '(?i)cidr_blocks\s*=\s*\[\s*["'']0\.0\.0\.0/0["'']'
     language: "*"
+    path_patterns: ["**/*.tf", "**/*.tfvars"]
     severity: warning
     category: infra
 
@@ -116,6 +128,7 @@ patterns:
     rule_id: INFRA_TF_PUBLIC_S3
     regex: '(?i)acl\s*=\s*["''](public-read|public-read-write)["'']'
     language: "*"
+    path_patterns: ["**/*.tf", "**/*.tfvars"]
     severity: error
     category: infra
 
@@ -123,6 +136,7 @@ patterns:
     rule_id: INFRA_TF_IAM_STAR
     regex: '(?i)actions\s*=\s*\[\s*["'']\*["'']\s*\]'
     language: "*"
+    path_patterns: ["**/*.tf", "**/*.tfvars"]
     severity: error
     category: infra
 
@@ -132,6 +146,7 @@ patterns:
     rule_id: INFRA_GHA_INJECT
     regex: '(?i)\$\{\{\s*github\.event\.(issue|pull_request|comment)\.'
     language: "*"
+    path_patterns: [".github/workflows/**/*.yml", ".github/workflows/**/*.yaml"]
     severity: error
     category: infra
 
@@ -139,6 +154,7 @@ patterns:
     rule_id: INFRA_GHA_PR_TARGET
     regex: '(?i)pull_request_target'
     language: "*"
+    path_patterns: [".github/workflows/**/*.yml", ".github/workflows/**/*.yaml"]
     severity: warning
     category: infra
 
@@ -146,6 +162,7 @@ patterns:
     rule_id: INFRA_GHA_UNPINNED
     regex: '(?i)uses:\s*\S+@(main|master|latest)\b'
     language: "*"
+    path_patterns: [".github/workflows/**/*.yml", ".github/workflows/**/*.yaml"]
     severity: warning
     category: infra
     fix_templates:

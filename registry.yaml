@@ -107,8 +107,9 @@ packs:
     version: 3
     tags: [ai, governance, detection]
     languages: ["*"]
-    description: Detects AI-generated code via co-author trailers, branch patterns, and tool files
-    default: true
+    description: Detects AI-generated code via co-author trailers, branch patterns, and tool files. Runs on the Pullminder platform only.
+    default: false
+    server_only: true
     author: pullminder
 
   - slug: sensitive-paths
@@ -162,8 +163,9 @@ packs:
     version: 3
     tags: [ai, governance, review]
     languages: ["*"]
-    description: Requires senior reviewer approval for high-risk AI-generated PRs
-    default: true
+    description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs on the Pullminder platform only.
+    default: false
+    server_only: true
     author: pullminder
 
   - slug: java-security

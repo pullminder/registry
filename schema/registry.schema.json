@@ -79,6 +79,10 @@
             "type": "boolean",
             "description": "Whether this pack is enabled by default"
           },
+          "server_only": {
+            "type": "boolean",
+            "description": "Whether this pack runs only on the Pullminder platform (not in the local CLI)"
+          },
           "author": {
             "type": "string",
             "description": "Author of the pack"
