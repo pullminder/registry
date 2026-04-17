@@ -16,6 +16,7 @@ patterns:
     rule_id: REACT_INNER_HTML
     regex: '(?i)dangerouslySetInnerHTML'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
 
@@ -23,6 +24,7 @@ patterns:
     rule_id: REACT_DANGEROUS_HTML
     regex: '(?i)__html\s*:\s*[^''"]'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -30,6 +32,7 @@ patterns:
     rule_id: JS_EVAL
     regex: '(?i)\beval\s*\('
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -37,6 +40,7 @@ patterns:
     rule_id: JS_HTTP_URL
     regex: '(?i)http://[a-zA-Z0-9]'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
     exclude_pattern: '(?i)http://localhost|http://127\.0\.0\.1|http://0\.0\.0\.0|http://example\.com'
@@ -45,6 +49,7 @@ patterns:
     rule_id: JS_HARDCODED_CREDS
     regex: '(?i)(password|passwd|secret|api_key|apikey|token)\s*[:=]\s*[''"][^''"]{8,}[''"]'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -52,6 +57,7 @@ patterns:
     rule_id: REACT_DIRECT_DOM
     regex: '(?i)document\.(getElementById|querySelector|getElementsBy)'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
 
@@ -59,6 +65,7 @@ patterns:
     rule_id: JS_DOCUMENT_WRITE
     regex: '(?i)document\.write\s*\('
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
     fix_templates:
@@ -68,6 +75,7 @@ patterns:
     rule_id: JS_POSTMESSAGE
     regex: '(?i)\.addEventListener\s*\(\s*[''"]message[''"]'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
     fix_templates:
@@ -77,6 +85,7 @@ patterns:
     rule_id: JS_WINDOW_OPEN
     regex: '(?i)window\.open\s*\(.*(?:params|query|input|user|req)'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -84,6 +93,7 @@ patterns:
     rule_id: JS_NEW_FUNCTION
     regex: '(?i)new\s+Function\s*\('
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
     fix_templates:
@@ -93,6 +103,7 @@ patterns:
     rule_id: JS_PROTO_POLLUTION
     regex: '(?i)(__proto__|constructor\.prototype|Object\.assign\s*\(\s*\{\})'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
     fix_templates:
@@ -102,6 +113,7 @@ patterns:
     rule_id: JS_LOCALSTORAGE_SENSITIVE
     regex: '(?i)localStorage\.(setItem|getItem)\s*\(\s*[''"](?:token|jwt|session|auth|password|secret|key|credential)'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
     fix_templates:
@@ -111,6 +123,7 @@ patterns:
     rule_id: JS_INNERHTML_ASSIGN
     regex: '(?i)\.outerHTML\s*='
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -118,6 +131,7 @@ patterns:
     rule_id: JS_TEMPLATE_UNESCAPED
     regex: '(?i)\$\{.*\}.*\.innerHTML'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
@@ -125,6 +139,7 @@ patterns:
     rule_id: JS_OPEN_REDIRECT
     regex: '(?i)(window\.location|location\.href)\s*=\s*(?:params|query|req|request|input)'
     language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
 
