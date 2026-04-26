@@ -14,28 +14,28 @@ scoring:
 patterns:
   - name: GPL license reference
     rule_id: LICENSE_GPL
-    regex: '(?i)(?:license|License)\s*[:=]\s*["\u0027](?:GPL|GPLv[23]|GNU General Public License)["\u0027]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:GPL|GPLv[23]|GNU General Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: AGPL license reference
     rule_id: LICENSE_AGPL
-    regex: '(?i)(?:license|License)\s*[:=]\s*["\u0027](?:AGPL|AGPLv3|GNU Affero General Public License)["\u0027]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:AGPL|AGPLv3|GNU Affero General Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: SSPL license reference
     rule_id: LICENSE_SSPL
-    regex: '(?i)(?:license|License)\s*[:=]\s*["\u0027](?:SSPL|Server Side Public License)["\u0027]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:SSPL|Server Side Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: Copyleft license indicator
     rule_id: LICENSE_COPYLEFT
-    regex: '(?i)(?:license|License)\s*[:=]\s*["\u0027](?:EUPL|MPL|EPL|CPAL|OSL|LGPL|CC-BY-SA)["\u0027]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:EUPL|MPL|EPL|CPAL|OSL|LGPL|CC-BY-SA)["\x{27}]'
     language: "*"
     severity: warning
     category: insecure_pattern

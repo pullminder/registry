@@ -35,7 +35,7 @@ patterns:
 
   - name: Phone number in code
     rule_id: PII_PHONE
-    regex: '(?i)(?:phone|mobile|tel|fax)\s*[:=]\s*["\u0027]\+?\d[\d\s\-()]{8,}["\u0027]'
+    regex: '(?i)(?:phone|mobile|tel|fax)\s*[:=]\s*["\x{27}]\+?\d[\d\s\-()]{8,}["\x{27}]'
     language: "*"
     severity: warning
     category: insecure_pattern

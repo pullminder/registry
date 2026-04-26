@@ -25,21 +25,21 @@ patterns:
 
   - name: Weak cipher (DES/3DES/RC4)
     rule_id: CRYPTO_WEAK_CIPHER
-    regex: '(?i)(?:["\u0027](?:DES|DESede|3DES|RC4|RC2|Blowfish)["\u0027]|Cipher\.getInstance\s*\(\s*["\u0027]DES)'
+    regex: '(?i)(?:["\x{27}](?:DES|DESede|3DES|RC4|RC2|Blowfish)["\x{27}]|Cipher\.getInstance\s*\(\s*["\x{27}]DES)'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: ECB mode usage
     rule_id: CRYPTO_ECB_MODE
-    regex: '(?i)(?:["\u0027](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|mode:\s*["\u0027]?ecb)'
+    regex: '(?i)(?:["\x{27}](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|mode:\s*["\x{27}]?ecb)'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: Hardcoded initialization vector
     rule_id: CRYPTO_HARDCODED_IV
-    regex: '(?i)(?:iv|initialization.?vector|nonce)\s*[:=]\s*(?:["\u0027][A-Fa-f0-9]{16,}["\u0027]|\[\s*(?:0x[0-9a-f]+\s*,?\s*){4,})'
+    regex: '(?i)(?:iv|initialization.?vector|nonce)\s*[:=]\s*(?:["\x{27}][A-Fa-f0-9]{16,}["\x{27}]|\[\s*(?:0x[0-9a-f]+\s*,?\s*){4,})'
     language: "*"
     severity: error
     category: insecure_pattern

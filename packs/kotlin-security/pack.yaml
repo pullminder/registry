@@ -21,7 +21,7 @@ patterns:
 
   - name: Cleartext traffic allowed
     rule_id: KOTLIN_CLEARTEXT
-    regex: '(?i)(?:cleartextTrafficPermitted|usesCleartextTraffic)\s*=\s*["\u0027]?true'
+    regex: '(?i)(?:cleartextTrafficPermitted|usesCleartextTraffic)\s*=\s*["\x{27}]?true'
     language: kotlin
     severity: error
     category: insecure_pattern
@@ -35,7 +35,7 @@ patterns:
 
   - name: Exported component without permission
     rule_id: KOTLIN_EXPORTED_COMPONENT
-    regex: '(?i)android:exported\s*=\s*["\u0027]true["\u0027]'
+    regex: '(?i)android:exported\s*=\s*["\x{27}]true["\x{27}]'
     language: kotlin
     severity: error
     category: insecure_pattern
@@ -49,7 +49,7 @@ patterns:
 
   - name: Hardcoded signing config
     rule_id: KOTLIN_HARDCODED_SIGNING
-    regex: '(?i)(?:storePassword|keyPassword|keyAlias)\s*=?\s*["\u0027][^"\u0027$]{4,}["\u0027]'
+    regex: '(?i)(?:storePassword|keyPassword|keyAlias)\s*=?\s*["\x{27}][^"\x{27}$]{4,}["\x{27}]'
     language: kotlin
     severity: critical
     category: secret

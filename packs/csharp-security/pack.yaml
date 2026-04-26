@@ -51,7 +51,7 @@ patterns:
 
   - name: Hardcoded connection string
     rule_id: CSHARP_HARDCODED_CONN
-    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\u0027](?:Server|Data Source|Host).*["\u0027]'
+    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:Server|Data Source|Host).*["\x{27}]'
     language: csharp
     severity: error
     category: secret

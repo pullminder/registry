@@ -44,14 +44,14 @@ patterns:
 
   - name: Weak cryptographic algorithm
     rule_id: JAVA_WEAK_CRYPTO
-    regex: '(?i)(?:MessageDigest|Cipher|SecretKeyFactory)\.getInstance\s*\(\s*["\u0027](?:MD5|SHA-?1|DES|DESede|RC4)["\u0027]'
+    regex: '(?i)(?:MessageDigest|Cipher|SecretKeyFactory)\.getInstance\s*\(\s*["\x{27}](?:MD5|SHA-?1|DES|DESede|RC4)["\x{27}]'
     language: java
     severity: error
     category: insecure_pattern
 
   - name: Hardcoded credentials
     rule_id: JAVA_HARDCODED_CREDS
-    regex: '(?i)(?:password|passwd|pwd|secret)\s*=\s*["\u0027][^"\u0027]{4,}["\u0027]'
+    regex: '(?i)(?:password|passwd|pwd|secret)\s*=\s*["\x{27}][^"\x{27}]{4,}["\x{27}]'
     language: java
     severity: error
     category: secret

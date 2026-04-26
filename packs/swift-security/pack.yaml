@@ -35,7 +35,7 @@ patterns:
 
   - name: Hardcoded staging/dev URL
     rule_id: SWIFT_HARDCODED_URL
-    regex: '(?i)["\u0027]https?://(?:staging|dev|test|localhost|127\.0\.0\.1|0\.0\.0\.0)'
+    regex: '(?i)["\x{27}]https?://(?:staging|dev|test|localhost|127\.0\.0\.1|0\.0\.0\.0)'
     language: swift
     severity: warning
     category: insecure_pattern
