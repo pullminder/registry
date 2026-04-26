@@ -42,7 +42,7 @@ patterns:
 
   - name: Hardcoded credentials in scripts
     rule_id: SHELL_HARDCODED_CREDS
-    regex: '(?i)(?:password|passwd|secret|api_key|apikey|token|auth_token)\s*=\s*[\u0027"][^\u0027"$]{4,}[\u0027"]'
+    regex: '(?i)(?:password|passwd|secret|api_key|apikey|token|auth_token)\s*=\s*[\x{27}"][^\x{27}"$]{4,}[\x{27}"]'
     language: shell
     severity: critical
     category: secret

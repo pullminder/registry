@@ -35,14 +35,15 @@ patterns:
 
   - name: NOT NULL without DEFAULT
     rule_id: MIGRATION_NOT_NULL_NO_DEFAULT
-    regex: '(?i)\bADD\s+(?:COLUMN\s+)?\w+\s+\w+.*\bNOT\s+NULL\b(?!.*\bDEFAULT\b)'
+    regex: '(?i)\bADD\s+(?:COLUMN\s+)?\w+\s+\w+.*\bNOT\s+NULL\b'
+    exclude_pattern: '(?i)\bDEFAULT\b'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: Raw SQL execution in migration
     rule_id: MIGRATION_RAW_SQL
-    regex: '(?i)(?:execute|exec|run)\s*\(\s*["\u0027](?:DELETE|TRUNCATE|DROP|ALTER)\b'
+    regex: '(?i)(?:execute|exec|run)\s*\(\s*["\x{27}](?:DELETE|TRUNCATE|DROP|ALTER)\b'
     language: "*"
     severity: warning
     category: insecure_pattern
