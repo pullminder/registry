@@ -2,7 +2,7 @@ name: CLI Drift
 
 on:
   schedule:
-    - cron: '47 6 * * *'
+    - cron: "47 6 * * *"
   push:
     branches: [main]
   pull_request:
@@ -49,7 +49,7 @@ jobs:
         id: validate
         run: |
           set +e
-          /tmp/pullminder validate . --strict 2>&1 | tee validate.log
+          /tmp/pullminder registry validate . --strict 2>&1 | tee validate.log
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Fail if validation regressed
