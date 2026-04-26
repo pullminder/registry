@@ -50,7 +50,7 @@ jobs:
         run: |
           set +e
           /tmp/pullminder registry validate . --strict 2>&1 | tee validate.log
-          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Fail if validation regressed
         if: steps.validate.outputs.exit_code != '0'
