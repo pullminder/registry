@@ -109,7 +109,7 @@ Navigate to **Settings > Rule packs** in the Pullminder dashboard. Each pack sho
 
 ## Custom registries
 
-In addition to the official registry, you can configure a custom private registry for proprietary rule packs. Custom registries use the same pack format and can be hosted as a Git repository or served from an HTTP endpoint. See the [Authoring custom packs](/packs/authoring-guide/) guide for details on creating your own packs and registries.
+In addition to the official registry, you can configure a custom private registry for proprietary rule packs. Custom registries use the same pack format and can be hosted as a Git repository or served from an HTTP endpoint. See the [Authoring custom packs](https://docs.pullminder.com/packs/authoring-guide/) guide for details on creating your own packs and registries.
 
 ## Authoring Guide
 
@@ -117,7 +117,7 @@ Pullminder rule packs are portable YAML files that define detection patterns or 
 
 ## Prerequisites
 
-- Pullminder CLI installed ([Installation guide](/cli/installation/))
+- Pullminder CLI installed ([Installation guide](https://docs.pullminder.com/cli/installation/))
 - Familiarity with regular expressions
 - A GitHub account (for publishing to the community registry)
 
@@ -215,7 +215,7 @@ overrides:
 | `schema_version` | No | Schema version. Omit if not needed. The registry infers schema version from the pack structure. |
 | `author` | No | GitHub handle of the pack author. Required when publishing to the community registry. |
 | `max_weight` | No | Maximum weight a single finding from this pack can contribute to the risk score. Defaults to `10`. |
-| `scoring` | No | Tiered scoring configuration. Each tier defines the minimum number of findings required to reach that score. The pack's contribution to the risk score is the highest tier whose `min_findings` threshold is met. See [Pack schema reference](/packs/pack-reference/) for details. |
+| `scoring` | No | Tiered scoring configuration. Each tier defines the minimum number of findings required to reach that score. The pack's contribution to the risk score is the highest tier whose `min_findings` threshold is met. See [Pack schema reference](https://docs.pullminder.com/packs/pack-reference/) for details. |
 | `patterns` | Yes | Array of pattern objects. At least one pattern is required for detection packs. |
 | `overrides` | No | Path and author exclusions. |
 
@@ -337,7 +337,7 @@ Pullminder pulls packs from custom registries on every sync cycle (default: ever
 
 ## Pack Reference
 
-This page documents every field in a Pullminder rule pack YAML file. For a step-by-step walkthrough of creating a pack, see the [Authoring custom packs](/packs/authoring-guide/) guide.
+This page documents every field in a Pullminder rule pack YAML file. For a step-by-step walkthrough of creating a pack, see the [Authoring custom packs](https://docs.pullminder.com/packs/authoring-guide/) guide.
 
 ## Full schema
 
@@ -735,4 +735,4 @@ To report a vulnerability, please email **security@pullminder.com**. See [SECURI
 
 ---
 
-_This README is auto-generated from the [pullminder.com monorepo](https://github.com/upmate/pullminder.com). Last synced: 2026-04-18._
+_This README is auto-generated from the pullminder.com monorepo. Last synced: 2026-05-02._
