@@ -86,6 +86,11 @@
           "author": {
             "type": "string",
             "description": "Author of the pack"
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["free", "team", "enterprise"],
+            "description": "Subscription tier required to use the pack. Defaults to free when omitted."
           }
         }
       }
