@@ -51,6 +51,11 @@
       "type": "string",
       "description": "Author of the rule pack"
     },
+    "tier": {
+      "type": "string",
+      "enum": ["free", "team", "enterprise"],
+      "description": "Subscription tier required to use the pack. Defaults to free when omitted."
+    },
     "customizable": {
       "type": "boolean",
       "description": "Whether the pack supports user customization"

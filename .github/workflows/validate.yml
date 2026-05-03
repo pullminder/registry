@@ -37,3 +37,11 @@ jobs:
           if [ "$found" -eq 0 ]; then
             echo "No pack files found to validate. Skipping."
           fi
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Compile pack regexes under Go RE2
+        run: go run ./cmd/regex-check -root .
