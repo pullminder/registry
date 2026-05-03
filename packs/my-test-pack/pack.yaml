@@ -1,0 +1,17 @@
+schema_version: 1
+slug: my-test-pack
+name: "Test Pack"
+kind: detection
+action: warn
+version: 1
+max_weight: 100
+scoring:
+  - min_findings: 1
+    score: 25
+patterns:
+  - name: "Test Rule"
+    rule_id: "INTEG_TEST_001"
+    regex: "TODO"
+    language: "*"
+    severity: warning
+    category: insecure_pattern
