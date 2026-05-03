@@ -45,3 +45,9 @@ jobs:
 
       - name: Compile pack regexes under Go RE2
         run: go run ./cmd/regex-check -root .
+
+      - name: Verify per-pack sha256 checksums
+        run: go run ./cmd/checksum-check -root . -strict
+
+      - name: Run cmd/* unit tests
+        run: go test ./cmd/...

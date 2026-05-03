@@ -93,18 +93,30 @@ Each entry in the `patterns` array defines a single detection rule.
 
 3. **Write your pack.yaml** following the schema above. Start with a small set of patterns and expand over time.
 
-4. **Add your pack to registry.yaml** in the root of the repository. Add an entry to the `packs` array:
+4. **Add your pack to registry.yaml** in the root of the repository. Add an entry to the `packs` array, including the sha256 of your `pack.yaml`:
 
    ```yaml
    packs:
      - slug: my-pack
        name: My Pack
-       version: 1.0.0
+       version: 1
        kind: detection
        default: false
+       sha256: <output of `sha256sum packs/my-pack/pack.yaml`>
    ```
 
-5. **Submit a pull request** with your changes.
+   The `sha256` field lets the Pullminder API reject any `pack.yaml` content
+   that has been tampered with in transit. Anyone who edits `pack.yaml` must
+   recompute and update this value in the same commit.
+
+5. **Verify locally** before pushing:
+
+   ```bash
+   go run ./cmd/checksum-check -root . -strict
+   go run ./cmd/regex-check    -root .
+   ```
+
+6. **Submit a pull request** with your changes. CI re-runs both checks.
 
 ## Review Expectations
 
@@ -127,6 +139,8 @@ CI automatically validates all packs on every pull request:
 - **Schema validation.** Every `pack.yaml` is validated against `schema/pack.schema.json`. The registry itself is validated against `schema/registry.schema.json`.
 
 - **Regex compilation.** All regex patterns are compiled to ensure they are valid.
+
+- **Per-pack sha256 checksums.** `cmd/checksum-check -strict` rejects any pack whose `registry.yaml` `sha256` does not match the actual `pack.yaml` content (or is missing).
 
 - **Duplicate detection.** CI checks for duplicate slugs and rule IDs.
 

@@ -218,6 +218,7 @@ overrides:
 | `scoring` | No | Tiered scoring configuration. Each tier defines the minimum number of findings required to reach that score. The pack's contribution to the risk score is the highest tier whose `min_findings` threshold is met. See [Pack schema reference](https://docs.pullminder.com/packs/pack-reference/) for details. |
 | `patterns` | Yes | Array of pattern objects. At least one pattern is required for detection packs. |
 | `overrides` | No | Path and author exclusions. |
+| `sha256` (registry.yaml only) | Yes for new entries | Hex-encoded sha256 of `packs/<slug>/pack.yaml` at publish time. The Pullminder API verifies this on every sync. Recompute and update whenever you change `pack.yaml`. |
 
 ## Step 4: Write patterns
 
@@ -300,6 +301,30 @@ The `--strict` flag enables additional checks:
 - The `severity` field must be one of the allowed values.
 
 Fix any validation errors before proceeding.
+
+### Supply-chain checks
+
+The official `pullminder/registry` repo runs two extra integrity checks in CI
+that you can also run locally:
+
+```bash
+# RE2 compile of every pattern's regex
+go run ./cmd/regex-check    -root .
+
+# sha256 in registry.yaml matches packs/<slug>/pack.yaml
+go run ./cmd/checksum-check -root . -strict
+```
+
+Whenever you edit a `pack.yaml`, recompute its sha256 and update
+`registry.yaml` in the same commit:
+
+```bash
+sha256sum packs/<slug>/pack.yaml | awk '{print $1}'
+```
+
+The Pullminder API pins to a specific commit SHA of this repo and verifies
+each `pack.yaml` against the published `sha256` on every sync. A mismatch
+causes that pack to be rejected with an error log on the API side.
 
 ## Step 7: Publish to the community registry
 

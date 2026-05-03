@@ -11,6 +11,7 @@ packs:
     description: Detects hardcoded secrets, API keys, tokens, and connection strings
     default: true
     author: pullminder
+    sha256: 2151d3840defcd8ca5dcf41b517d1e33ec29e001b951ba8a438d05144d27b126
 
   - slug: go-security
     name: Go Security
@@ -22,6 +23,7 @@ packs:
     description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
     default: false
     author: pullminder
+    sha256: 88aaf57336bfabea071be9d88c8f26e0dcb2b727a3532698f826b1d67ab6af62
 
   - slug: python-security
     name: Python Security
@@ -33,6 +35,7 @@ packs:
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
+    sha256: 305cf158cadd66908fa90b7b576431f3a37ae8fafd847c230a885493e8c814aa
 
   - slug: rust-security
     name: Rust Security
@@ -44,6 +47,7 @@ packs:
     description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
     default: false
     author: pullminder
+    sha256: faabca3b63d05e17ecbe0f6554b52c4d06ab0e74d69671f22fb8b2c10fc9cef6
 
   - slug: ruby-security
     name: Ruby Security
@@ -55,6 +59,7 @@ packs:
     description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
     default: false
     author: pullminder
+    sha256: 9744257b56169efcc521493a5f99218529804501b55400291d76fe50015da5ab
 
   - slug: php-security
     name: PHP Security
@@ -66,6 +71,7 @@ packs:
     description: PHP-specific security patterns including command injection, file inclusion, and XSS
     default: false
     author: pullminder
+    sha256: b16d0ed1df3b7a54560510ec0656f2c1120e6b1a01b73cfbf9a1d738658b4fe4
 
   - slug: react-security
     name: React & JavaScript Security
@@ -77,6 +83,7 @@ packs:
     description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
     default: false
     author: pullminder
+    sha256: 71869e53ad87c93999bb9fb00ffd95ce1d59d93321ff1a7c22f89eeb60ebe65e
 
   - slug: infra-security
     name: Infrastructure Security
@@ -88,6 +95,7 @@ packs:
     description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
     default: true
     author: pullminder
+    sha256: dc6426fee086395b14dda7e5124a4bae99b289ce1b7bbb062aab92ed4b76694c
 
   - slug: bot-detection
     name: Bot PR Detection
@@ -99,6 +107,7 @@ packs:
     description: Identifies and adapts analysis for bot-authored PRs
     default: true
     author: pullminder
+    sha256: c60bb3ffb5dd1891d3270425720df37ed09ce332bce83bc635dcde388ad2d953
 
   - slug: ai-detection
     name: AI Code Detection
@@ -111,6 +120,7 @@ packs:
     default: false
     server_only: true
     author: pullminder
+    sha256: b464d68f37286e3051145f22772e6f4c2029db4d42d5b5795027f7e5567d710a
 
   - slug: sensitive-paths
     name: Sensitive Paths
@@ -122,6 +132,7 @@ packs:
     description: Flags modifications to security-critical directories
     default: true
     author: pullminder
+    sha256: 029f7746a04ee7ca8f73522f5ac7dd2936477087c73281821a1da7a161de4962
 
   - slug: dependency-detection
     name: Dependency Detection
@@ -133,6 +144,7 @@ packs:
     description: Detects dependency manifest and lockfile changes
     default: true
     author: pullminder
+    sha256: aaa4df7a37a15850d68eb3d225eb359040e702f0df49b4d6ac97542cccdd78c0
 
   - slug: test-conventions
     name: Test Conventions
@@ -144,6 +156,7 @@ packs:
     description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
     default: true
     author: pullminder
+    sha256: 82adb120df939925bb2316f143d0f7a7b3c01535324585a26560030562c88800
 
   - slug: review-quality
     name: Review Quality
@@ -155,6 +168,7 @@ packs:
     description: Configurable thresholds for diff size and files changed
     default: true
     author: pullminder
+    sha256: 1459cbe1abfd566bd4b00c80db726c74d7b2154a03ac99cec4450390431e0130
 
   - slug: ai-senior-review
     name: AI Senior Review Required
@@ -167,6 +181,7 @@ packs:
     default: false
     server_only: true
     author: pullminder
+    sha256: 8001b1c51fe5bc7880e3aca9aaaafd51d4a3f19793f821b32d72b7a78c29fb05
 
   - slug: java-security
     name: Java Security
@@ -178,6 +193,7 @@ packs:
     description: Java-specific security patterns including SQL injection, XXE, deserialization
     default: false
     author: pullminder
+    sha256: 1c4f0320c6016d512895aae7012a860f24bf2c4f1387e17d36d58826487f9863
 
   - slug: csharp-security
     name: "C# Security"
@@ -189,6 +205,7 @@ packs:
     description: "C#-specific security patterns including SqlCommand injection, BinaryFormatter"
     default: false
     author: pullminder
+    sha256: 5f5d167e12123b9d5b8d2eb2775472d19343f5f2defe11090a42f1952117ef1a
 
   - slug: kotlin-security
     name: Kotlin Security
@@ -200,6 +217,7 @@ packs:
     description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
     default: false
     author: pullminder
+    sha256: fd96078ec3620fa8fd7036fb2b568d4a24542a8e604b01a2a0b0f75bc6e9cdd9
 
   - slug: swift-security
     name: Swift Security
@@ -211,6 +229,7 @@ packs:
     description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
     default: false
     author: pullminder
+    sha256: c72b1cd59615e1b3940f2d2c09aa2b52d2b3372dacc6542d7bd4cfceeef77bfd
 
   - slug: shell-security
     name: Shell Security
@@ -222,6 +241,7 @@ packs:
     description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
     default: false
     author: pullminder
+    sha256: 36d41cc1a88e67c5b3f039a2f61a8e9377c3c94ee4dd7c4acdd94240bbea63f5
 
   - slug: crypto-anti-patterns
     name: Cryptographic Anti-Patterns
@@ -233,6 +253,7 @@ packs:
     description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
     default: false
     author: pullminder
+    sha256: 8ca8638d9f4d81c3eb5bbcfc8e965722ff23905a79f64d47856359b50ef6a0d1
 
   - slug: pii-leakage
     name: PII Leakage Detection
@@ -244,6 +265,7 @@ packs:
     description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
     default: false
     author: pullminder
+    sha256: 5eddb4fb222201ef72ef2bd27998ac17a01d73936b84b92431b75a77b1d3d1b1
 
   - slug: migration-safety
     name: Migration Safety
@@ -255,6 +277,7 @@ packs:
     description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
     default: false
     author: pullminder
+    sha256: 398287736b094d664279379a6ad2e2d3485f9f9f5ccb0ac283580d51a898975b
 
   - slug: license-risk
     name: License Risk Detection
@@ -266,6 +289,7 @@ packs:
     description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
     default: false
     author: pullminder
+    sha256: 194897f42f29032770776b318e306d48826e899d676979de4dc851ec6435a319
 
   - slug: owasp-mapping
     name: OWASP Top 10 Mapping
@@ -277,3 +301,4 @@ packs:
     description: Maps detection rules to OWASP Top 10 categories for compliance reporting
     default: false
     author: pullminder
+    sha256: 758970b0a32f0f1479f910b3728868ae77bac5497cceb9348a0eabe9e6113e5f
