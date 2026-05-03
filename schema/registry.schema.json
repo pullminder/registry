@@ -91,6 +91,11 @@
             "type": "string",
             "enum": ["free", "team", "enterprise"],
             "description": "Subscription tier required to use the pack. Defaults to free when omitted."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "Hex-encoded sha256 of packs/<slug>/pack.yaml at publish time. Verified by consumers on sync."
           }
         }
       }
