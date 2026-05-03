@@ -1,279 +1,308 @@
-schema_version: 1
 version: 4
 packs:
-  - slug: secrets
-    name: Secrets Detection
-    kind: detection
-    action: block
-    version: 5
-    tags: [secrets, owasp, credentials]
-    languages: ["*"]
-    description: Detects hardcoded secrets, API keys, tokens, and connection strings
-    default: true
-    author: pullminder
-
-  - slug: go-security
-    name: Go Security
-    kind: detection
-    action: warn
-    version: 4
-    tags: [go, injection, crypto, tls]
-    languages: [go]
-    description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
-    default: false
-    author: pullminder
-
-  - slug: python-security
-    name: Python Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [python, injection, deserialization, django, flask]
-    languages: [python]
-    description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
-    default: false
-    author: pullminder
-
-  - slug: rust-security
-    name: Rust Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [rust, unsafe, memory, ffi, crypto]
-    languages: [rust]
-    description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
-    default: false
-    author: pullminder
-
-  - slug: ruby-security
-    name: Ruby Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [ruby, injection, eval, rails]
-    languages: [ruby]
-    description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
-    default: false
-    author: pullminder
-
-  - slug: php-security
-    name: PHP Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [php, injection, include, xss]
-    languages: [php]
-    description: PHP-specific security patterns including command injection, file inclusion, and XSS
-    default: false
-    author: pullminder
-
-  - slug: react-security
-    name: React & JavaScript Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [react, javascript, xss, dom, prototype]
-    languages: [javascript, typescript]
-    description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
-    default: false
-    author: pullminder
-
-  - slug: infra-security
-    name: Infrastructure Security
-    kind: detection
-    action: block
-    version: 4
-    tags: [docker, kubernetes, terraform, ci-cd]
-    languages: ["*"]
-    description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
-    default: true
-    author: pullminder
-
-  - slug: bot-detection
-    name: Bot PR Detection
-    kind: detection
-    action: warn
-    version: 4
-    tags: [bots, automation, dependency-management]
-    languages: ["*"]
-    description: Identifies and adapts analysis for bot-authored PRs
-    default: true
-    author: pullminder
-
-  - slug: ai-detection
-    name: AI Code Detection
-    kind: detection
-    action: warn
-    version: 3
-    tags: [ai, governance, detection]
-    languages: ["*"]
-    description: Detects AI-generated code via co-author trailers, branch patterns, and tool files. Runs on the Pullminder platform only.
-    default: false
-    server_only: true
-    author: pullminder
-
-  - slug: sensitive-paths
-    name: Sensitive Paths
-    kind: detection
-    action: warn
-    version: 3
-    tags: [governance, paths, review]
-    languages: ["*"]
-    description: Flags modifications to security-critical directories
-    default: true
-    author: pullminder
-
-  - slug: dependency-detection
-    name: Dependency Detection
-    kind: detection
-    action: warn
-    version: 4
-    tags: [dependencies, supply-chain]
-    languages: ["*"]
-    description: Detects dependency manifest and lockfile changes
-    default: true
-    author: pullminder
-
-  - slug: test-conventions
-    name: Test Conventions
-    kind: detection
-    action: warn
-    version: 3
-    tags: [testing, coverage, quality]
-    languages: ["*"]
-    description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
-    default: true
-    author: pullminder
-
-  - slug: review-quality
-    name: Review Quality
-    kind: detection
-    action: warn
-    version: 3
-    tags: [quality, review, thresholds]
-    languages: ["*"]
-    description: Configurable thresholds for diff size and files changed
-    default: true
-    author: pullminder
-
-  - slug: ai-senior-review
-    name: AI Senior Review Required
-    kind: detection
-    action: warn
-    version: 3
-    tags: [ai, governance, review]
-    languages: ["*"]
-    description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs on the Pullminder platform only.
-    default: false
-    server_only: true
-    author: pullminder
-
-  - slug: java-security
-    name: Java Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [java, injection, deserialization, crypto]
-    languages: [java]
-    description: Java-specific security patterns including SQL injection, XXE, deserialization
-    default: false
-    author: pullminder
-
-  - slug: csharp-security
-    name: "C# Security"
-    kind: detection
-    action: warn
-    version: 1
-    tags: [csharp, injection, deserialization, xss]
-    languages: [csharp]
-    description: "C#-specific security patterns including SqlCommand injection, BinaryFormatter"
-    default: false
-    author: pullminder
-
-  - slug: kotlin-security
-    name: Kotlin Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [kotlin, android, mobile, webview]
-    languages: [kotlin]
-    description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
-    default: false
-    author: pullminder
-
-  - slug: swift-security
-    name: Swift Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [swift, ios, mobile, keychain]
-    languages: [swift]
-    description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
-    default: false
-    author: pullminder
-
-  - slug: shell-security
-    name: Shell Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [shell, bash, injection, permissions]
-    languages: [shell]
-    description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
-    default: false
-    author: pullminder
-
-  - slug: crypto-anti-patterns
-    name: Cryptographic Anti-Patterns
-    kind: detection
-    action: warn
-    version: 1
-    tags: [crypto, encryption, hashing, security]
-    languages: ["*"]
-    description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
-    default: false
-    author: pullminder
-
-  - slug: pii-leakage
-    name: PII Leakage Detection
-    kind: detection
-    action: warn
-    version: 1
-    tags: [pii, privacy, compliance, logging]
-    languages: ["*"]
-    description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
-    default: false
-    author: pullminder
-
-  - slug: migration-safety
-    name: Migration Safety
-    kind: detection
-    action: warn
-    version: 1
-    tags: [database, migration, sql, safety]
-    languages: ["*"]
-    description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
-    default: false
-    author: pullminder
-
-  - slug: license-risk
-    name: License Risk Detection
-    kind: detection
-    action: warn
-    version: 1
-    tags: [license, compliance, copyleft, legal]
-    languages: ["*"]
-    description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
-    default: false
-    author: pullminder
-
-  - slug: owasp-mapping
-    name: OWASP Top 10 Mapping
-    kind: policy
-    action: warn
-    version: 1
-    tags: [owasp, compliance, security, mapping]
-    languages: ["*"]
-    description: Maps detection rules to OWASP Top 10 categories for compliance reporting
-    default: false
-    author: pullminder
+    - slug: secrets
+      name: Secrets Detection
+      action: block
+      version: 5
+      tags:
+        - secrets
+        - owasp
+        - credentials
+      languages:
+        - '*'
+      description: Detects hardcoded secrets, API keys, tokens, and connection strings
+      default: true
+    - slug: go-security
+      name: Go Security
+      action: warn
+      version: 4
+      tags:
+        - go
+        - injection
+        - crypto
+        - tls
+      languages:
+        - go
+      description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
+    - slug: python-security
+      name: Python Security
+      action: warn
+      version: 5
+      tags:
+        - python
+        - injection
+        - deserialization
+        - django
+        - flask
+      languages:
+        - python
+      description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
+    - slug: rust-security
+      name: Rust Security
+      action: warn
+      version: 5
+      tags:
+        - rust
+        - unsafe
+        - memory
+        - ffi
+        - crypto
+      languages:
+        - rust
+      description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
+    - slug: ruby-security
+      name: Ruby Security
+      action: warn
+      version: 5
+      tags:
+        - ruby
+        - injection
+        - eval
+        - rails
+      languages:
+        - ruby
+      description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
+    - slug: php-security
+      name: PHP Security
+      action: warn
+      version: 5
+      tags:
+        - php
+        - injection
+        - include
+        - xss
+      languages:
+        - php
+      description: PHP-specific security patterns including command injection, file inclusion, and XSS
+    - slug: react-security
+      name: React & JavaScript Security
+      action: warn
+      version: 5
+      tags:
+        - react
+        - javascript
+        - xss
+        - dom
+        - prototype
+      languages:
+        - javascript
+        - typescript
+      description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
+    - slug: infra-security
+      name: Infrastructure Security
+      action: block
+      version: 4
+      tags:
+        - docker
+        - kubernetes
+        - terraform
+        - ci-cd
+      languages:
+        - '*'
+      description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
+      default: true
+    - slug: bot-detection
+      name: Bot PR Detection
+      action: warn
+      version: 4
+      tags:
+        - bots
+        - automation
+        - dependency-management
+      languages:
+        - '*'
+      description: Identifies and adapts analysis for bot-authored PRs
+      default: true
+    - slug: ai-detection
+      name: AI Code Detection
+      action: warn
+      version: 3
+      tags:
+        - ai
+        - governance
+        - detection
+      languages:
+        - '*'
+      description: Detects AI-generated code via co-author trailers, branch patterns, and tool files. Runs on the Pullminder platform only.
+    - slug: sensitive-paths
+      name: Sensitive Paths
+      action: warn
+      version: 3
+      tags:
+        - governance
+        - paths
+        - review
+      languages:
+        - '*'
+      description: Flags modifications to security-critical directories
+      default: true
+    - slug: dependency-detection
+      name: Dependency Detection
+      action: warn
+      version: 4
+      tags:
+        - dependencies
+        - supply-chain
+      languages:
+        - '*'
+      description: Detects dependency manifest and lockfile changes
+      default: true
+    - slug: test-conventions
+      name: Test Conventions
+      action: warn
+      version: 3
+      tags:
+        - testing
+        - coverage
+        - quality
+      languages:
+        - '*'
+      description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
+      default: true
+    - slug: review-quality
+      name: Review Quality
+      action: warn
+      version: 3
+      tags:
+        - quality
+        - review
+        - thresholds
+      languages:
+        - '*'
+      description: Configurable thresholds for diff size and files changed
+      default: true
+    - slug: ai-senior-review
+      name: AI Senior Review Required
+      action: warn
+      version: 3
+      tags:
+        - ai
+        - governance
+        - review
+      languages:
+        - '*'
+      description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs on the Pullminder platform only.
+    - slug: java-security
+      name: Java Security
+      action: warn
+      version: 1
+      tags:
+        - java
+        - injection
+        - deserialization
+        - crypto
+      languages:
+        - java
+      description: Java-specific security patterns including SQL injection, XXE, deserialization
+    - slug: csharp-security
+      name: C# Security
+      action: warn
+      version: 1
+      tags:
+        - csharp
+        - injection
+        - deserialization
+        - xss
+      languages:
+        - csharp
+      description: C#-specific security patterns including SqlCommand injection, BinaryFormatter
+    - slug: kotlin-security
+      name: Kotlin Security
+      action: warn
+      version: 1
+      tags:
+        - kotlin
+        - android
+        - mobile
+        - webview
+      languages:
+        - kotlin
+      description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
+    - slug: swift-security
+      name: Swift Security
+      action: warn
+      version: 1
+      tags:
+        - swift
+        - ios
+        - mobile
+        - keychain
+      languages:
+        - swift
+      description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
+    - slug: shell-security
+      name: Shell Security
+      action: warn
+      version: 1
+      tags:
+        - shell
+        - bash
+        - injection
+        - permissions
+      languages:
+        - shell
+      description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
+    - slug: crypto-anti-patterns
+      name: Cryptographic Anti-Patterns
+      action: warn
+      version: 1
+      tags:
+        - crypto
+        - encryption
+        - hashing
+        - security
+      languages:
+        - '*'
+      description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
+    - slug: pii-leakage
+      name: PII Leakage Detection
+      action: warn
+      version: 1
+      tags:
+        - pii
+        - privacy
+        - compliance
+        - logging
+      languages:
+        - '*'
+      description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
+    - slug: migration-safety
+      name: Migration Safety
+      action: warn
+      version: 1
+      tags:
+        - database
+        - migration
+        - sql
+        - safety
+      languages:
+        - '*'
+      description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
+    - slug: license-risk
+      name: License Risk Detection
+      action: warn
+      version: 1
+      tags:
+        - license
+        - compliance
+        - copyleft
+        - legal
+      languages:
+        - '*'
+      description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
+    - slug: owasp-mapping
+      name: OWASP Top 10 Mapping
+      action: warn
+      version: 1
+      tags:
+        - owasp
+        - compliance
+        - security
+        - mapping
+      languages:
+        - '*'
+      description: Maps detection rules to OWASP Top 10 categories for compliance reporting
+    - slug: my-test-pack
+      name: Test Pack
+      action: warn
+      version: 1
