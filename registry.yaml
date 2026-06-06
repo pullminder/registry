@@ -271,13 +271,13 @@ packs:
     name: Migration Safety
     kind: detection
     action: warn
-    version: 1
+    version: 2
     tags: [database, migration, sql, safety]
     languages: ["*"]
     description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
     default: false
     author: pullminder
-    sha256: 398287736b094d664279379a6ad2e2d3485f9f9f5ccb0ac283580d51a898975b
+    sha256: c32fc3b7fa6d9f6a4591d67c443ed09131eae408978bd3f739c14a0632fb3591
 
   - slug: license-risk
     name: License Risk Detection

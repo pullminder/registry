@@ -3,7 +3,7 @@ name: Migration Safety
 schema_version: 1
 kind: detection
 action: warn
-version: 1
+version: 2
 author: pullminder
 max_weight: 10
 scoring:
@@ -23,6 +23,7 @@ patterns:
     rule_id: MIGRATION_DROP_COLUMN
     regex: '(?i)\bALTER\s+TABLE\s+\w+\s+DROP\s+COLUMN\b'
     language: "*"
+    path_patterns: ["**/*.up.sql"]
     severity: error
     category: insecure_pattern
 
