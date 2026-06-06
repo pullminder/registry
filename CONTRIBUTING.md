@@ -9,25 +9,25 @@ Each pack lives in its own directory under `packs/<slug>/` and must contain a `p
 ### pack.yaml Schema
 
 ```yaml
-slug: secrets                    # Unique identifier (lowercase, hyphens only)
-name: Secrets Detection          # Human-readable name
-kind: detection                  # Pack kind: "detection" or "policy"
-action: flag                     # Action: "flag", "block", or "warn"
-version: 1.0.0                  # Semantic version of the pack
-schema_version: 1               # Schema version (currently 1)
-author: pullminder               # Author name or GitHub handle
-max_weight: 10                   # Maximum weight this pack can contribute to overall score
+slug: secrets # Unique identifier (lowercase, hyphens only)
+name: Secrets Detection # Human-readable name
+kind: detection # Pack kind: "detection" or "policy"
+action: flag # Action: "flag", "block", or "warn"
+version: 1.0.0 # Semantic version of the pack
+schema_version: 1 # Schema version (currently 1)
+author: pullminder # Author name or GitHub handle
+max_weight: 10 # Maximum weight this pack can contribute to overall score
 
 scoring:
-  model: additive                # Scoring model: "additive" or "weighted"
-  base_weight: 5                 # Base weight when any pattern matches
+  model: additive # Scoring model: "additive" or "weighted"
+  base_weight: 5 # Base weight when any pattern matches
 
 patterns:
   - name: AWS Access Key
     rule_id: SEC-001
     regex: "AKIA[0-9A-Z]{16}"
-    language: "*"                # Language filter: "*" for all, or specific like "go", "python"
-    severity: critical           # Severity: "critical", "high", "medium", "low", "info"
+    language: "*" # Language filter: "*" for all, or specific like "go", "python"
+    severity: critical # Severity: "critical", "high", "medium", "low", "info"
     category: credentials
     fix_templates:
       - "Move this credential to an environment variable"
@@ -51,33 +51,33 @@ overrides:
 
 ### Top-Level Fields
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `slug` | string | Yes | Unique pack identifier. Lowercase letters and hyphens only. |
-| `name` | string | Yes | Human-readable display name. |
-| `kind` | string | Yes | Either `detection` (finds patterns in code) or `policy` (enforces workflow rules). |
-| `action` | string | Yes | What happens on match: `flag` (add comment), `block` (request changes), or `warn` (add warning). |
-| `version` | string | Yes | Semantic version of the pack (e.g., `1.0.0`). |
-| `schema_version` | integer | Yes | Must be `1` for the current schema. |
-| `author` | string | Yes | Author name or GitHub handle. |
-| `max_weight` | integer | Yes | Maximum score weight this pack can contribute (1-10). |
-| `scoring` | object | Yes | Scoring configuration with `model` and `base_weight`. |
-| `patterns` | array | Yes | List of detection patterns (see below). |
-| `overrides` | object | No | Optional overrides such as `ignore_paths`. |
+| Field            | Type    | Required | Description                                                                                      |
+| ---------------- | ------- | -------- | ------------------------------------------------------------------------------------------------ |
+| `slug`           | string  | Yes      | Unique pack identifier. Lowercase letters and hyphens only.                                      |
+| `name`           | string  | Yes      | Human-readable display name.                                                                     |
+| `kind`           | string  | Yes      | Either `detection` (finds patterns in code) or `policy` (enforces workflow rules).               |
+| `action`         | string  | Yes      | What happens on match: `flag` (add comment), `block` (request changes), or `warn` (add warning). |
+| `version`        | string  | Yes      | Semantic version of the pack (e.g., `1.0.0`).                                                    |
+| `schema_version` | integer | Yes      | Must be `1` for the current schema.                                                              |
+| `author`         | string  | Yes      | Author name or GitHub handle.                                                                    |
+| `max_weight`     | integer | Yes      | Maximum score weight this pack can contribute (1-10).                                            |
+| `scoring`        | object  | Yes      | Scoring configuration with `model` and `base_weight`.                                            |
+| `patterns`       | array   | Yes      | List of detection patterns (see below).                                                          |
+| `overrides`      | object  | No       | Optional overrides such as `ignore_paths`.                                                       |
 
 ### Pattern Fields
 
 Each entry in the `patterns` array defines a single detection rule.
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Human-readable name of the pattern. |
-| `rule_id` | string | Yes | Unique rule identifier within the pack (e.g., `SEC-001`). |
-| `regex` | string | Yes | Regular expression to match against file contents. Must be valid RE2 syntax. |
-| `language` | string | Yes | Language filter. Use `*` for all languages, or a specific language like `go`, `python`, `rust`. |
-| `severity` | string | Yes | Impact level: `critical`, `high`, `medium`, `low`, or `info`. |
-| `category` | string | Yes | Category grouping (e.g., `credentials`, `injection`, `misconfiguration`). |
-| `fix_templates` | array | No | List of suggested fix descriptions shown to the developer. |
+| Field           | Type   | Required | Description                                                                                     |
+| --------------- | ------ | -------- | ----------------------------------------------------------------------------------------------- |
+| `name`          | string | Yes      | Human-readable name of the pattern.                                                             |
+| `rule_id`       | string | Yes      | Unique rule identifier within the pack (e.g., `SEC-001`).                                       |
+| `regex`         | string | Yes      | Regular expression to match against file contents. Must be valid RE2 syntax.                    |
+| `language`      | string | Yes      | Language filter. Use `*` for all languages, or a specific language like `go`, `python`, `rust`. |
+| `severity`      | string | Yes      | Impact level: `critical`, `high`, `medium`, `low`, or `info`.                                   |
+| `category`      | string | Yes      | Category grouping (e.g., `credentials`, `injection`, `misconfiguration`).                       |
+| `fix_templates` | array  | No       | List of suggested fix descriptions shown to the developer.                                      |
 
 ## Creating a New Pack
 
@@ -112,11 +112,13 @@ Each entry in the `patterns` array defines a single detection rule.
 5. **Verify locally** before pushing:
 
    ```bash
-   go run ./cmd/checksum-check -root . -strict
-   go run ./cmd/regex-check    -root .
+   pullminder registry validate --strict
    ```
 
-6. **Submit a pull request** with your changes. CI re-runs both checks.
+   This compiles every regex (Go RE2), verifies each pack's `sha256`, and runs
+   schema and duplicate checks — the same validation CI performs.
+
+6. **Submit a pull request** with your changes. CI re-runs the same checks.
 
 ## Review Expectations
 
@@ -140,7 +142,7 @@ CI automatically validates all packs on every pull request:
 
 - **Regex compilation.** All regex patterns are compiled to ensure they are valid.
 
-- **Per-pack sha256 checksums.** `cmd/checksum-check -strict` rejects any pack whose `registry.yaml` `sha256` does not match the actual `pack.yaml` content (or is missing).
+- **Per-pack sha256 checksums.** `pullminder registry validate --strict` rejects any pack whose `registry.yaml` `sha256` does not match the actual `pack.yaml` content (or is missing).
 
 - **Duplicate detection.** CI checks for duplicate slugs and rule IDs.
 

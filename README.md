@@ -32,11 +32,11 @@ Packs that do not match any file in the diff produce no findings and have zero i
 
 Every pack declares an **action** that determines what happens when it produces findings:
 
-| Action | Behavior | Used by |
-|--------|----------|---------|
-| `flag` | Add findings to the risk score and include them in the reviewer brief. This is the default. | Available as an override for any pack |
-| `warn` | Post an inline comment on the PR for each finding. Findings also contribute to the risk score. | Most packs (language security, governance, policy, bot-detection, ai-detection, dependency-detection, sensitive-paths) |
-| `block` | Set the Pullminder status check to "failure" so the PR cannot be merged until findings are resolved. | `secrets`, `infra-security` |
+| Action  | Behavior                                                                                             | Used by                                                                                                                |
+| ------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `flag`  | Add findings to the risk score and include them in the reviewer brief. This is the default.          | Available as an override for any pack                                                                                  |
+| `warn`  | Post an inline comment on the PR for each finding. Findings also contribute to the risk score.       | Most packs (language security, governance, policy, bot-detection, ai-detection, dependency-detection, sensitive-paths) |
+| `block` | Set the Pullminder status check to "failure" so the PR cannot be merged until findings are resolved. | `secrets`, `infra-security`                                                                                            |
 
 You can override the action for any pack in the dashboard under **Settings > Rule packs**.
 
@@ -50,43 +50,43 @@ The following packs are available from the official Pullminder registry at [gith
 
 ### Detection packs
 
-| Slug | Name | Description | Default |
-|------|------|-------------|---------|
-| `secrets` | Secrets | Leaked API keys, tokens, passwords, and credentials in code | Yes |
-| `go-security` | Go Security | SQL injection, command injection, and unsafe pointer usage in Go | No |
-| `python-security` | Python Security | Unsafe deserialization, eval, and SQL injection in Python | No |
-| `rust-security` | Rust Security | Unsafe blocks and memory safety issues in Rust | No |
-| `ruby-security` | Ruby Security | Mass assignment, command injection, and common Rails vulnerabilities | No |
-| `php-security` | PHP Security | SQL injection, file inclusion, and remote code execution in PHP | No |
-| `react-security` | React Security | XSS vectors, unsafe innerHTML, and client-side injection in React/JSX | No |
-| `infra-security` | Infrastructure Security | Dockerfile, Kubernetes, Terraform, and CI/CD misconfiguration | Yes |
-| `bot-detection` | Bot Detection | PRs opened by bots and automated tools | Yes |
-| `ai-detection` | AI Detection | AI-generated code detection patterns | Yes |
-| `dependency-detection` | Dependency Detection | Lockfile and manifest changes (package.json, go.sum, etc.) | Yes |
-| `java-security` | Java Security | SQL injection, XXE, deserialization in Java | No |
-| `csharp-security` | C# Security | SqlCommand injection, BinaryFormatter in C# | No |
-| `kotlin-security` | Kotlin Security | WebView, SharedPreferences, exported component issues in Kotlin/Android | No |
-| `swift-security` | Swift Security | ATS bypass, keychain, biometric auth issues in Swift/iOS | No |
-| `shell-security` | Shell Security | Eval injection, curl-pipe, chmod issues in Shell/Bash | No |
-| `sensitive-paths` | Sensitive Paths | Changes to auth, crypto, permissions, and infrastructure files | Yes |
+| Slug                   | Name                    | Description                                                             | Default |
+| ---------------------- | ----------------------- | ----------------------------------------------------------------------- | ------- |
+| `secrets`              | Secrets                 | Leaked API keys, tokens, passwords, and credentials in code             | Yes     |
+| `go-security`          | Go Security             | SQL injection, command injection, and unsafe pointer usage in Go        | No      |
+| `python-security`      | Python Security         | Unsafe deserialization, eval, and SQL injection in Python               | No      |
+| `rust-security`        | Rust Security           | Unsafe blocks and memory safety issues in Rust                          | No      |
+| `ruby-security`        | Ruby Security           | Mass assignment, command injection, and common Rails vulnerabilities    | No      |
+| `php-security`         | PHP Security            | SQL injection, file inclusion, and remote code execution in PHP         | No      |
+| `react-security`       | React Security          | XSS vectors, unsafe innerHTML, and client-side injection in React/JSX   | No      |
+| `infra-security`       | Infrastructure Security | Dockerfile, Kubernetes, Terraform, and CI/CD misconfiguration           | Yes     |
+| `bot-detection`        | Bot Detection           | PRs opened by bots and automated tools                                  | Yes     |
+| `ai-detection`         | AI Detection            | AI-generated code detection patterns                                    | Yes     |
+| `dependency-detection` | Dependency Detection    | Lockfile and manifest changes (package.json, go.sum, etc.)              | Yes     |
+| `java-security`        | Java Security           | SQL injection, XXE, deserialization in Java                             | No      |
+| `csharp-security`      | C# Security             | SqlCommand injection, BinaryFormatter in C#                             | No      |
+| `kotlin-security`      | Kotlin Security         | WebView, SharedPreferences, exported component issues in Kotlin/Android | No      |
+| `swift-security`       | Swift Security          | ATS bypass, keychain, biometric auth issues in Swift/iOS                | No      |
+| `shell-security`       | Shell Security          | Eval injection, curl-pipe, chmod issues in Shell/Bash                   | No      |
+| `sensitive-paths`      | Sensitive Paths         | Changes to auth, crypto, permissions, and infrastructure files          | Yes     |
 
 ### Governance and cross-cutting packs
 
-| Slug | Name | Description | Default |
-|------|------|-------------|---------|
-| `ai-senior-review` | AI Senior Review Required | Requires senior reviewer approval for high-risk AI-generated PRs | Yes |
-| `pii-leakage` | PII Leakage Detection | Detects PII (SSN, credit cards, emails) in logging and output contexts | No |
-| `crypto-anti-patterns` | Cryptographic Anti-Patterns | Language-agnostic weak crypto detection (MD5, DES, ECB, small keys) | No |
-| `migration-safety` | Migration Safety | Dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults) | No |
-| `license-risk` | License Risk Detection | Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests | No |
-| `owasp-mapping` | OWASP Top 10 Mapping | Maps detection rules to OWASP Top 10 categories for compliance reporting | No |
+| Slug                   | Name                        | Description                                                                    | Default |
+| ---------------------- | --------------------------- | ------------------------------------------------------------------------------ | ------- |
+| `ai-senior-review`     | AI Senior Review Required   | Requires senior reviewer approval for high-risk AI-generated PRs               | Yes     |
+| `pii-leakage`          | PII Leakage Detection       | Detects PII (SSN, credit cards, emails) in logging and output contexts         | No      |
+| `crypto-anti-patterns` | Cryptographic Anti-Patterns | Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)            | No      |
+| `migration-safety`     | Migration Safety            | Dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)  | No      |
+| `license-risk`         | License Risk Detection      | Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests | No      |
+| `owasp-mapping`        | OWASP Top 10 Mapping        | Maps detection rules to OWASP Top 10 categories for compliance reporting       | No      |
 
 ### Policy packs
 
-| Slug | Name | Description | Default |
-|------|------|-------------|---------|
-| `test-conventions` | Test Conventions | Test naming, coverage thresholds, and file organization standards | Yes |
-| `review-quality` | Review Quality | PR description completeness, commit message format, and review standards | Yes |
+| Slug               | Name             | Description                                                              | Default |
+| ------------------ | ---------------- | ------------------------------------------------------------------------ | ------- |
+| `test-conventions` | Test Conventions | Test naming, coverage thresholds, and file organization standards        | Yes     |
+| `review-quality`   | Review Quality   | PR description completeness, commit message format, and review standards | Yes     |
 
 ## Managing packs
 
@@ -205,20 +205,20 @@ overrides:
 
 ### Field reference
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `slug` | Yes | Unique identifier for the pack. Lowercase, hyphens only. |
-| `name` | Yes | Human-readable display name. |
-| `kind` | Yes | Either `detection` (pattern matching) or `policy` (workflow rules). |
-| `action` | Yes | Default action when findings are produced: `flag`, `warn`, or `block`. |
-| `version` | Yes | Integer version of the pack (e.g., `3`). Increment each time you modify patterns or configuration. |
-| `schema_version` | No | Schema version. Omit if not needed. The registry infers schema version from the pack structure. |
-| `author` | No | GitHub handle of the pack author. Required when publishing to the community registry. |
-| `max_weight` | No | Maximum weight a single finding from this pack can contribute to the risk score. Defaults to `10`. |
-| `scoring` | No | Tiered scoring configuration. Each tier defines the minimum number of findings required to reach that score. The pack's contribution to the risk score is the highest tier whose `min_findings` threshold is met. See [Pack schema reference](https://docs.pullminder.com/packs/pack-reference/) for details. |
-| `patterns` | Yes | Array of pattern objects. At least one pattern is required for detection packs. |
-| `overrides` | No | Path and author exclusions. |
-| `sha256` (registry.yaml only) | Yes for new entries | Hex-encoded sha256 of `packs/<slug>/pack.yaml` at publish time. The Pullminder API verifies this on every sync. Recompute and update whenever you change `pack.yaml`. |
+| Field                         | Required            | Description                                                                                                                                                                                                                                                                                                   |
+| ----------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slug`                        | Yes                 | Unique identifier for the pack. Lowercase, hyphens only.                                                                                                                                                                                                                                                      |
+| `name`                        | Yes                 | Human-readable display name.                                                                                                                                                                                                                                                                                  |
+| `kind`                        | Yes                 | Either `detection` (pattern matching) or `policy` (workflow rules).                                                                                                                                                                                                                                           |
+| `action`                      | Yes                 | Default action when findings are produced: `flag`, `warn`, or `block`.                                                                                                                                                                                                                                        |
+| `version`                     | Yes                 | Integer version of the pack (e.g., `3`). Increment each time you modify patterns or configuration.                                                                                                                                                                                                            |
+| `schema_version`              | No                  | Schema version. Omit if not needed. The registry infers schema version from the pack structure.                                                                                                                                                                                                               |
+| `author`                      | No                  | GitHub handle of the pack author. Required when publishing to the community registry.                                                                                                                                                                                                                         |
+| `max_weight`                  | No                  | Maximum weight a single finding from this pack can contribute to the risk score. Defaults to `10`.                                                                                                                                                                                                            |
+| `scoring`                     | No                  | Tiered scoring configuration. Each tier defines the minimum number of findings required to reach that score. The pack's contribution to the risk score is the highest tier whose `min_findings` threshold is met. See [Pack schema reference](https://docs.pullminder.com/packs/pack-reference/) for details. |
+| `patterns`                    | Yes                 | Array of pattern objects. At least one pattern is required for detection packs.                                                                                                                                                                                                                               |
+| `overrides`                   | No                  | Path and author exclusions.                                                                                                                                                                                                                                                                                   |
+| `sha256` (registry.yaml only) | Yes for new entries | Hex-encoded sha256 of `packs/<slug>/pack.yaml` at publish time. The Pullminder API verifies this on every sync. Recompute and update whenever you change `pack.yaml`.                                                                                                                                         |
 
 ## Step 4: Write patterns
 
@@ -237,31 +237,31 @@ Patterns use Go-compatible regular expressions (RE2 syntax). A few tips:
 
 The `language` field filters which files the pattern runs against:
 
-| Value | Matches |
-|-------|---------|
-| `*` | All files |
-| `go` | `.go` files |
-| `python` | `.py` files |
-| `javascript` | `.js`, `.jsx`, `.mjs` files |
-| `typescript` | `.ts`, `.tsx` files |
-| `rust` | `.rs` files |
-| `ruby` | `.rb`, `.erb` files |
-| `php` | `.php` files |
-| `java` | `.java` files |
-| `yaml` | `.yaml`, `.yml` files |
+| Value        | Matches                            |
+| ------------ | ---------------------------------- |
+| `*`          | All files                          |
+| `go`         | `.go` files                        |
+| `python`     | `.py` files                        |
+| `javascript` | `.js`, `.jsx`, `.mjs` files        |
+| `typescript` | `.ts`, `.tsx` files                |
+| `rust`       | `.rs` files                        |
+| `ruby`       | `.rb`, `.erb` files                |
+| `php`        | `.php` files                       |
+| `java`       | `.java` files                      |
+| `yaml`       | `.yaml`, `.yml` files              |
 | `dockerfile` | `Dockerfile`, `*.dockerfile` files |
-| `terraform` | `.tf` files |
+| `terraform`  | `.tf` files                        |
 
 ### Severity levels
 
-| Severity | Weight | Meaning |
-|----------|--------|---------|
-| `critical` | 10 | Immediate security risk. Typically warrants blocking the PR. |
-| `error` | 8 | Serious error that should be fixed before merging. |
-| `high` | 7 | Serious issue that should be addressed before merging. |
-| `medium` | 5 | Notable concern worth reviewing. |
-| `low` | 3 | Minor issue or style violation. |
-| `info` | 1 | Informational finding. Does not significantly affect the risk score. |
+| Severity   | Weight | Meaning                                                              |
+| ---------- | ------ | -------------------------------------------------------------------- |
+| `critical` | 10     | Immediate security risk. Typically warrants blocking the PR.         |
+| `error`    | 8      | Serious error that should be fixed before merging.                   |
+| `high`     | 7      | Serious issue that should be addressed before merging.               |
+| `medium`   | 5      | Notable concern worth reviewing.                                     |
+| `low`      | 3      | Minor issue or style violation.                                      |
+| `info`     | 1      | Informational finding. Does not significantly affect the risk score. |
 
 ## Step 5: Test the pack
 
@@ -305,14 +305,13 @@ Fix any validation errors before proceeding.
 ### Supply-chain checks
 
 The official `pullminder/registry` repo runs two extra integrity checks in CI
-that you can also run locally:
+(RE2 regex compilation and per-pack `sha256` verification) via
+[`pullminder/action`](https://github.com/pullminder/action). Run them locally
+with the CLI:
 
 ```bash
-# RE2 compile of every pattern's regex
-go run ./cmd/regex-check    -root .
-
-# sha256 in registry.yaml matches packs/<slug>/pack.yaml
-go run ./cmd/checksum-check -root . -strict
+# RE2 regex compile + sha256 verification + schema + duplicate checks
+pullminder registry validate --strict
 ```
 
 Whenever you edit a `pack.yaml`, recompute its sha256 and update
@@ -367,34 +366,34 @@ This page documents every field in a Pullminder rule pack YAML file. For a step-
 ## Full schema
 
 ```yaml
-slug: string               # Required. Unique pack identifier.
-name: string               # Required. Display name.
-kind: detection | policy   # Required. Pack type.
+slug: string # Required. Unique pack identifier.
+name: string # Required. Display name.
+kind: detection | policy # Required. Pack type.
 action: flag | warn | block # Required. Default action on findings.
-version: integer           # Required. Integer version (e.g., 3).
-schema_version: integer    # Optional. Schema version.
-author: string             # Optional. GitHub handle (required for publishing).
-max_weight: integer        # Optional. Max weight per finding. Default: 10.
+version: integer # Required. Integer version (e.g., 3).
+schema_version: integer # Optional. Schema version.
+author: string # Optional. GitHub handle (required for publishing).
+max_weight: integer # Optional. Max weight per finding. Default: 10.
 
-scoring:                   # Optional. Tiered scoring thresholds.
-  - min_findings: integer  #   Minimum findings to reach this score.
-    score: integer         #   Risk score contribution at this tier.
+scoring: # Optional. Tiered scoring thresholds.
+  - min_findings: integer #   Minimum findings to reach this score.
+    score: integer #   Risk score contribution at this tier.
 
-patterns:                  # Required for detection packs. Array of pattern objects.
-  - name: string           #   Required. Human-readable pattern name.
-    rule_id: string        #   Required. Unique identifier (e.g., "SEC-001").
-    regex: string          #   Required. RE2-compatible regular expression.
-    language: string       #   Required. Language filter ("*" for all).
-    severity: string       #   Required. One of: critical, error, high, medium, low, info.
-    category: string       #   Required. Freeform category (e.g., "security").
-    description: string    #   Optional. Detailed explanation of the finding.
-    fix_templates:         #   Optional. Array of suggested fix strings.
+patterns: # Required for detection packs. Array of pattern objects.
+  - name: string #   Required. Human-readable pattern name.
+    rule_id: string #   Required. Unique identifier (e.g., "SEC-001").
+    regex: string #   Required. RE2-compatible regular expression.
+    language: string #   Required. Language filter ("*" for all).
+    severity: string #   Required. One of: critical, error, high, medium, low, info.
+    category: string #   Required. Freeform category (e.g., "security").
+    description: string #   Optional. Detailed explanation of the finding.
+    fix_templates: #   Optional. Array of suggested fix strings.
       - string
 
-overrides:                 # Optional. Exclusion rules.
-  ignore_paths:            #   Optional. Glob patterns for paths to skip.
+overrides: # Optional. Exclusion rules.
+  ignore_paths: #   Optional. Glob patterns for paths to skip.
     - string
-  ignore_authors:          #   Optional. GitHub usernames to skip.
+  ignore_authors: #   Optional. GitHub usernames to skip.
     - string
 ```
 
@@ -426,10 +425,10 @@ name: My Custom Check
 
 Determines how the pack is evaluated:
 
-| Value | Description |
-|-------|-------------|
-| `detection` | Pattern-based matching against the PR diff. Requires at least one entry in `patterns`. |
-| `policy` | Evaluates structural properties of the PR (description, commit messages, test coverage). |
+| Value       | Description                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| `detection` | Pattern-based matching against the PR diff. Requires at least one entry in `patterns`.   |
+| `policy`    | Evaluates structural properties of the PR (description, commit messages, test coverage). |
 
 ```yaml
 kind: detection
@@ -441,10 +440,10 @@ kind: detection
 
 The default behavior when the pack produces findings. Users can override this per-pack in the dashboard.
 
-| Value | Description |
-|-------|-------------|
-| `flag` | Add findings to the risk score and include them in the reviewer brief. No inline comments. |
-| `warn` | Post inline comments on the PR for each finding. Findings also affect the risk score. |
+| Value   | Description                                                                                                    |
+| ------- | -------------------------------------------------------------------------------------------------------------- |
+| `flag`  | Add findings to the risk score and include them in the reviewer brief. No inline comments.                     |
+| `warn`  | Post inline comments on the PR for each finding. Findings also affect the risk score.                          |
 | `block` | Set the Pullminder status check to "failure", preventing the PR from being merged until findings are resolved. |
 
 ```yaml
@@ -538,7 +537,7 @@ Human-readable name for the pattern. Displayed in the reviewer brief and dashboa
 Unique identifier for the pattern within the pack. Convention is an uppercase prefix followed by a number (e.g., `SEC-001`, `GO-003`). Rule IDs must be unique across all patterns in the pack.
 
 ```yaml
-  rule_id: SEC-001
+rule_id: SEC-001
 ```
 
 ### `patterns[].regex`
@@ -548,7 +547,7 @@ Unique identifier for the pattern within the pack. Convention is an uppercase pr
 A regular expression matched against each added or modified line in the PR diff. Uses RE2 syntax (Go-compatible). The regex is applied per-line; multiline matching is not supported.
 
 ```yaml
-  regex: "AKIA[0-9A-Z]{16}"
+regex: "AKIA[0-9A-Z]{16}"
 ```
 
 ### `patterns[].language`
@@ -557,30 +556,30 @@ A regular expression matched against each added or modified line in the PR diff.
 
 Restricts the pattern to files of a specific language. Use `*` to match all files. Supported values:
 
-| Value | File extensions |
-|-------|----------------|
-| `*` | All files |
-| `go` | `.go` |
-| `python` | `.py` |
-| `javascript` | `.js`, `.jsx`, `.mjs` |
-| `typescript` | `.ts`, `.tsx` |
-| `rust` | `.rs` |
-| `ruby` | `.rb`, `.erb` |
-| `php` | `.php` |
-| `java` | `.java` |
-| `c` | `.c`, `.h` |
-| `cpp` | `.cpp`, `.cc`, `.cxx`, `.hpp` |
-| `csharp` | `.cs` |
-| `swift` | `.swift` |
-| `kotlin` | `.kt`, `.kts` |
-| `yaml` | `.yaml`, `.yml` |
-| `json` | `.json` |
-| `dockerfile` | `Dockerfile`, `*.dockerfile` |
-| `terraform` | `.tf` |
-| `shell` | `.sh`, `.bash`, `.zsh` |
+| Value        | File extensions               |
+| ------------ | ----------------------------- |
+| `*`          | All files                     |
+| `go`         | `.go`                         |
+| `python`     | `.py`                         |
+| `javascript` | `.js`, `.jsx`, `.mjs`         |
+| `typescript` | `.ts`, `.tsx`                 |
+| `rust`       | `.rs`                         |
+| `ruby`       | `.rb`, `.erb`                 |
+| `php`        | `.php`                        |
+| `java`       | `.java`                       |
+| `c`          | `.c`, `.h`                    |
+| `cpp`        | `.cpp`, `.cc`, `.cxx`, `.hpp` |
+| `csharp`     | `.cs`                         |
+| `swift`      | `.swift`                      |
+| `kotlin`     | `.kt`, `.kts`                 |
+| `yaml`       | `.yaml`, `.yml`               |
+| `json`       | `.json`                       |
+| `dockerfile` | `Dockerfile`, `*.dockerfile`  |
+| `terraform`  | `.tf`                         |
+| `shell`      | `.sh`, `.bash`, `.zsh`        |
 
 ```yaml
-  language: go
+language: go
 ```
 
 ### `patterns[].severity`
@@ -589,17 +588,17 @@ Restricts the pattern to files of a specific language. Use `*` to match all file
 
 The severity level of findings produced by this pattern. Severity determines the finding's base weight in the risk score.
 
-| Severity | Weight | Use when |
-|----------|--------|----------|
-| `critical` | 10 | The finding represents an immediate, exploitable security risk (e.g., leaked production credentials). |
-| `error` | 8 | Serious error that should be fixed before merging (e.g., SQL injection, command injection). |
-| `high` | 7 | The finding is a serious issue that should be resolved before merging (e.g., unvalidated input in a sensitive path). |
-| `medium` | 5 | The finding is a notable concern that warrants reviewer attention (e.g., missing input validation). |
-| `low` | 3 | The finding is a minor issue or style violation (e.g., debug logging left in production code). |
-| `info` | 1 | The finding is informational and does not significantly affect the risk score (e.g., a TODO comment). |
+| Severity   | Weight | Use when                                                                                                             |
+| ---------- | ------ | -------------------------------------------------------------------------------------------------------------------- |
+| `critical` | 10     | The finding represents an immediate, exploitable security risk (e.g., leaked production credentials).                |
+| `error`    | 8      | Serious error that should be fixed before merging (e.g., SQL injection, command injection).                          |
+| `high`     | 7      | The finding is a serious issue that should be resolved before merging (e.g., unvalidated input in a sensitive path). |
+| `medium`   | 5      | The finding is a notable concern that warrants reviewer attention (e.g., missing input validation).                  |
+| `low`      | 3      | The finding is a minor issue or style violation (e.g., debug logging left in production code).                       |
+| `info`     | 1      | The finding is informational and does not significantly affect the risk score (e.g., a TODO comment).                |
 
 ```yaml
-  severity: high
+severity: high
 ```
 
 ### `patterns[].category`
@@ -609,7 +608,7 @@ The severity level of findings produced by this pattern. Severity determines the
 Freeform category used for grouping and filtering findings in the dashboard. Common values include `security`, `code-quality`, `testing`, `infrastructure`, and `dependencies`.
 
 ```yaml
-  category: security
+category: security
 ```
 
 ### `patterns[].description`
@@ -619,9 +618,9 @@ Freeform category used for grouping and filtering findings in the dashboard. Com
 A longer explanation of what the pattern detects and why it matters. Displayed in the reviewer brief and finding detail views.
 
 ```yaml
-  description: >
-    AWS access keys should never appear in source code.
-    Use environment variables or a secrets manager instead.
+description: >
+  AWS access keys should never appear in source code.
+  Use environment variables or a secrets manager instead.
 ```
 
 ### `patterns[].fix_templates`
@@ -631,9 +630,9 @@ A longer explanation of what the pattern detects and why it matters. Displayed i
 Suggested fixes displayed alongside the finding. Each string is a separate suggestion. Providing fix templates helps developers resolve findings quickly.
 
 ```yaml
-  fix_templates:
-    - "Store the key in AWS Secrets Manager and reference it via environment variable."
-    - "Use IAM roles instead of static access keys."
+fix_templates:
+  - "Store the key in AWS Secrets Manager and reference it via environment variable."
+  - "Use IAM roles instead of static access keys."
 ```
 
 ## `overrides` object
@@ -669,9 +668,9 @@ overrides:
 
 ## Schema version history
 
-| Version | Changes |
-|---------|---------|
-| `1` | Initial schema. Supports detection and policy pack kinds, additive scoring model, pattern-based matching, and path/author overrides. |
+| Version | Changes                                                                                                                              |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `1`     | Initial schema. Supports detection and policy pack kinds, additive scoring model, pattern-based matching, and path/author overrides. |
 
 Future schema versions will be backward-compatible where possible. Packs specifying an older `schema_version` will continue to work with newer versions of Pullminder.
 
