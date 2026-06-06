@@ -38,16 +38,11 @@ jobs:
             echo "No pack files found to validate. Skipping."
           fi
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      # Regex (Go RE2) compilation and per-pack sha256 checksum verification,
+      # previously done by the in-repo cmd/regex-check and cmd/checksum-check
+      # Go tools, are now covered by `pullminder registry validate --strict`.
+      - name: Validate registry (regex + checksum)
+        uses: pullminder/action@v1
         with:
-          go-version: "1.22"
-
-      - name: Compile pack regexes under Go RE2
-        run: go run ./cmd/regex-check -root .
-
-      - name: Verify per-pack sha256 checksums
-        run: go run ./cmd/checksum-check -root . -strict
-
-      - name: Run cmd/* unit tests
-        run: go test ./cmd/...
+          strict: "true"
+          comment: "false"
