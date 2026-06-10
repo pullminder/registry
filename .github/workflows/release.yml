@@ -50,16 +50,18 @@ jobs:
               generate_release_notes: true,
             });
 
-      - name: Notify pullminder.com
+      - name: Dispatch registry update
         if: steps.version_check.outputs.changed == 'true'
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.PULLMINDER_DISPATCH_TOKEN }}
+          github-token: ${{ secrets.SINK_TOKEN }}
           script: |
+            const owner = process.env.SINK_OWNER;
+            const repo = process.env.SINK_REPO;
             const version = process.env.REGISTRY_VERSION;
             await github.rest.repos.createDispatchEvent({
-              owner: 'Upmate',
-              repo: 'pullminder.com',
+              owner,
+              repo,
               event_type: 'registry-updated',
               client_payload: {
                 sha: context.sha,
@@ -68,4 +70,6 @@ jobs:
               }
             });
         env:
+          SINK_OWNER: ${{ vars.SINK_OWNER }}
+          SINK_REPO: ${{ vars.SINK_REPO }}
           REGISTRY_VERSION: ${{ steps.version_check.outputs.current }}
