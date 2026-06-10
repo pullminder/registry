@@ -11,3 +11,4 @@ tmp/
 *.swo
 *~
 .claude-flow/
+docs/superpowers/
