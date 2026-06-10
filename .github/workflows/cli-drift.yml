@@ -58,15 +58,17 @@ jobs:
           echo "::error::Registry no longer validates against pullminder CLI ${{ steps.dl.outputs.tag }}. The CLI's bundled schemas are out of sync — open an issue in pullminder/cli."
           exit 1
 
-      - name: Open or update tracking issue in CLI repo (scheduled only)
+      - name: Open or update drift tracking issue
         if: failure() && github.event_name == 'schedule'
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.PULLMINDER_CLI_REPO_TOKEN }}
+          github-token: ${{ secrets.TRACKER_TOKEN }}
           script: |
             const fs = require('fs');
             const log = fs.readFileSync('validate.log', 'utf8').slice(0, 50000);
             const tag = '${{ steps.dl.outputs.tag }}';
+            const targetOwner = process.env.TRACKER_OWNER;
+            const targetRepo = process.env.TRACKER_REPO;
             const title = `registry drift: pullminder CLI ${tag} rejects registry@main`;
             const body = [
               `Daily registry-side drift check failed. Latest CLI release **${tag}** rejects current registry content.`,
@@ -79,17 +81,18 @@ jobs:
               `Source: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
             ].join('\n');
 
-            const owner = 'pullminder';
-            const repo  = 'cli';
             const { data: issues } = await github.rest.issues.listForRepo({
-              owner, repo, state: 'open', labels: 'registry-drift',
+              owner: targetOwner, repo: targetRepo, state: 'open', labels: 'registry-drift',
             });
             if (issues.length > 0) {
               await github.rest.issues.createComment({
-                owner, repo, issue_number: issues[0].number, body,
+                owner: targetOwner, repo: targetRepo, issue_number: issues[0].number, body,
               });
             } else {
               await github.rest.issues.create({
-                owner, repo, title, body, labels: ['registry-drift'],
+                owner: targetOwner, repo: targetRepo, title, body, labels: ['registry-drift'],
               });
             }
+        env:
+          TRACKER_OWNER: ${{ vars.TRACKER_OWNER }}
+          TRACKER_REPO: ${{ vars.TRACKER_REPO }}
