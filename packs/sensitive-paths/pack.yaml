@@ -2,7 +2,7 @@ slug: sensitive-paths
 name: Sensitive Paths
 kind: detection
 action: warn
-version: 3
+version: 4
 schema_version: 1
 author: pullminder
 max_weight: 20
@@ -16,6 +16,9 @@ scoring:
 paths:
   - pattern: "auth/"
     label: Authentication
+    exclude_paths:
+      - "routes.go"
+      - "handler.go"
   - pattern: "billing/"
     label: Billing
   - pattern: "infra/"

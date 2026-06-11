@@ -126,7 +126,7 @@ packs:
     name: Sensitive Paths
     kind: detection
     action: warn
-    version: 3
+    version: 4
     tags: [governance, paths, review]
     languages: ["*"]
     description: Flags modifications to security-critical directories
