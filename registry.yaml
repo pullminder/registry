@@ -132,7 +132,7 @@ packs:
     description: Flags modifications to security-critical directories
     default: true
     author: pullminder
-    sha256: 029f7746a04ee7ca8f73522f5ac7dd2936477087c73281821a1da7a161de4962
+    sha256: dfb1d36bf2597f7d3d6dfac0ccde71d8b7a9cbb33c629ba8a221362414c10867
 
   - slug: dependency-detection
     name: Dependency Detection
