@@ -5,13 +5,13 @@ packs:
     name: Secrets Detection
     kind: detection
     action: block
-    version: 7
+    version: 8
     tags: [secrets, owasp, credentials]
     languages: ["*"]
     description: Detects hardcoded secrets, API keys, tokens, and connection strings
     default: true
     author: pullminder
-    sha256: 8a19ff0fec9f7daa9f305ce59249c2ec831fb09823dab903422a930ed52b1e0f
+    sha256: 51fb5d53b606653b6683c7bd3fa6778b8be987fe8c61fa70311421fecd2ae69f
 
   - slug: go-security
     name: Go Security
