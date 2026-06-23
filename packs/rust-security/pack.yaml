@@ -117,13 +117,6 @@ patterns:
     fix_templates:
       rust: 'Use catch_unwind at FFI boundaries to prevent UB from panics'
 
-  - name: User input in format strings
-    rule_id: RUST_FORMAT_STRING_USER
-    regex: '(?i)format!\s*\(\s*(req|request|input|user|args)'
-    language: rust
-    severity: error
-    category: insecure_pattern
-
 overrides:
   scoring:
     type: scored_tiers
