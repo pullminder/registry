@@ -199,13 +199,13 @@ packs:
     name: "C# Security"
     kind: detection
     action: warn
-    version: 1
+    version: 2
     tags: [csharp, injection, deserialization, xss]
     languages: [csharp]
     description: "C#-specific security patterns including SqlCommand injection, BinaryFormatter"
     default: false
     author: pullminder
-    sha256: 5f5d167e12123b9d5b8d2eb2775472d19343f5f2defe11090a42f1952117ef1a
+    sha256: 3eb323466f1297b0ead59d784469765847370c0be0a1de012e8f20972464c370
 
   - slug: kotlin-security
     name: Kotlin Security
