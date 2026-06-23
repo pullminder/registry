@@ -21,9 +21,24 @@ patterns:
     fix_templates:
       csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
 
-  - name: BinaryFormatter deserialization
+  - name: Unsafe formatter deserialization
     rule_id: CSHARP_UNSAFE_DESER
-    regex: '(?i)BinaryFormatter\s*\(\s*\)\.Deserialize'
+    regex: '(?i)(?:BinaryFormatter|SoapFormatter|LosFormatter|ObjectStateFormatter|NetDataContractSerializer)\s*\(\s*\)\s*\.(?:Deserialize|ReadObject)\s*\('
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+
+  - name: Non-chained unsafe deserialization call
+    rule_id: CSHARP_UNSAFE_DESER_CALL
+    regex: '(?i)\.Deserialize\s*\('
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+    exclude_pattern: '(?i)(?:JsonSerializer|new\s+(?:Binary|Soap|Los|ObjectState)Formatter).*\.Deserialize'
+
+  - name: Json.NET TypeNameHandling set to All
+    rule_id: CSHARP_TYPENAME_HANDLING
+    regex: '(?i)TypeNameHandling\s*=\s*TypeNameHandling\.All'
     language: csharp
     severity: critical
     category: insecure_pattern
@@ -35,26 +50,29 @@ patterns:
     severity: critical
     category: insecure_pattern
 
-  - name: XmlDocument without XmlResolver null
+  - name: XmlDocument construction may lead to XXE
     rule_id: CSHARP_XXE
     regex: '(?i)new\s+XmlDocument\s*\(\s*\)\s*[;{]'
     language: csharp
-    severity: error
+    severity: warning
     category: insecure_pattern
+    exclude_pattern: '(?i)XmlResolver\s*=\s*null'
 
-  - name: Weak cryptographic hash for passwords
+  - name: Weak cryptographic hash (MD5/SHA1) -- review for security-sensitive use
     rule_id: CSHARP_WEAK_CRYPTO
     regex: '(?i)(?:MD5|SHA1)\.(?:Create|ComputeHash)'
     language: csharp
-    severity: warning
+    severity: info
     category: insecure_pattern
+    exclude_pattern: '(?i)(?:etag|checksum|dedup|fingerprint)'
 
   - name: Hardcoded connection string
     rule_id: CSHARP_HARDCODED_CONN
     regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:Server|Data Source|Host).*["\x{27}]'
     language: csharp
     severity: error
-    category: secret
+    category: insecure_pattern
+    exclude_pattern: '(?i)(?:Password|Pwd|User[ _]?Id|UID)'
 
   - name: LDAP injection via string concatenation
     rule_id: CSHARP_LDAP_INJECT
