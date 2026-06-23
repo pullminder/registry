@@ -60,7 +60,7 @@ patterns:
 
   - name: Custom crypto implementation
     rule_id: CRYPTO_CUSTOM_IMPL
-    regex: '(?i)(?:class|function|func|def)\s+\w*(?:encrypt|decrypt|cipher|hash|hmac)\w*\s*\('
+    regex: '(?i)(?:class|function|func|def)\s+(?:encrypt|decrypt|cipher|hash|hmac)\w*\s*\('
     language: "*"
     severity: warning
     category: insecure_pattern
