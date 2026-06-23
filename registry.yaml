@@ -138,13 +138,13 @@ packs:
     name: Dependency Detection
     kind: detection
     action: warn
-    version: 4
+    version: 5
     tags: [dependencies, supply-chain]
     languages: ["*"]
     description: Detects dependency manifest and lockfile changes
     default: true
     author: pullminder
-    sha256: aaa4df7a37a15850d68eb3d225eb359040e702f0df49b4d6ac97542cccdd78c0
+    sha256: 4a4ca2e8990758212f11ffd832e80dbe146da2fa4f3bbc3bc259adf42dc15044
 
   - slug: test-conventions
     name: Test Conventions
