@@ -2,7 +2,7 @@ slug: react-security
 name: React & JavaScript Security
 kind: detection
 action: warn
-version: 6
+version: 9
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -22,7 +22,7 @@ patterns:
 
   - name: Dangerous HTML injection
     rule_id: REACT_DANGEROUS_HTML
-    regex: '(?i)__html\s*:\s*[^''"]'
+    regex: '(?i)__html\s*:\s*[^''"\s]'
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
@@ -58,9 +58,21 @@ patterns:
     rule_id: REACT_DIRECT_DOM
     regex: '(?i)document\.(getElementById|querySelector|getElementsBy)'
     language: "*"
-    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+    path_patterns: ["**/*.jsx", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
+    exclude_pattern: '(?i)\.textContent\s*=|\.(?:inner|outer)HTML\s*='
+
+  - name: innerHTML/outerHTML with user-controlled input
+    rule_id: JS_INNERHTML_USERINPUT
+    regex: '(?i)document\.(getElementById|querySelector|getElementsBy)[^;]*\.(?:inner|outer)HTML\s*=.*(?:\.val\(\)|\.value\b|event\.(target|data)|req\.|params\.|query\.|userInput|formData)'
+    language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+    severity: error
+    category: insecure_pattern
+    exclude_pattern: '(?i)DOMPurify\.sanitize|\bsanitize\s*\(|\bsanitizeHtml\s*\(|\bxss\s*\(|purify\.clean'
+    fix_templates:
+      javascript: 'Sanitize user input before setting innerHTML. Use DOMPurify.sanitize(input) or assign to .textContent instead.'
 
   - name: document.write() usage
     rule_id: JS_DOCUMENT_WRITE
@@ -70,7 +82,7 @@ patterns:
     severity: error
     category: insecure_pattern
     fix_templates:
-      javascript: 'Use DOM manipulation methods instead of document.write()'
+      _: 'Use DOM manipulation methods instead of document.write()'
 
   - name: postMessage without origin check
     rule_id: JS_POSTMESSAGE
@@ -80,11 +92,11 @@ patterns:
     severity: warning
     category: insecure_pattern
     fix_templates:
-      javascript: 'Always verify event.origin in message handlers'
+      _: 'Always verify event.origin in message handlers'
 
   - name: window.open with user URLs
     rule_id: JS_WINDOW_OPEN
-    regex: '(?i)window\.open\s*\(.*(?:params|query|input|user|req)'
+    regex: '(?i)window\.open\s*\(\s*(?:params|query|input|user|req)'
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
@@ -98,17 +110,17 @@ patterns:
     severity: error
     category: insecure_pattern
     fix_templates:
-      javascript: 'Avoid new Function() - use proper function definitions'
+      _: 'Avoid new Function() - use proper function definitions'
 
   - name: Prototype pollution
     rule_id: JS_PROTO_POLLUTION
-    regex: '(?i)(__proto__|constructor\.prototype|Object\.assign\s*\(\s*\{\})'
+    regex: '(?i)(__proto__|constructor\.prototype)'
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
     fix_templates:
-      javascript: 'Use Object.create(null) or Map instead of plain objects for user data'
+      _: 'Use Object.create(null) or Map instead of plain objects for user data'
 
   - name: localStorage for sensitive data
     rule_id: JS_LOCALSTORAGE_SENSITIVE
@@ -118,11 +130,11 @@ patterns:
     severity: warning
     category: insecure_pattern
     fix_templates:
-      javascript: 'Use httpOnly cookies instead of localStorage for sensitive tokens'
+      _: 'Use httpOnly cookies instead of localStorage for sensitive tokens'
 
-  - name: outerHTML assignment
+  - name: innerHTML/outerHTML assignment
     rule_id: JS_INNERHTML_ASSIGN
-    regex: '(?i)\.outerHTML\s*='
+    regex: '(?i)\.(?:inner|outer)HTML\s*='
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
@@ -130,7 +142,7 @@ patterns:
 
   - name: Unescaped template literals in DOM
     rule_id: JS_TEMPLATE_UNESCAPED
-    regex: '(?i)\$\{.*\}.*\.innerHTML'
+    regex: '(?i)\.innerHTML\s*=.*\$\{'
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
@@ -143,6 +155,18 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
+
+  - name: innerHTML/outerHTML assignment with user-controlled input
+    rule_id: JS_INNERHTML_TAINT
+    regex: '(?is)(req\.|event\.target|location\.(?:search|hash)|url\.searchParams|\.value\b|\.query\b|\.params\b|\.body\b|\.files\b|response\.(?:text|data|json)\b|\.responseText\b)[\s\S]*?\.(?:inner|outer)HTML\s*='
+    language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+    severity: error
+    category: insecure_pattern
+    fix_templates:
+      javascript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
+      typescript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
+    exclude_pattern: '(?i)DOMPurify\.sanitize|\bsanitize\s*\(|\bsanitizeHtml\s*\(|\bxss\s*\(|purify\.clean'
 
 overrides:
   scoring:
