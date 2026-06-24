@@ -3,7 +3,7 @@ name: License Risk Detection
 schema_version: 1
 kind: detection
 action: warn
-version: 1
+version: 2
 author: pullminder
 max_weight: 10
 scoring:
@@ -14,36 +14,37 @@ scoring:
 patterns:
   - name: GPL license reference
     rule_id: LICENSE_GPL
-    regex: '(?i)(?:license|License)["\x{27}]?\s*[:=]\s*["\x{27}](?:GPL|GPLv[23]|GNU General Public License)["\x{27}]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:GPL|GPLv[23]|GNU General Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: AGPL license reference
     rule_id: LICENSE_AGPL
-    regex: '(?i)(?:license|License)["\x{27}]?\s*[:=]\s*["\x{27}](?:AGPL|AGPLv3|GNU Affero General Public License)["\x{27}]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:AGPL|AGPLv3|GNU Affero General Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: SSPL license reference
     rule_id: LICENSE_SSPL
-    regex: '(?i)(?:license|License)["\x{27}]?\s*[:=]\s*["\x{27}](?:SSPL|Server Side Public License)["\x{27}]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:SSPL|Server Side Public License)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
 
   - name: Copyleft license indicator
     rule_id: LICENSE_COPYLEFT
-    regex: '(?i)(?:license|License)["\x{27}]?\s*[:=]\s*["\x{27}](?:EUPL|MPL|EPL|CPAL|OSL|LGPL|CC-BY-SA)["\x{27}]'
+    regex: '(?i)(?:license|License)\s*[:=]\s*["\x{27}](?:EUPL|MPL|EPL|CPAL|OSL|LGPL|CC-BY-SA)["\x{27}]'
     language: "*"
     severity: warning
     category: insecure_pattern
 
   - name: License file addition
     rule_id: LICENSE_FILE_CHANGE
-    regex: '(?i)^(?:LICEN[CS]E|COPYING|NOTICE)(?:\.(?:md|txt|rst))?$'
+    regex: '.*'
     language: "*"
+    path_patterns: ["**/LICEN[CS]E*", "**/COPYING*", "**/NOTICE*"]
     severity: warning
     category: insecure_pattern
 

@@ -14,7 +14,7 @@ scoring:
 patterns:
   - name: Weak hash algorithm (MD5/SHA1)
     rule_id: CRYPTO_WEAK_HASH
-    regex: '(?i)(?:MD5|SHA-?1)(?:\.(?:Create|getInstance|new|digest|update|hexdigest|compute)|[.(])'
+    regex: '(?i)(?:MD5|SHA-?1)(?:\.(?:Create|getInstance|new|digest|update|hexdigest|compute)|[.(])|(?:getInstance|new|createHash)\s*\(\s*["\x{27}](?:md5|sha-?1)["\x{27}]'
     language: "*"
     severity: error
     category: insecure_pattern
@@ -32,7 +32,7 @@ patterns:
 
   - name: ECB mode usage
     rule_id: CRYPTO_ECB_MODE
-    regex: '(?i)(?:["\x{27}](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|mode:\s*["\x{27}]?ecb)'
+    regex: '(?i)(?:["\x{27}](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|["\x{27}]?mode["\x{27}]?\s*[:=]\s*["\x{27}]?ecb)'
     language: "*"
     severity: error
     category: insecure_pattern
@@ -53,21 +53,21 @@ patterns:
 
   - name: Small AES key size
     rule_id: CRYPTO_SMALL_AES
-    regex: '(?i)(?:AES|key.?(?:size|length|bits))\s*[:=]\s*(?:64|128)\b'
+    regex: '(?i)(?:AES|key.?(?:size|length|bits))\s*[:=]\s*64\b'
     language: "*"
     severity: warning
     category: insecure_pattern
 
   - name: Custom crypto implementation
     rule_id: CRYPTO_CUSTOM_IMPL
-    regex: '(?i)(?:class|function|func|def)\s+\w*(?:encrypt|decrypt|cipher|hash|hmac)\w*\s*\('
+    regex: '(?i)(?:class|function|func|def)\s+(?:encrypt|decrypt|cipher|hash|hmac)\w*\s*\('
     language: "*"
     severity: warning
     category: insecure_pattern
 
   - name: Insecure random for security
     rule_id: CRYPTO_INSECURE_RANDOM
-    regex: '(?i)(?:Math\.random|rand\(\)|random\.random|Random\(\)).*(?:token|key|secret|nonce|salt|password|session|csrf)'
+    regex: '(?i)(?:(?:Math\.random|rand\(\)|random\.random|Random\(\)).*(?:token|key|secret|nonce|salt|password|session|csrf)|(?:token|key|secret|nonce|salt|password|session|csrf)\w*\s*[:=].*(?:Math\.random|rand\(\)|random\.random|Random\(\)))'
     language: "*"
     severity: error
     category: insecure_pattern

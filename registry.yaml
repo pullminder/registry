@@ -205,7 +205,7 @@ packs:
     description: "C#-specific security patterns including SqlCommand injection, unsafe deserialization, XXE, weak crypto, and hardcoded credentials"
     default: false
     author: pullminder
-    sha256: 7083f62d10e4bf78ddc8cf515811f388f703a666f0231c4558756e11bb0334f2
+    sha256: 5b4253c6af786dd6a79b3c6bd89cf9eaaac470019e8476a0a487e084f0ce8e92
 
   - slug: kotlin-security
     name: Kotlin Security
@@ -253,7 +253,7 @@ packs:
     description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
     default: false
     author: pullminder
-    sha256: 8ca8638d9f4d81c3eb5bbcfc8e965722ff23905a79f64d47856359b50ef6a0d1
+    sha256: 93a6208711c268108d1baebc56aca7690ead8418f46abe478aea91eaef98e182
 
   - slug: pii-leakage
     name: PII Leakage Detection
@@ -283,13 +283,13 @@ packs:
     name: License Risk Detection
     kind: detection
     action: warn
-    version: 1
+    version: 2
     tags: [license, compliance, copyleft, legal]
     languages: ["*"]
     description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
     default: false
     author: pullminder
-    sha256: 9897efaa06b182885145739a839935e06bc6cfee801f5fcfd737b8339abf3756
+    sha256: eab675d7b3e998776d37278958063566bcd81e76028d8d358f2587ddac2554ac
 
   - slug: owasp-mapping
     name: OWASP Top 10 Mapping
