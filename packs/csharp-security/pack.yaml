@@ -17,7 +17,6 @@ patterns:
     regex: '(?is)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
     language: csharp
     severity: error
-    window_lines: 2
     category: insecure_pattern
     fix_templates:
       csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
@@ -55,7 +54,6 @@ patterns:
     regex: '(?is)(?:Process\.Start\s*\(.*|Arguments\s*=.*)\+\s*(?:request|input|param|user|args|query|model|form|Request)'
     language: csharp
     severity: critical
-    window_lines: 2
     category: insecure_pattern
     fix_templates:
       csharp: 'Validate and whitelist command arguments. Avoid passing user input directly to Process.Start. Use a strict allowlist of permitted commands.'
@@ -104,7 +102,6 @@ patterns:
     regex: '(?is)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
     language: csharp
     severity: error
-    window_lines: 2
     category: insecure_pattern
     fix_templates:
       csharp: 'Encode user input with an LDAP encoder before including it in filter strings. Consider using library utilities like AntiXss.LdapFilterEncode.'
