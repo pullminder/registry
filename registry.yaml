@@ -47,7 +47,7 @@ packs:
     description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
     default: false
     author: pullminder
-    sha256: 932927de5d7d0e3e2d9d916b6f3a0fdbd8bbd7465a642b8f8b06ef8b4ec13e04
+    sha256: d4723dee62d239c10ce00a3a5a8fa3d952f12683134a8ee113754677a899cf34
 
   - slug: ruby-security
     name: Ruby Security
