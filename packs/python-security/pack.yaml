@@ -2,7 +2,7 @@ slug: python-security
 name: Python Security
 kind: detection
 action: warn
-version: 5
+version: 6
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -31,6 +31,7 @@ patterns:
   - name: Unsafe Deserialization
     rule_id: PY_UNSAFE_DESER
     regex: '(?i)(pickle\.loads?|yaml\.load)\s*\('
+    exclude_pattern: 'Loader\s*=\s*yaml\.(Safe|Full|Base)Loader'
     language: python
     severity: error
     category: insecure_pattern
@@ -39,7 +40,7 @@ patterns:
 
   - name: OS System Command
     rule_id: PY_OS_SYSTEM
-    regex: '(?i)os\.system\s*\(.*\+'
+    regex: '(?i)os\.system\s*\((?:.*\+|f["''][^{''"]*\{)'
     language: python
     severity: error
     category: insecure_pattern
@@ -47,6 +48,7 @@ patterns:
   - name: Eval Execution
     rule_id: PY_EVAL
     regex: '(?i)\beval\s*\('
+    exclude_pattern: '\.\s*eval\s*\('
     language: python
     severity: error
     category: insecure_pattern
@@ -63,15 +65,20 @@ patterns:
   - name: Weak Hash for Passwords
     rule_id: PY_WEAK_HASH
     regex: '(?i)hashlib\.(md5|sha1)\s*\('
+    exclude_pattern: '(?i)\b(?:etag|checksum|fingerprint|cache_key|file_hash|content_hash|usedforsecurity\s*=\s*False)\b'
     language: python
-    severity: warning
+    severity: info
     category: insecure_pattern
     fix_templates:
       python: "Use bcrypt or argon2 for password hashing"
 
   - name: Django DEBUG=True
     rule_id: PY_DJANGO_DEBUG
-    regex: '(?i)DEBUG\s*=\s*True'
+    regex: '(?i)\bDEBUG\s*=\s*True'
+    path_patterns:
+      - '**/settings.py'
+      - '**/settings/**/*.py'
+      - '**/*settings*.py'
     language: python
     severity: warning
     category: insecure_pattern
@@ -94,7 +101,7 @@ patterns:
 
   - name: SQLAlchemy Raw Text with Format
     rule_id: PY_SQLA_RAW
-    regex: '(?i)text\s*\(\s*f?["''].*(?:SELECT|INSERT|UPDATE|DELETE)'
+    regex: '(?i)\btext\s*\(\s*f["''].*(?:SELECT|INSERT|UPDATE|DELETE)'
     language: python
     severity: error
     category: insecure_pattern
@@ -122,13 +129,14 @@ patterns:
   - name: Exec Execution
     rule_id: PY_EXEC
     regex: '(?i)\bexec\s*\('
+    exclude_pattern: '\.\s*exec\s*\('
     language: python
     severity: error
     category: insecure_pattern
 
   - name: Insecure Temp File
     rule_id: PY_TEMPFILE_INSECURE
-    regex: '(?i)tempfile\.mk(s?temp|d?temp)\s*\('
+    regex: '(?i)tempfile\.mktemp\s*\('
     language: python
     severity: warning
     category: insecure_pattern
