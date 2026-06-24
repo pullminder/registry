@@ -144,7 +144,7 @@ packs:
     description: Detects dependency manifest and lockfile changes
     default: true
     author: pullminder
-    sha256: 4a4ca2e8990758212f11ffd832e80dbe146da2fa4f3bbc3bc259adf42dc15044
+    sha256: d69127932182c8973487700e63000ab5ff9880c83e7e551f212da5cb106ad9fc
 
   - slug: test-conventions
     name: Test Conventions
