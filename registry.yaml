@@ -289,7 +289,7 @@ packs:
     description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
     default: false
     author: pullminder
-    sha256: 194897f42f29032770776b318e306d48826e899d676979de4dc851ec6435a319
+    sha256: 9897efaa06b182885145739a839935e06bc6cfee801f5fcfd737b8339abf3756
 
   - slug: owasp-mapping
     name: OWASP Top 10 Mapping
