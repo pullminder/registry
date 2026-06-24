@@ -49,7 +49,7 @@ patterns:
 
   - name: PII field written to logs
     rule_id: PII_FIELD_LOG
-    regex: '(?i)(?:log|print|console|logger|Logger)\s*[\.(].*(?:ssn|social_security|date_of_birth|dob|passport|driver.?license|national_id)'
+    regex: '(?i)(?:log|print|console|logger|Logger)\s*[\.(].*\b(?:ssn|social_security|date_of_birth|dob|passport|driver.?license|national_id)\b'
     language: "*"
     severity: error
     category: insecure_pattern
