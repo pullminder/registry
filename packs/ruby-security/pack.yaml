@@ -76,6 +76,7 @@ patterns:
     language: ruby
     severity: warning
     category: insecure_pattern
+    exclude_pattern: '\.html_safe\?'
     fix_templates:
       ruby: 'Use sanitize() or content_tag() instead of html_safe'
 
