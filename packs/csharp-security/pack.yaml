@@ -95,6 +95,21 @@ patterns:
     severity: error
     category: insecure_pattern
 
+  - name: XmlTextReader construction may lead to XXE
+    rule_id: CSHARP_XXE_READER
+    regex: '(?i)new\s+XmlTextReader\s*\('
+    language: csharp
+    severity: warning
+    category: insecure_pattern
+    exclude_pattern: '(?i)DtdProcessing\s*=\s*DtdProcessing\.(?:Ignore|Prohibit)'
+
+  - name: XmlReaderSettings enables DTD processing (XXE risk)
+    rule_id: CSHARP_XXE_SETTINGS
+    regex: '(?i)DtdProcessing\s*=\s*DtdProcessing\.Parse'
+    language: csharp
+    severity: warning
+    category: insecure_pattern
+
 overrides:
   scoring:
     type: scored_tiers
