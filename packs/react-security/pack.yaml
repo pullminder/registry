@@ -2,7 +2,7 @@ slug: react-security
 name: React & JavaScript Security
 kind: detection
 action: warn
-version: 5
+version: 6
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -142,6 +142,19 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
+
+  - name: innerHTML/outerHTML assignment with user-controlled input
+    rule_id: JS_INNERHTML_USERINPUT
+    regex: '(?is)(req\.|event\.target|location\.(?:search|hash)|url\.searchParams|\.value\b|\.query\b|\.params\b|\.body\b|\.files\b|response\.(?:text|data|json)\b|\.responseText\b)[\s\S]*?\.(?:inner|outer)HTML\s*='
+    language: "*"
+    path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+    severity: error
+    category: insecure_pattern
+    window_lines: 3
+    fix_templates:
+      javascript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
+      typescript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
+    exclude_pattern: '(?i)DOMPurify\.sanitize|\bsanitize\s*\(|\bsanitizeHtml\s*\(|\bxss\s*\(|purify\.clean'
 
 overrides:
   scoring:
