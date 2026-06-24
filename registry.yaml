@@ -41,13 +41,13 @@ packs:
     name: Rust Security
     kind: detection
     action: warn
-    version: 5
+    version: 7
     tags: [rust, unsafe, memory, ffi, crypto]
     languages: [rust]
     description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
     default: false
     author: pullminder
-    sha256: faabca3b63d05e17ecbe0f6554b52c4d06ab0e74d69671f22fb8b2c10fc9cef6
+    sha256: 932927de5d7d0e3e2d9d916b6f3a0fdbd8bbd7465a642b8f8b06ef8b4ec13e04
 
   - slug: ruby-security
     name: Ruby Security

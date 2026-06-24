@@ -2,7 +2,7 @@ slug: rust-security
 name: Rust Security
 kind: detection
 action: warn
-version: 5
+version: 7
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -23,7 +23,7 @@ patterns:
 
   - name: Raw SQL string formatting
     rule_id: RUST_SQL_FORMAT
-    regex: '(?i)format!\s*\(.*(?:SELECT|INSERT|UPDATE|DELETE|DROP|ALTER)'
+    regex: '(?i)format!\s*\(.*(?:SELECT|INSERT|UPDATE|DELETE|DROP|ALTER)\b'
     language: rust
     severity: error
     category: insecure_pattern
@@ -44,7 +44,7 @@ patterns:
 
   - name: Unwrap on network/IO result
     rule_id: RUST_UNWRAP_IO
-    regex: '\.(send|recv|connect|read|write|accept)\s*\([^)]*\)\s*\.unwrap\(\)'
+    regex: '(?:\.|::)(send|recv|connect|read_exact|read|write_all|write|flush|shutdown|bind|accept)\s*\([^)]*\)\s*\.unwrap\(\)'
     language: rust
     severity: warning
     category: insecure_pattern
@@ -60,7 +60,7 @@ patterns:
 
   - name: std::mem::transmute usage
     rule_id: RUST_TRANSMUTE
-    regex: '(?i)(mem::transmute|transmute::<)'
+    regex: '(?i)(mem::transmute[^_a-zA-Z0-9]|transmute::<)'
     language: rust
     severity: error
     category: insecure_pattern
@@ -94,7 +94,7 @@ patterns:
 
   - name: Unwrap on parse/conversion
     rule_id: RUST_UNWRAP_PARSE
-    regex: '\.(parse|from_str|try_into|try_from)\s*\([^)]*\)\s*\.unwrap\(\)'
+    regex: '\.(parse|from_str|try_into|try_from)(?:::<[^>]*>)?\s*\([^)]*\)\s*\.unwrap\(\)'
     language: rust
     severity: warning
     category: insecure_pattern
@@ -110,7 +110,7 @@ patterns:
 
   - name: Panic across FFI boundary
     rule_id: RUST_PANIC_IN_FFI
-    regex: '(?i)(panic!|unwrap|expect)\s*\(.*\).*// ?FFI'
+    regex: '(?i)extern\s+"C"\s+fn\s+\w+.*(?:panic!|\.unwrap\(\)|\.expect\()'
     language: rust
     severity: error
     category: insecure_pattern
