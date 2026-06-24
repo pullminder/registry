@@ -70,6 +70,7 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
+    exclude_pattern: '(?i)DOMPurify\.sanitize|\bsanitize\s*\(|\bsanitizeHtml\s*\(|\bxss\s*\(|purify\.clean'
     fix_templates:
       javascript: 'Sanitize user input before setting innerHTML. Use DOMPurify.sanitize(input) or assign to .textContent instead.'
 
