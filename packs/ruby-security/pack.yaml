@@ -98,7 +98,7 @@ patterns:
 
   - name: open-uri SSRF
     rule_id: RUBY_OPEN_URI
-    regex: '(?i)(open|URI\.open|Kernel\.open)\s*\(.*params'
+    regex: '(?i)(URI\.open|Kernel\.open|(?:^|[^.\w])open)\s*\(.*params'
     language: ruby
     severity: error
     category: insecure_pattern
