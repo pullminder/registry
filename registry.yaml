@@ -23,7 +23,7 @@ packs:
     description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
     default: false
     author: pullminder
-    sha256: 84f6139d5d3afe05356576e7f97d4ef8cfd6f82bd39dec5f32d841b95e05e495
+    sha256: 6876cf96044586f9657f4c30a50c81108d868c1e0c9329e29e22ec819046a26a
 
   - slug: python-security
     name: Python Security
@@ -35,7 +35,7 @@ packs:
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
-    sha256: f660ce0d61151b7822eea5fc05c457d3bf93029bc528fe3b247aaafe756e213d
+    sha256: 59434996b6c3510d8965ad8d62cc1d383e2f1397751c3f19a8b6956fc9c142c8
 
   - slug: rust-security
     name: Rust Security

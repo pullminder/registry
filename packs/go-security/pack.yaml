@@ -123,7 +123,8 @@ patterns:
     severity: warning
     category: insecure_pattern
     exclude_pattern: '(?i)(errgroup|WaitGroup|wg\.Add|wg\.Done|\.Go\(|done\s*<-|context\.WithCancel|context\.WithTimeout)'
-    suggestion: "Ensure goroutine lifecycle is managed via WaitGroup, errgroup.Go(), or a done channel to prevent resource leaks"
+    fix_templates:
+      go: "Ensure goroutine lifecycle is managed via WaitGroup, errgroup.Go(), or a done channel to prevent resource leaks"
 
   - name: Unchecked database call error
     rule_id: GO_UNCHECKED_ERR_DB
@@ -132,7 +133,8 @@ patterns:
     severity: warning
     category: insecure_pattern
     exclude_pattern: '^\s*\w+\s*[:=]|\bdefer\b|\breturn\b'
-    suggestion: "Capture and check the error returned by database calls"
+    fix_templates:
+      go: "Capture and check the error returned by database calls"
 
   - name: Unchecked filesystem/IO error
     rule_id: GO_UNCHECKED_ERR_IO
@@ -140,7 +142,8 @@ patterns:
     language: go
     severity: warning
     category: insecure_pattern
-    suggestion: "Always check errors from filesystem and I/O operations to detect permission failures or partial writes"
+    fix_templates:
+      go: "Always check errors from filesystem and I/O operations to detect permission failures or partial writes"
 
 overrides:
   scoring:

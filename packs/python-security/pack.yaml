@@ -35,7 +35,8 @@ patterns:
     severity: error
     category: insecure_pattern
     exclude_pattern: 'Loader\s*=\s*yaml\.(Safe|Full|Base)Loader'
-    suggestion: "Use yaml.safe_load() instead of yaml.load()"
+    fix_templates:
+      python: "Use yaml.safe_load() instead of yaml.load()"
 
   - name: OS System Command
     rule_id: PY_OS_SYSTEM
@@ -47,7 +48,6 @@ patterns:
   - name: Eval Execution
     rule_id: PY_EVAL
     regex: '(?i)\beval\s*\('
-    exclude_pattern: '\.\s*eval\s*\('
     language: python
     severity: error
     category: insecure_pattern
@@ -65,21 +65,17 @@ patterns:
   - name: Weak Hash for Passwords
     rule_id: PY_WEAK_HASH
     regex: '(?i)hashlib\.(md5|sha1)\s*\('
-    exclude_pattern: '(?i)\b(?:etag|checksum|fingerprint|cache_key|file_hash|content_hash|usedforsecurity\s*=\s*False)\b'
     language: python
     severity: info
     category: insecure_pattern
     exclude_pattern: '(?i)\b(?:etag|checksum|fingerprint|cache_key|file_hash|content_hash|usedforsecurity\s*=\s*False)\b'
-    suggestion: "Use bcrypt or argon2 for password hashing"
+    fix_templates:
+      python: "Use bcrypt or argon2 for password hashing"
 
   - name: Django DEBUG=True
     rule_id: PY_DJANGO_DEBUG
     regex: '(?i)\bDEBUG\s*=\s*True'
     language: python
-    path_patterns:
-      - '**/settings.py'
-      - '**/settings/**/*.py'
-      - '**/*settings*.py'
     severity: warning
     category: insecure_pattern
     path_patterns:
@@ -109,7 +105,8 @@ patterns:
     language: python
     severity: error
     category: insecure_pattern
-    suggestion: "Use parameterized queries: text(\"SELECT * FROM t WHERE id = :id\").bindparams(id=value)"
+    fix_templates:
+      python: "Use parameterized queries: text(\"SELECT * FROM t WHERE id = :id\").bindparams(id=value)"
 
   - name: Assert for Security Checks
     rule_id: PY_ASSERT_SECURITY
@@ -132,7 +129,6 @@ patterns:
   - name: Exec Execution
     rule_id: PY_EXEC
     regex: '(?i)\bexec\s*\('
-    exclude_pattern: '\.\s*exec\s*\('
     language: python
     severity: error
     category: insecure_pattern
@@ -144,7 +140,8 @@ patterns:
     language: python
     severity: warning
     category: insecure_pattern
-    suggestion: "Use tempfile.NamedTemporaryFile() or tempfile.mkstemp() with proper permissions"
+    fix_templates:
+      python: "Use tempfile.NamedTemporaryFile() or tempfile.mkstemp() with proper permissions"
 
   - name: Flask Debug Mode
     rule_id: PY_FLASK_DEBUG
