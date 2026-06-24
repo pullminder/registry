@@ -35,7 +35,7 @@ packs:
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
-    sha256: 59434996b6c3510d8965ad8d62cc1d383e2f1397751c3f19a8b6956fc9c142c8
+    sha256: 208f47b844fac9093735a033c7e75b002ce882b44c8e88cd8a0536d17f9e2f75
 
   - slug: rust-security
     name: Rust Security
