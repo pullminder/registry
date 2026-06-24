@@ -45,6 +45,7 @@ patterns:
   - name: Cross-Site Scripting (XSS)
     rule_id: PHP_XSS
     regex: '(?i)\becho\s+.*\$_(GET|POST|REQUEST|COOKIE)'
+    exclude_pattern: '(?i)\bhtmlspecialchars\b|\bhtmlentities\b|\bstrip_tags\b|\bintval\b|\bfloatval\b|\bfilter_input\b|\bfilter_var\b'
     language: php
     severity: error
     category: insecure_pattern
