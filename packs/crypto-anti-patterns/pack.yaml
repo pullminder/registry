@@ -32,7 +32,7 @@ patterns:
 
   - name: ECB mode usage
     rule_id: CRYPTO_ECB_MODE
-    regex: '(?i)(?:["\x{27}](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|mode:\s*["\x{27}]?ecb)'
+    regex: '(?i)(?:["\x{27}](?:AES|DES)/ECB|ECB_MODE|MODE_ECB|["\x{27}]?mode["\x{27}]?\s*[:=]\s*["\x{27}]?ecb)'
     language: "*"
     severity: error
     category: insecure_pattern
