@@ -1,11 +1,11 @@
 schema_version: 1
-version: 5
+version: 6
 packs:
   - slug: secrets
     name: Secrets Detection
     kind: detection
     action: block
-    version: 8
+    version: 9
     tags: [secrets, owasp, credentials]
     languages: ["*"]
     description: Detects hardcoded secrets, API keys, tokens, and connection strings
@@ -17,7 +17,7 @@ packs:
     name: Go Security
     kind: detection
     action: warn
-    version: 4
+    version: 5
     tags: [go, injection, crypto, tls]
     languages: [go]
     description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
@@ -29,7 +29,7 @@ packs:
     name: Python Security
     kind: detection
     action: warn
-    version: 5
+    version: 6
     tags: [python, injection, deserialization, django, flask]
     languages: [python]
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
