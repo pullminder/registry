@@ -30,7 +30,7 @@ patterns:
 
   - name: Unsafe Deserialization
     rule_id: PY_UNSAFE_DESER
-    regex: '(?i)(pickle\.loads?|yaml\.load)\s*\('
+    regex: '(?i)(pickle\.loads?|yaml\.load(?:_all)?)\s*\('
     exclude_pattern: 'Loader\s*=\s*yaml\.(Safe|Full|Base)Loader'
     language: python
     severity: error
