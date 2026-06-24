@@ -3,7 +3,7 @@ name: License Risk Detection
 schema_version: 1
 kind: detection
 action: warn
-version: 1
+version: 2
 author: pullminder
 max_weight: 10
 scoring:
@@ -42,8 +42,9 @@ patterns:
 
   - name: License file addition
     rule_id: LICENSE_FILE_CHANGE
-    regex: '(?i)^(?:LICEN[CS]E|COPYING|NOTICE)(?:\.(?:md|txt|rst))?$'
+    regex: '.*'
     language: "*"
+    path_patterns: ["**/LICEN[CS]E*", "**/COPYING*", "**/NOTICE*"]
     severity: warning
     category: insecure_pattern
 
