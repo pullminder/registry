@@ -2,7 +2,7 @@ slug: python-security
 name: Python Security
 kind: detection
 action: warn
-version: 6
+version: 11
 schema_version: 1
 author: pullminder
 max_weight: 10

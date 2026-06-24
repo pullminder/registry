@@ -29,13 +29,13 @@ packs:
     name: Python Security
     kind: detection
     action: warn
-    version: 6
+    version: 11
     tags: [python, injection, deserialization, django, flask]
     languages: [python]
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
-    sha256: 2e3b8895630a7585ec3fafd44ad53bc0871cbffa0cc3c874fd13d6b3c9666895
+    sha256: ce125616a28a9a3741d23039ac01e256ab2f890e2cec81c04d55296ff86f16b9
 
   - slug: rust-security
     name: Rust Security
