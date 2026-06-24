@@ -11,7 +11,7 @@ packs:
     description: Detects hardcoded secrets, API keys, tokens, and connection strings
     default: true
     author: pullminder
-    sha256: 51fb5d53b606653b6683c7bd3fa6778b8be987fe8c61fa70311421fecd2ae69f
+    sha256: 69bef0f928c83d5e04eab7bbcd57278a90f611d7fb522c52c21dfc5f2890734c
 
   - slug: go-security
     name: Go Security
@@ -23,7 +23,7 @@ packs:
     description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
     default: false
     author: pullminder
-    sha256: 88aaf57336bfabea071be9d88c8f26e0dcb2b727a3532698f826b1d67ab6af62
+    sha256: 99264b1dcc40ca4e3cef26c81944539315392f161b2c2b88e85258e67d450154
 
   - slug: python-security
     name: Python Security
@@ -35,7 +35,7 @@ packs:
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
-    sha256: 305cf158cadd66908fa90b7b576431f3a37ae8fafd847c230a885493e8c814aa
+    sha256: f7e6cfe171b016a035ed69b876f746dda4c8af4484e1c8930e4514d8a6c15416
 
   - slug: rust-security
     name: Rust Security
