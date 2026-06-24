@@ -31,10 +31,10 @@ patterns:
   - name: Unsafe Deserialization
     rule_id: PY_UNSAFE_DESER
     regex: '(?i)(pickle\.loads?|yaml\.load(?:_all)?)\s*\('
-    exclude_pattern: 'Loader\s*=\s*yaml\.(Safe|Full|Base)Loader'
     language: python
     severity: error
     category: insecure_pattern
+    exclude_pattern: 'Loader\s*=\s*yaml\.(Safe|Full|Base)Loader'
     fix_templates:
       python: "Use yaml.safe_load() instead of yaml.load()"
 
@@ -48,10 +48,10 @@ patterns:
   - name: Eval Execution
     rule_id: PY_EVAL
     regex: '(?i)\beval\s*\('
-    exclude_pattern: '\.\s*eval\s*\('
     language: python
     severity: error
     category: insecure_pattern
+    exclude_pattern: '\.\s*eval\s*\('
 
   - name: Hardcoded Credentials
     rule_id: PY_HARDCODED_CREDS
@@ -65,10 +65,10 @@ patterns:
   - name: Weak Hash for Passwords
     rule_id: PY_WEAK_HASH
     regex: '(?i)hashlib\.(md5|sha1)\s*\('
-    exclude_pattern: '(?i)\b(?:etag|checksum|fingerprint|cache_key|file_hash|content_hash|usedforsecurity\s*=\s*False)\b'
     language: python
     severity: info
     category: insecure_pattern
+    exclude_pattern: '(?i)\b(?:etag|checksum|fingerprint|cache_key|file_hash|content_hash|usedforsecurity\s*=\s*False)\b'
     fix_templates:
       python: "Use bcrypt or argon2 for password hashing"
 
@@ -129,10 +129,10 @@ patterns:
   - name: Exec Execution
     rule_id: PY_EXEC
     regex: '(?i)\bexec\s*\('
-    exclude_pattern: '\.\s*exec\s*\('
     language: python
     severity: error
     category: insecure_pattern
+    exclude_pattern: '\.\s*exec\s*\('
 
   - name: Insecure Temp File
     rule_id: PY_TEMPFILE_INSECURE
