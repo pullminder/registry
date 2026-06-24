@@ -2,7 +2,7 @@ slug: php-security
 name: PHP Security
 kind: detection
 action: warn
-version: 5
+version: 6
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -37,7 +37,7 @@ patterns:
 
   - name: SQL Injection
     rule_id: PHP_SQL_INJECT
-    regex: '(?i)(mysql_query|mysqli_query|pg_query)\s*\(.*\$_(GET|POST|REQUEST)'
+    regex: '(?i)(mysql_query|mysqli_query|pg_query|\$(?:pdo|db|conn|database|connection|wpdb)->(?:query|exec|execute))\s*\(.*\$_(GET|POST|REQUEST)'
     language: php
     severity: error
     category: insecure_pattern

@@ -1,5 +1,5 @@
 schema_version: 1
-version: 6
+version: 7
 packs:
   - slug: secrets
     name: Secrets Detection
@@ -65,13 +65,13 @@ packs:
     name: PHP Security
     kind: detection
     action: warn
-    version: 5
+    version: 6
     tags: [php, injection, include, xss]
     languages: [php]
     description: PHP-specific security patterns including command injection, file inclusion, and XSS
     default: false
     author: pullminder
-    sha256: b16d0ed1df3b7a54560510ec0656f2c1120e6b1a01b73cfbf9a1d738658b4fe4
+    sha256: 6aa1700014f6e7e63142da58587624aa5c1fcde74d18a96e872a16f415315d18
 
   - slug: react-security
     name: React & JavaScript Security
