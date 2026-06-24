@@ -83,7 +83,7 @@ packs:
     description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
     default: false
     author: pullminder
-    sha256: e4ca5944ee8534eff485f2954068d7b56e55e744a8037134fd09cb2dfb99f61d
+    sha256: d9c18e05ed7f5ecbc3756379d9d1e59361225941d857f8261d19e9639c5717e8
 
   - slug: infra-security
     name: Infrastructure Security

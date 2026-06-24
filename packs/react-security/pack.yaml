@@ -81,7 +81,8 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
-    suggestion: 'Use DOM manipulation methods instead of document.write()'
+    fix_templates:
+      _: 'Use DOM manipulation methods instead of document.write()'
 
   - name: postMessage without origin check
     rule_id: JS_POSTMESSAGE
@@ -90,7 +91,8 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
-    suggestion: 'Always verify event.origin in message handlers'
+    fix_templates:
+      _: 'Always verify event.origin in message handlers'
 
   - name: window.open with user URLs
     rule_id: JS_WINDOW_OPEN
@@ -107,7 +109,8 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
-    suggestion: 'Avoid new Function() - use proper function definitions'
+    fix_templates:
+      _: 'Avoid new Function() - use proper function definitions'
 
   - name: Prototype pollution
     rule_id: JS_PROTO_POLLUTION
@@ -116,7 +119,8 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
-    suggestion: 'Use Object.create(null) or Map instead of plain objects for user data'
+    fix_templates:
+      _: 'Use Object.create(null) or Map instead of plain objects for user data'
 
   - name: localStorage for sensitive data
     rule_id: JS_LOCALSTORAGE_SENSITIVE
@@ -125,7 +129,8 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: warning
     category: insecure_pattern
-    suggestion: 'Use httpOnly cookies instead of localStorage for sensitive tokens'
+    fix_templates:
+      _: 'Use httpOnly cookies instead of localStorage for sensitive tokens'
 
   - name: innerHTML/outerHTML assignment
     rule_id: JS_INNERHTML_ASSIGN
@@ -158,8 +163,6 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
-    window_lines: 3
-    suggestion: 'Sanitize user-controlled data with DOMPurify.sanitize() before assigning to innerHTML/outerHTML to prevent DOM XSS.'
     fix_templates:
       javascript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
       typescript: 'Sanitize user input with DOMPurify.sanitize() before assigning to innerHTML.'
