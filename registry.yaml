@@ -286,7 +286,7 @@ packs:
     version: 2
     tags: [license, compliance, copyleft, legal]
     languages: ["*"]
-    description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests
+    description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests and license file additions
     default: false
     author: pullminder
     sha256: eab675d7b3e998776d37278958063566bcd81e76028d8d358f2587ddac2554ac
