@@ -77,13 +77,13 @@ packs:
     name: React & JavaScript Security
     kind: detection
     action: warn
-    version: 5
+    version: 10
     tags: [react, javascript, xss, dom, prototype]
     languages: [javascript, typescript]
     description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
     default: false
     author: pullminder
-    sha256: 71869e53ad87c93999bb9fb00ffd95ce1d59d93321ff1a7c22f89eeb60ebe65e
+    sha256: bba0b2694bfe16ca9abdbc5bdc0d092e0c959709a691c416763fbd7f00c9084c
 
   - slug: infra-security
     name: Infrastructure Security
