@@ -3,7 +3,7 @@ name: "C# Security"
 schema_version: 1
 kind: detection
 action: warn
-version: 1
+version: 2
 author: pullminder
 max_weight: 10
 scoring:
@@ -14,51 +14,76 @@ scoring:
 patterns:
   - name: SQL injection via SqlCommand string concatenation
     rule_id: CSHARP_SQL_CONCAT
-    regex: '(?i)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|"[^"]*(?:SELECT|INSERT|UPDATE|DELETE|FROM|WHERE|VALUES|JOIN)[^"]*"\s*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: error
     category: insecure_pattern
     fix_templates:
       csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
 
-  - name: BinaryFormatter deserialization
+  - name: Unsafe formatter deserialization
     rule_id: CSHARP_UNSAFE_DESER
-    regex: '(?i)BinaryFormatter\s*\(\s*\)\.Deserialize'
+    regex: '(?i)(?:BinaryFormatter|SoapFormatter|LosFormatter|ObjectStateFormatter|NetDataContractSerializer)\s*\(\s*\)\s*\.(?:Deserialize|ReadObject)\s*\('
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+
+  - name: Non-chained unsafe deserialization call
+    rule_id: CSHARP_UNSAFE_DESER_CALL
+    regex: '(?i)\.Deserialize\s*\('
+    language: csharp
+    severity: critical
+    category: insecure_pattern
+    exclude_pattern: '(?i)(?:JsonSerializer|new\s+(?:Binary|Soap|Los|ObjectState)Formatter).*\.Deserialize'
+
+  - name: Json.NET TypeNameHandling set to All
+    rule_id: CSHARP_TYPENAME_HANDLING
+    regex: '(?i)TypeNameHandling\s*=\s*TypeNameHandling\.All'
     language: csharp
     severity: critical
     category: insecure_pattern
 
   - name: Process.Start with user input
     rule_id: CSHARP_PROCESS_START
-    regex: '(?i)Process\.Start\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:Process\.Start\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|Arguments\s*=\s*.*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: critical
     category: insecure_pattern
 
-  - name: XmlDocument without XmlResolver null
+  - name: XmlDocument construction may lead to XXE
     rule_id: CSHARP_XXE
     regex: '(?i)new\s+XmlDocument\s*\(\s*\)\s*[;{]'
     language: csharp
-    severity: error
+    severity: warning
     category: insecure_pattern
+    exclude_pattern: '(?i)XmlResolver\s*=\s*null'
 
-  - name: Weak cryptographic hash for passwords
+  - name: Weak cryptographic hash (MD5/SHA1) -- review for security-sensitive use
     rule_id: CSHARP_WEAK_CRYPTO
     regex: '(?i)(?:MD5|SHA1)\.(?:Create|ComputeHash)'
     language: csharp
-    severity: warning
+    severity: info
     category: insecure_pattern
+    exclude_pattern: '(?i)(?:etag|checksum|dedup|fingerprint)'
 
   - name: Hardcoded connection string
     rule_id: CSHARP_HARDCODED_CONN
     regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:Server|Data Source|Host).*["\x{27}]'
     language: csharp
     severity: error
+    category: insecure_pattern
+    exclude_pattern: '(?i)(?:Password|Pwd|User[ _]?Id|UID)'
+
+  - name: Connection string with embedded credentials
+    rule_id: CSHARP_HARDCODED_CONN_CREDENTIALS
+    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:(?:Server|Data Source|Host).*?(?:Password|Pwd|User[ _]?Id|UID)|(?:Password|Pwd|User[ _]?Id|UID).*?(?:Server|Data Source|Host)).*["\x{27}]'
+    language: csharp
+    severity: error
     category: secret
 
   - name: LDAP injection via string concatenation
     rule_id: CSHARP_LDAP_INJECT
-    regex: '(?i)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|"\([a-z][\w-]*=[^"]*"\s*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: error
     category: insecure_pattern
