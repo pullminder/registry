@@ -75,13 +75,13 @@ patterns:
   - name: Django DEBUG=True
     rule_id: PY_DJANGO_DEBUG
     regex: '(?i)\bDEBUG\s*=\s*True'
+    language: python
+    severity: warning
+    category: insecure_pattern
     path_patterns:
       - '**/settings.py'
       - '**/settings/**/*.py'
       - '**/*settings*.py'
-    language: python
-    severity: warning
-    category: insecure_pattern
 
   - name: Django SECRET_KEY in Settings
     rule_id: PY_DJANGO_SECRET

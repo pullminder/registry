@@ -35,7 +35,7 @@ packs:
     description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
     default: false
     author: pullminder
-    sha256: f7e6cfe171b016a035ed69b876f746dda4c8af4484e1c8930e4514d8a6c15416
+    sha256: d78353d4b3402f7f50520ed4d218d77dd62ebc9e7ee20b136bf00652694efc78
 
   - slug: rust-security
     name: Rust Security
@@ -205,7 +205,7 @@ packs:
     description: "C#-specific security patterns including SqlCommand injection, unsafe deserialization, XXE, weak crypto, and hardcoded credentials"
     default: false
     author: pullminder
-    sha256: 5b4253c6af786dd6a79b3c6bd89cf9eaaac470019e8476a0a487e084f0ce8e92
+    sha256: 7083f62d10e4bf78ddc8cf515811f388f703a666f0231c4558756e11bb0334f2
 
   - slug: kotlin-security
     name: Kotlin Security
