@@ -65,8 +65,6 @@ patterns:
     severity: warning
     category: insecure_pattern
     exclude_pattern: '(?i)XmlResolver\s*=\s*null'
-    fix_templates:
-      csharp: 'Set XmlResolver = null explicitly, or use XmlReader.Create with XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }.'
 
   - name: Weak cryptographic hash (MD5/SHA1) -- review for security-sensitive use
     rule_id: CSHARP_WEAK_CRYPTO
