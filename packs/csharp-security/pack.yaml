@@ -14,7 +14,7 @@ scoring:
 patterns:
   - name: SQL injection via SqlCommand string concatenation
     rule_id: CSHARP_SQL_CONCAT
-    regex: '(?is)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|"[^"]*(?:SELECT|INSERT|UPDATE|DELETE|FROM|WHERE|VALUES|JOIN)[^"]*"\s*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: error
     category: insecure_pattern
@@ -51,7 +51,7 @@ patterns:
 
   - name: Process.Start with user input
     rule_id: CSHARP_PROCESS_START
-    regex: '(?is)(?:Process\.Start\s*\(.*|Arguments\s*=.*)\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:Process\.Start\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|Arguments\s*=\s*.*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: critical
     category: insecure_pattern
@@ -97,7 +97,7 @@ patterns:
 
   - name: LDAP injection via string concatenation
     rule_id: CSHARP_LDAP_INJECT
-    regex: '(?is)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
+    regex: '(?i)(?:(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)|"\([a-z][\w-]*=[^"]*"\s*\+\s*(?:request|input|param|user|args|query|model|form|Request))'
     language: csharp
     severity: error
     category: insecure_pattern

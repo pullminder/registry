@@ -2,7 +2,7 @@ slug: react-security
 name: React & JavaScript Security
 kind: detection
 action: warn
-version: 5
+version: 6
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -27,6 +27,7 @@ patterns:
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error
     category: insecure_pattern
+    exclude_pattern: '(?i)DOMPurify\.sanitize|\bsanitize\s*\(|\bsanitizeHtml\s*\(|\bxss\s*\(|purify\.clean'
 
   - name: Use of eval()
     rule_id: JS_EVAL

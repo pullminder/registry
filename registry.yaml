@@ -77,13 +77,13 @@ packs:
     name: React & JavaScript Security
     kind: detection
     action: warn
-    version: 5
+    version: 6
     tags: [react, javascript, xss, dom, prototype]
     languages: [javascript, typescript]
     description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
     default: false
     author: pullminder
-    sha256: 71869e53ad87c93999bb9fb00ffd95ce1d59d93321ff1a7c22f89eeb60ebe65e
+    sha256: 97dfb6670193d3bf39a9c97be30030b8d50ddde717777371a367f05123d32d52
 
   - slug: infra-security
     name: Infrastructure Security
@@ -205,7 +205,7 @@ packs:
     description: "C#-specific security patterns including SqlCommand injection, unsafe deserialization, XXE, weak crypto, and hardcoded credentials"
     default: false
     author: pullminder
-    sha256: 747c3958183072a44b684e047c5f44a90165bb6a5c27413eb5198afd11add6e0
+    sha256: a758e0800cedb242673e9b16c243d3b1fa1db49fb599640f57dd60b91d7629f5
 
   - slug: kotlin-security
     name: Kotlin Security
@@ -247,13 +247,13 @@ packs:
     name: Cryptographic Anti-Patterns
     kind: detection
     action: warn
-    version: 1
+    version: 2
     tags: [crypto, encryption, hashing, security]
     languages: ["*"]
     description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
     default: false
     author: pullminder
-    sha256: 93a6208711c268108d1baebc56aca7690ead8418f46abe478aea91eaef98e182
+    sha256: 68643819fdc46bd873f01503f7c0728f875718338415204944cefed836d431a8
 
   - slug: pii-leakage
     name: PII Leakage Detection
