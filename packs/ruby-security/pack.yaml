@@ -2,7 +2,7 @@ slug: ruby-security
 name: Ruby Security
 kind: detection
 action: warn
-version: 6
+version: 7
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -42,7 +42,7 @@ patterns:
 
   - name: SQL injection via interpolation
     rule_id: RUBY_SQL_INJECT
-    regex: '(?i)(where|find_by_sql|execute)\s*[\(\[]?\s*["''].*#\{'
+    regex: '(?i)\b(where|having)\s*[\(\[]?\s*["''].*#\{'
     language: ruby
     severity: error
     category: insecure_pattern
@@ -120,7 +120,7 @@ patterns:
     language: ruby
     severity: warning
     category: insecure_pattern
-    exclude_pattern: '^\s*#|params:\s'
+    exclude_pattern: 'params:\s'
     fix_templates:
       ruby: 'Validate redirect URLs against allowlist'
 

@@ -53,13 +53,13 @@ packs:
     name: Ruby Security
     kind: detection
     action: warn
-    version: 6
+    version: 7
     tags: [ruby, injection, eval, rails]
     languages: [ruby]
     description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
     default: false
     author: pullminder
-    sha256: 46a51db58bf642a9ce68f9babfedea0c403e20520628267bb4875f8cc5a144f2
+    sha256: 79f35c1d3b2847c63d45e0fbc0b5725559368cf230c98325baef3ecb307957ec
 
   - slug: php-security
     name: PHP Security
