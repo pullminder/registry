@@ -15,7 +15,7 @@ packs:
   description: Detects hardcoded secrets, API keys, tokens, and connection strings
   default: true
   author: pullminder
-  sha256: 69bef0f928c83d5e04eab7bbcd57278a90f611d7fb522c52c21dfc5f2890734c
+  sha256: 7c427bea34e53e0349ae0266843a4327636c5e1772f2afe59410b96eeaad1223
 - slug: go-security
   name: Go Security
   kind: detection
@@ -28,11 +28,10 @@ packs:
   - tls
   languages:
   - go
-  description: Go-specific security patterns including SQL injection, command injection,
-    TLS, and unsafe usage
+  description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
   default: false
   author: pullminder
-  sha256: 6876cf96044586f9657f4c30a50c81108d868c1e0c9329e29e22ec819046a26a
+  sha256: 35255267ed2728985ce46d0bcc6b7275b8dae25110188fc138c003260c2076e5
 - slug: python-security
   name: Python Security
   kind: detection
@@ -46,11 +45,10 @@ packs:
   - flask
   languages:
   - python
-  description: Python-specific security patterns including injection, deserialization,
-    and framework misconfigurations
+  description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
   default: false
   author: pullminder
-  sha256: 208f47b844fac9093735a033c7e75b002ce882b44c8e88cd8a0536d17f9e2f75
+  sha256: 7debafcc685fece7338c2d094b039afdd5af1f31e2dbb203a338ce20d3c19ada
 - slug: rust-security
   name: Rust Security
   kind: detection
@@ -64,8 +62,7 @@ packs:
   - crypto
   languages:
   - rust
-  description: Rust-specific security patterns including unsafe blocks, FFI boundaries,
-    and deprecated crypto
+  description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
   default: false
   author: pullminder
   sha256: d4723dee62d239c10ce00a3a5a8fa3d952f12683134a8ee113754677a899cf34
@@ -81,11 +78,10 @@ packs:
   - rails
   languages:
   - ruby
-  description: Ruby-specific security patterns including eval injection, mass assignment,
-    and Rails vulnerabilities
+  description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
   default: false
   author: pullminder
-  sha256: 942e7bbbdd273f8e3e877039a09470210eb952130872d198b36f35514ac7a1b0
+  sha256: fcb4b023b437794b439c6d43a2736b747e57aa3e899f901e86a9b5e604554504
 - slug: php-security
   name: PHP Security
   kind: detection
@@ -98,11 +94,10 @@ packs:
   - xss
   languages:
   - php
-  description: PHP-specific security patterns including command injection, file inclusion,
-    and XSS
+  description: PHP-specific security patterns including command injection, file inclusion, and XSS
   default: false
   author: pullminder
-  sha256: 6aa1700014f6e7e63142da58587624aa5c1fcde74d18a96e872a16f415315d18
+  sha256: 87aefd8cf4c8b5173756c063527b720a9342b1cde4fcb6f0036051132d39f731
 - slug: react-security
   name: React & JavaScript Security
   kind: detection
@@ -117,11 +112,10 @@ packs:
   languages:
   - javascript
   - typescript
-  description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect
-    patterns
+  description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
   default: false
   author: pullminder
-  sha256: d9c18e05ed7f5ecbc3756379d9d1e59361225941d857f8261d19e9639c5717e8
+  sha256: 062dd4a2fb1aa6c704d269f96f62df1606adf3160c320dd929e792cfe179ae88
 - slug: infra-security
   name: Infrastructure Security
   kind: detection
@@ -164,8 +158,7 @@ packs:
   - detection
   languages:
   - '*'
-  description: Detects AI-generated code via co-author trailers, branch patterns,
-    and tool files. Runs on the Pullminder platform only.
+  description: Detects AI-generated code via co-author trailers, branch patterns, and tool files. Runs on the Pullminder platform only.
   default: false
   server_only: true
   author: pullminder
@@ -210,8 +203,7 @@ packs:
   - quality
   languages:
   - '*'
-  description: Test gap detection with configurable source dirs, test patterns, and
-    coverage thresholds
+  description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
   default: true
   author: pullminder
   sha256: 82adb120df939925bb2316f143d0f7a7b3c01535324585a26560030562c88800
@@ -241,8 +233,7 @@ packs:
   - review
   languages:
   - '*'
-  description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs
-    on the Pullminder platform only.
+  description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs on the Pullminder platform only.
   default: false
   server_only: true
   author: pullminder
@@ -275,11 +266,10 @@ packs:
   - xss
   languages:
   - csharp
-  description: C#-specific security patterns including SqlCommand injection, unsafe
-    deserialization, XXE, weak crypto, and hardcoded credentials
+  description: C#-specific security patterns including SqlCommand injection, unsafe deserialization, XXE, weak crypto, and hardcoded credentials
   default: false
   author: pullminder
-  sha256: f88bbc5773f0131df93ff0e0bb37d2ab346dac707e816a72cb4d69a36fb86b47
+  sha256: adec7f402460c7e4997251e2611b57cea30162f9c047b8c3b0a60c8e4e88ce23
 - slug: kotlin-security
   name: Kotlin Security
   kind: detection
@@ -292,11 +282,10 @@ packs:
   - webview
   languages:
   - kotlin
-  description: Kotlin/Android security patterns including WebView, SharedPreferences,
-    exports
+  description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
   default: false
   author: pullminder
-  sha256: fd96078ec3620fa8fd7036fb2b568d4a24542a8e604b01a2a0b0f75bc6e9cdd9
+  sha256: e55619ce1cfca8ac23ec4bebeaa23f618eeada720e0a270c3f0087b396ddaec8
 - slug: swift-security
   name: Swift Security
   kind: detection
@@ -309,11 +298,10 @@ packs:
   - keychain
   languages:
   - swift
-  description: Swift/iOS security patterns including ATS bypass, keychain, biometric
-    auth
+  description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
   default: false
   author: pullminder
-  sha256: 083e85bae64186d3234f4a05bba3f6a2cf06f1118f03f52611098c7cb6e9df3d
+  sha256: ca454dcb418096bedb5e23bc03f6f794ecd93b7a0360173e1c54a9ebba132dfd
 - slug: shell-security
   name: Shell Security
   kind: detection
@@ -345,7 +333,7 @@ packs:
   description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
   default: false
   author: pullminder
-  sha256: 68643819fdc46bd873f01503f7c0728f875718338415204944cefed836d431a8
+  sha256: 856d0435c65b160f78dba1205bad1c5121a9d5c9feb4198fd79a883aa4bd0885
 - slug: pii-leakage
   name: PII Leakage Detection
   kind: detection
@@ -358,11 +346,10 @@ packs:
   - logging
   languages:
   - '*'
-  description: Detects PII (SSN, credit cards, emails, phones) in logging and output
-    contexts
+  description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
   default: false
   author: pullminder
-  sha256: 5eddb4fb222201ef72ef2bd27998ac17a01d73936b84b92431b75a77b1d3d1b1
+  sha256: e37507b82c32404b5b68c5d811550794a31a4ac75bc1dae70373a1796a0e545e
 - slug: migration-safety
   name: Migration Safety
   kind: detection
@@ -375,8 +362,7 @@ packs:
   - safety
   languages:
   - '*'
-  description: Detects dangerous SQL migration patterns (DROP TABLE, type changes,
-    missing defaults)
+  description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
   default: false
   author: pullminder
   sha256: d3932f459bb6891efa0bb32e4d1c6a3f76eda95320d2bbbb7ac558771708cbbf
@@ -392,8 +378,7 @@ packs:
   - legal
   languages:
   - '*'
-  description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency
-    manifests and license file additions
+  description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests and license file additions
   default: false
   author: pullminder
   sha256: eab675d7b3e998776d37278958063566bcd81e76028d8d358f2587ddac2554ac
