@@ -1,304 +1,415 @@
 schema_version: 1
 version: 7
 packs:
-  - slug: secrets
-    name: Secrets Detection
-    kind: detection
-    action: block
-    version: 9
-    tags: [secrets, owasp, credentials]
-    languages: ["*"]
-    description: Detects hardcoded secrets, API keys, tokens, and connection strings
-    default: true
-    author: pullminder
-    sha256: 69bef0f928c83d5e04eab7bbcd57278a90f611d7fb522c52c21dfc5f2890734c
-
-  - slug: go-security
-    name: Go Security
-    kind: detection
-    action: warn
-    version: 5
-    tags: [go, injection, crypto, tls]
-    languages: [go]
-    description: Go-specific security patterns including SQL injection, command injection, TLS, and unsafe usage
-    default: false
-    author: pullminder
-    sha256: 6876cf96044586f9657f4c30a50c81108d868c1e0c9329e29e22ec819046a26a
-
-  - slug: python-security
-    name: Python Security
-    kind: detection
-    action: warn
-    version: 11
-    tags: [python, injection, deserialization, django, flask]
-    languages: [python]
-    description: Python-specific security patterns including injection, deserialization, and framework misconfigurations
-    default: false
-    author: pullminder
-    sha256: 208f47b844fac9093735a033c7e75b002ce882b44c8e88cd8a0536d17f9e2f75
-
-  - slug: rust-security
-    name: Rust Security
-    kind: detection
-    action: warn
-    version: 7
-    tags: [rust, unsafe, memory, ffi, crypto]
-    languages: [rust]
-    description: Rust-specific security patterns including unsafe blocks, FFI boundaries, and deprecated crypto
-    default: false
-    author: pullminder
-    sha256: d4723dee62d239c10ce00a3a5a8fa3d952f12683134a8ee113754677a899cf34
-
-  - slug: ruby-security
-    name: Ruby Security
-    kind: detection
-    action: warn
-    version: 7
-    tags: [ruby, injection, eval, rails]
-    languages: [ruby]
-    description: Ruby-specific security patterns including eval injection, mass assignment, and Rails vulnerabilities
-    default: false
-    author: pullminder
-    sha256: 79f35c1d3b2847c63d45e0fbc0b5725559368cf230c98325baef3ecb307957ec
-
-  - slug: php-security
-    name: PHP Security
-    kind: detection
-    action: warn
-    version: 6
-    tags: [php, injection, include, xss]
-    languages: [php]
-    description: PHP-specific security patterns including command injection, file inclusion, and XSS
-    default: false
-    author: pullminder
-    sha256: 6aa1700014f6e7e63142da58587624aa5c1fcde74d18a96e872a16f415315d18
-
-  - slug: react-security
-    name: React & JavaScript Security
-    kind: detection
-    action: warn
-    version: 9
-    tags: [react, javascript, xss, dom, prototype]
-    languages: [javascript, typescript]
-    description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect patterns
-    default: false
-    author: pullminder
-    sha256: d9c18e05ed7f5ecbc3756379d9d1e59361225941d857f8261d19e9639c5717e8
-
-  - slug: infra-security
-    name: Infrastructure Security
-    kind: detection
-    action: block
-    version: 4
-    tags: [docker, kubernetes, terraform, ci-cd]
-    languages: ["*"]
-    description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
-    default: true
-    author: pullminder
-    sha256: dc6426fee086395b14dda7e5124a4bae99b289ce1b7bbb062aab92ed4b76694c
-
-  - slug: bot-detection
-    name: Bot PR Detection
-    kind: detection
-    action: warn
-    version: 4
-    tags: [bots, automation, dependency-management]
-    languages: ["*"]
-    description: Identifies and adapts analysis for bot-authored PRs
-    default: true
-    author: pullminder
-    sha256: c60bb3ffb5dd1891d3270425720df37ed09ce332bce83bc635dcde388ad2d953
-
-  - slug: ai-detection
-    name: AI Code Detection
-    kind: detection
-    action: warn
-    version: 3
-    tags: [ai, governance, detection]
-    languages: ["*"]
-    description: Detects AI-generated code via co-author trailers, branch patterns, and tool files. Runs on the Pullminder platform only.
-    default: false
-    server_only: true
-    author: pullminder
-    sha256: b464d68f37286e3051145f22772e6f4c2029db4d42d5b5795027f7e5567d710a
-
-  - slug: sensitive-paths
-    name: Sensitive Paths
-    kind: detection
-    action: warn
-    version: 4
-    tags: [governance, paths, review]
-    languages: ["*"]
-    description: Flags modifications to security-critical directories
-    default: true
-    author: pullminder
-    sha256: dfb1d36bf2597f7d3d6dfac0ccde71d8b7a9cbb33c629ba8a221362414c10867
-
-  - slug: dependency-detection
-    name: Dependency Detection
-    kind: detection
-    action: warn
-    version: 5
-    tags: [dependencies, supply-chain]
-    languages: ["*"]
-    description: Detects dependency manifest and lockfile changes
-    default: true
-    author: pullminder
-    sha256: d69127932182c8973487700e63000ab5ff9880c83e7e551f212da5cb106ad9fc
-
-  - slug: test-conventions
-    name: Test Conventions
-    kind: detection
-    action: warn
-    version: 3
-    tags: [testing, coverage, quality]
-    languages: ["*"]
-    description: Test gap detection with configurable source dirs, test patterns, and coverage thresholds
-    default: true
-    author: pullminder
-    sha256: 82adb120df939925bb2316f143d0f7a7b3c01535324585a26560030562c88800
-
-  - slug: review-quality
-    name: Review Quality
-    kind: detection
-    action: warn
-    version: 3
-    tags: [quality, review, thresholds]
-    languages: ["*"]
-    description: Configurable thresholds for diff size and files changed
-    default: true
-    author: pullminder
-    sha256: 1459cbe1abfd566bd4b00c80db726c74d7b2154a03ac99cec4450390431e0130
-
-  - slug: ai-senior-review
-    name: AI Senior Review Required
-    kind: detection
-    action: warn
-    version: 3
-    tags: [ai, governance, review]
-    languages: ["*"]
-    description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs on the Pullminder platform only.
-    default: false
-    server_only: true
-    author: pullminder
-    sha256: 8001b1c51fe5bc7880e3aca9aaaafd51d4a3f19793f821b32d72b7a78c29fb05
-
-  - slug: java-security
-    name: Java Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [java, injection, deserialization, crypto]
-    languages: [java]
-    description: Java-specific security patterns including SQL injection, XXE, deserialization
-    default: false
-    author: pullminder
-    sha256: 1c4f0320c6016d512895aae7012a860f24bf2c4f1387e17d36d58826487f9863
-
-  - slug: csharp-security
-    name: "C# Security"
-    kind: detection
-    action: warn
-    version: 3
-    tags: [csharp, injection, deserialization, xss]
-    languages: [csharp]
-    description: "C#-specific security patterns including SqlCommand injection, unsafe deserialization, XXE, weak crypto, and hardcoded credentials"
-    default: false
-    author: pullminder
-    sha256: f88bbc5773f0131df93ff0e0bb37d2ab346dac707e816a72cb4d69a36fb86b47
-
-  - slug: kotlin-security
-    name: Kotlin Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [kotlin, android, mobile, webview]
-    languages: [kotlin]
-    description: Kotlin/Android security patterns including WebView, SharedPreferences, exports
-    default: false
-    author: pullminder
-    sha256: fd96078ec3620fa8fd7036fb2b568d4a24542a8e604b01a2a0b0f75bc6e9cdd9
-
-  - slug: swift-security
-    name: Swift Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [swift, ios, mobile, keychain]
-    languages: [swift]
-    description: Swift/iOS security patterns including ATS bypass, keychain, biometric auth
-    default: false
-    author: pullminder
-    sha256: c72b1cd59615e1b3940f2d2c09aa2b52d2b3372dacc6542d7bd4cfceeef77bfd
-
-  - slug: shell-security
-    name: Shell Security
-    kind: detection
-    action: warn
-    version: 1
-    tags: [shell, bash, injection, permissions]
-    languages: [shell]
-    description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
-    default: false
-    author: pullminder
-    sha256: 36d41cc1a88e67c5b3f039a2f61a8e9377c3c94ee4dd7c4acdd94240bbea63f5
-
-  - slug: crypto-anti-patterns
-    name: Cryptographic Anti-Patterns
-    kind: detection
-    action: warn
-    version: 2
-    tags: [crypto, encryption, hashing, security]
-    languages: ["*"]
-    description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
-    default: false
-    author: pullminder
-    sha256: 68643819fdc46bd873f01503f7c0728f875718338415204944cefed836d431a8
-
-  - slug: pii-leakage
-    name: PII Leakage Detection
-    kind: detection
-    action: warn
-    version: 1
-    tags: [pii, privacy, compliance, logging]
-    languages: ["*"]
-    description: Detects PII (SSN, credit cards, emails, phones) in logging and output contexts
-    default: false
-    author: pullminder
-    sha256: 5eddb4fb222201ef72ef2bd27998ac17a01d73936b84b92431b75a77b1d3d1b1
-
-  - slug: migration-safety
-    name: Migration Safety
-    kind: detection
-    action: warn
-    version: 2
-    tags: [database, migration, sql, safety]
-    languages: ["*"]
-    description: Detects dangerous SQL migration patterns (DROP TABLE, type changes, missing defaults)
-    default: false
-    author: pullminder
-    sha256: c32fc3b7fa6d9f6a4591d67c443ed09131eae408978bd3f739c14a0632fb3591
-
-  - slug: license-risk
-    name: License Risk Detection
-    kind: detection
-    action: warn
-    version: 2
-    tags: [license, compliance, copyleft, legal]
-    languages: ["*"]
-    description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency manifests and license file additions
-    default: false
-    author: pullminder
-    sha256: eab675d7b3e998776d37278958063566bcd81e76028d8d358f2587ddac2554ac
-
-  - slug: owasp-mapping
-    name: OWASP Top 10 Mapping
-    kind: policy
-    action: warn
-    version: 1
-    tags: [owasp, compliance, security, mapping]
-    languages: ["*"]
-    description: Maps detection rules to OWASP Top 10 categories for compliance reporting
-    default: false
-    author: pullminder
-    sha256: 758970b0a32f0f1479f910b3728868ae77bac5497cceb9348a0eabe9e6113e5f
+- slug: secrets
+  name: Secrets Detection
+  kind: detection
+  action: block
+  version: 9
+  tags:
+  - secrets
+  - owasp
+  - credentials
+  languages:
+  - '*'
+  description: Detects hardcoded secrets, API keys, tokens, and connection strings
+  default: true
+  author: pullminder
+  sha256: 69bef0f928c83d5e04eab7bbcd57278a90f611d7fb522c52c21dfc5f2890734c
+- slug: go-security
+  name: Go Security
+  kind: detection
+  action: warn
+  version: 5
+  tags:
+  - go
+  - injection
+  - crypto
+  - tls
+  languages:
+  - go
+  description: Go-specific security patterns including SQL injection, command injection,
+    TLS, and unsafe usage
+  default: false
+  author: pullminder
+  sha256: 6876cf96044586f9657f4c30a50c81108d868c1e0c9329e29e22ec819046a26a
+- slug: python-security
+  name: Python Security
+  kind: detection
+  action: warn
+  version: 11
+  tags:
+  - python
+  - injection
+  - deserialization
+  - django
+  - flask
+  languages:
+  - python
+  description: Python-specific security patterns including injection, deserialization,
+    and framework misconfigurations
+  default: false
+  author: pullminder
+  sha256: 208f47b844fac9093735a033c7e75b002ce882b44c8e88cd8a0536d17f9e2f75
+- slug: rust-security
+  name: Rust Security
+  kind: detection
+  action: warn
+  version: 7
+  tags:
+  - rust
+  - unsafe
+  - memory
+  - ffi
+  - crypto
+  languages:
+  - rust
+  description: Rust-specific security patterns including unsafe blocks, FFI boundaries,
+    and deprecated crypto
+  default: false
+  author: pullminder
+  sha256: d4723dee62d239c10ce00a3a5a8fa3d952f12683134a8ee113754677a899cf34
+- slug: ruby-security
+  name: Ruby Security
+  kind: detection
+  action: warn
+  version: 8
+  tags:
+  - ruby
+  - injection
+  - eval
+  - rails
+  languages:
+  - ruby
+  description: Ruby-specific security patterns including eval injection, mass assignment,
+    and Rails vulnerabilities
+  default: false
+  author: pullminder
+  sha256: 92e4a5677bf8cee5544ed65c0381deff535a4ca74a49f878ad4ac5d3974aa95b
+- slug: php-security
+  name: PHP Security
+  kind: detection
+  action: warn
+  version: 6
+  tags:
+  - php
+  - injection
+  - include
+  - xss
+  languages:
+  - php
+  description: PHP-specific security patterns including command injection, file inclusion,
+    and XSS
+  default: false
+  author: pullminder
+  sha256: 6aa1700014f6e7e63142da58587624aa5c1fcde74d18a96e872a16f415315d18
+- slug: react-security
+  name: React & JavaScript Security
+  kind: detection
+  action: warn
+  version: 9
+  tags:
+  - react
+  - javascript
+  - xss
+  - dom
+  - prototype
+  languages:
+  - javascript
+  - typescript
+  description: React/JS XSS, DOM manipulation, prototype pollution, and open redirect
+    patterns
+  default: false
+  author: pullminder
+  sha256: d9c18e05ed7f5ecbc3756379d9d1e59361225941d857f8261d19e9639c5717e8
+- slug: infra-security
+  name: Infrastructure Security
+  kind: detection
+  action: block
+  version: 4
+  tags:
+  - docker
+  - kubernetes
+  - terraform
+  - ci-cd
+  languages:
+  - '*'
+  description: CI/CD, Docker, K8s, Terraform, and GitHub Actions security patterns
+  default: true
+  author: pullminder
+  sha256: dc6426fee086395b14dda7e5124a4bae99b289ce1b7bbb062aab92ed4b76694c
+- slug: bot-detection
+  name: Bot PR Detection
+  kind: detection
+  action: warn
+  version: 4
+  tags:
+  - bots
+  - automation
+  - dependency-management
+  languages:
+  - '*'
+  description: Identifies and adapts analysis for bot-authored PRs
+  default: true
+  author: pullminder
+  sha256: c60bb3ffb5dd1891d3270425720df37ed09ce332bce83bc635dcde388ad2d953
+- slug: ai-detection
+  name: AI Code Detection
+  kind: detection
+  action: warn
+  version: 3
+  tags:
+  - ai
+  - governance
+  - detection
+  languages:
+  - '*'
+  description: Detects AI-generated code via co-author trailers, branch patterns,
+    and tool files. Runs on the Pullminder platform only.
+  default: false
+  server_only: true
+  author: pullminder
+  sha256: b464d68f37286e3051145f22772e6f4c2029db4d42d5b5795027f7e5567d710a
+- slug: sensitive-paths
+  name: Sensitive Paths
+  kind: detection
+  action: warn
+  version: 4
+  tags:
+  - governance
+  - paths
+  - review
+  languages:
+  - '*'
+  description: Flags modifications to security-critical directories
+  default: true
+  author: pullminder
+  sha256: dfb1d36bf2597f7d3d6dfac0ccde71d8b7a9cbb33c629ba8a221362414c10867
+- slug: dependency-detection
+  name: Dependency Detection
+  kind: detection
+  action: warn
+  version: 5
+  tags:
+  - dependencies
+  - supply-chain
+  languages:
+  - '*'
+  description: Detects dependency manifest and lockfile changes
+  default: true
+  author: pullminder
+  sha256: d69127932182c8973487700e63000ab5ff9880c83e7e551f212da5cb106ad9fc
+- slug: test-conventions
+  name: Test Conventions
+  kind: detection
+  action: warn
+  version: 3
+  tags:
+  - testing
+  - coverage
+  - quality
+  languages:
+  - '*'
+  description: Test gap detection with configurable source dirs, test patterns, and
+    coverage thresholds
+  default: true
+  author: pullminder
+  sha256: 82adb120df939925bb2316f143d0f7a7b3c01535324585a26560030562c88800
+- slug: review-quality
+  name: Review Quality
+  kind: detection
+  action: warn
+  version: 3
+  tags:
+  - quality
+  - review
+  - thresholds
+  languages:
+  - '*'
+  description: Configurable thresholds for diff size and files changed
+  default: true
+  author: pullminder
+  sha256: 1459cbe1abfd566bd4b00c80db726c74d7b2154a03ac99cec4450390431e0130
+- slug: ai-senior-review
+  name: AI Senior Review Required
+  kind: detection
+  action: warn
+  version: 3
+  tags:
+  - ai
+  - governance
+  - review
+  languages:
+  - '*'
+  description: Requires senior reviewer approval for high-risk AI-generated PRs. Runs
+    on the Pullminder platform only.
+  default: false
+  server_only: true
+  author: pullminder
+  sha256: 8001b1c51fe5bc7880e3aca9aaaafd51d4a3f19793f821b32d72b7a78c29fb05
+- slug: java-security
+  name: Java Security
+  kind: detection
+  action: warn
+  version: 1
+  tags:
+  - java
+  - injection
+  - deserialization
+  - crypto
+  languages:
+  - java
+  description: Java-specific security patterns including SQL injection, XXE, deserialization
+  default: false
+  author: pullminder
+  sha256: 1c4f0320c6016d512895aae7012a860f24bf2c4f1387e17d36d58826487f9863
+- slug: csharp-security
+  name: C# Security
+  kind: detection
+  action: warn
+  version: 3
+  tags:
+  - csharp
+  - injection
+  - deserialization
+  - xss
+  languages:
+  - csharp
+  description: C#-specific security patterns including SqlCommand injection, unsafe
+    deserialization, XXE, weak crypto, and hardcoded credentials
+  default: false
+  author: pullminder
+  sha256: f88bbc5773f0131df93ff0e0bb37d2ab346dac707e816a72cb4d69a36fb86b47
+- slug: kotlin-security
+  name: Kotlin Security
+  kind: detection
+  action: warn
+  version: 1
+  tags:
+  - kotlin
+  - android
+  - mobile
+  - webview
+  languages:
+  - kotlin
+  description: Kotlin/Android security patterns including WebView, SharedPreferences,
+    exports
+  default: false
+  author: pullminder
+  sha256: fd96078ec3620fa8fd7036fb2b568d4a24542a8e604b01a2a0b0f75bc6e9cdd9
+- slug: swift-security
+  name: Swift Security
+  kind: detection
+  action: warn
+  version: 1
+  tags:
+  - swift
+  - ios
+  - mobile
+  - keychain
+  languages:
+  - swift
+  description: Swift/iOS security patterns including ATS bypass, keychain, biometric
+    auth
+  default: false
+  author: pullminder
+  sha256: c72b1cd59615e1b3940f2d2c09aa2b52d2b3372dacc6542d7bd4cfceeef77bfd
+- slug: shell-security
+  name: Shell Security
+  kind: detection
+  action: warn
+  version: 1
+  tags:
+  - shell
+  - bash
+  - injection
+  - permissions
+  languages:
+  - shell
+  description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
+  default: false
+  author: pullminder
+  sha256: 36d41cc1a88e67c5b3f039a2f61a8e9377c3c94ee4dd7c4acdd94240bbea63f5
+- slug: crypto-anti-patterns
+  name: Cryptographic Anti-Patterns
+  kind: detection
+  action: warn
+  version: 2
+  tags:
+  - crypto
+  - encryption
+  - hashing
+  - security
+  languages:
+  - '*'
+  description: Language-agnostic weak crypto detection (MD5, DES, ECB, small keys)
+  default: false
+  author: pullminder
+  sha256: 68643819fdc46bd873f01503f7c0728f875718338415204944cefed836d431a8
+- slug: pii-leakage
+  name: PII Leakage Detection
+  kind: detection
+  action: warn
+  version: 1
+  tags:
+  - pii
+  - privacy
+  - compliance
+  - logging
+  languages:
+  - '*'
+  description: Detects PII (SSN, credit cards, emails, phones) in logging and output
+    contexts
+  default: false
+  author: pullminder
+  sha256: 5eddb4fb222201ef72ef2bd27998ac17a01d73936b84b92431b75a77b1d3d1b1
+- slug: migration-safety
+  name: Migration Safety
+  kind: detection
+  action: warn
+  version: 2
+  tags:
+  - database
+  - migration
+  - sql
+  - safety
+  languages:
+  - '*'
+  description: Detects dangerous SQL migration patterns (DROP TABLE, type changes,
+    missing defaults)
+  default: false
+  author: pullminder
+  sha256: c32fc3b7fa6d9f6a4591d67c443ed09131eae408978bd3f739c14a0632fb3591
+- slug: license-risk
+  name: License Risk Detection
+  kind: detection
+  action: warn
+  version: 2
+  tags:
+  - license
+  - compliance
+  - copyleft
+  - legal
+  languages:
+  - '*'
+  description: Flags copyleft license introductions (GPL, AGPL, SSPL) in dependency
+    manifests and license file additions
+  default: false
+  author: pullminder
+  sha256: eab675d7b3e998776d37278958063566bcd81e76028d8d358f2587ddac2554ac
+- slug: owasp-mapping
+  name: OWASP Top 10 Mapping
+  kind: policy
+  action: warn
+  version: 1
+  tags:
+  - owasp
+  - compliance
+  - security
+  - mapping
+  languages:
+  - '*'
+  description: Maps detection rules to OWASP Top 10 categories for compliance reporting
+  default: false
+  author: pullminder
+  sha256: 758970b0a32f0f1479f910b3728868ae77bac5497cceb9348a0eabe9e6113e5f
