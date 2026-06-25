@@ -1,5 +1,5 @@
 schema_version: 1
-version: 7
+version: 8
 packs:
 - slug: secrets
   name: Secrets Detection
@@ -301,7 +301,7 @@ packs:
   name: Swift Security
   kind: detection
   action: warn
-  version: 1
+  version: 2
   tags:
   - swift
   - ios
@@ -313,6 +313,7 @@ packs:
     auth
   default: false
   author: pullminder
+  sha256: 083e85bae64186d3234f4a05bba3f6a2cf06f1118f03f52611098c7cb6e9df3d
   sha256: c72b1cd59615e1b3940f2d2c09aa2b52d2b3372dacc6542d7bd4cfceeef77bfd
 - slug: shell-security
   name: Shell Security
