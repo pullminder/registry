@@ -31,6 +31,8 @@ paths:
     label: Database migrations
   - pattern: "deploy/"
     label: Deployment
+    exclude_paths:
+      - ".example"
   - pattern: "payments/"
     label: Payments
   - pattern: "crypto/"
