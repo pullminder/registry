@@ -318,7 +318,7 @@ packs:
   name: Shell Security
   kind: detection
   action: warn
-  version: 1
+  version: 2
   tags:
   - shell
   - bash
@@ -329,7 +329,7 @@ packs:
   description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
   default: false
   author: pullminder
-  sha256: 36d41cc1a88e67c5b3f039a2f61a8e9377c3c94ee4dd7c4acdd94240bbea63f5
+  sha256: 30a8ad4b42531be812992602e9aaacbf68221537f4a1dfe015944cf4ee8b4623
 - slug: crypto-anti-patterns
   name: Cryptographic Anti-Patterns
   kind: detection
