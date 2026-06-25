@@ -2,7 +2,7 @@ slug: ruby-security
 name: Ruby Security
 kind: detection
 action: warn
-version: 7
+version: 8
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -127,7 +127,7 @@ patterns:
     language: ruby
     severity: warning
     category: insecure_pattern
-    exclude_pattern: 'params:\s'
+    exclude_pattern: '^\s*#|params:\s'
     fix_templates:
       ruby: 'Validate redirect URLs against allowlist'
 
