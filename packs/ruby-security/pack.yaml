@@ -21,7 +21,14 @@ patterns:
 
   - name: Command injection via interpolation
     rule_id: RUBY_CMD_INJECT
-    regex: '(?i)(system|exec|%x)\s*[\(\[].*#\{'
+    regex: '(?i)(system|exec|%x)\s*[\(\[\{<|!].*#\{'
+    language: ruby
+    severity: error
+    category: insecure_pattern
+
+  - name: Command injection via backtick interpolation
+    rule_id: RUBY_CMD_INJECT_BACKTICK
+    regex: '`[^`]*#\{'
     language: ruby
     severity: error
     category: insecure_pattern
@@ -42,7 +49,7 @@ patterns:
 
   - name: SQL injection via interpolation
     rule_id: RUBY_SQL_INJECT
-    regex: '(?i)\b(where|having)\s*[\(\[]?\s*["''].*#\{'
+    regex: '(?i)(where|find_by_sql|execute)\s*[\(\[]?\s*["''].*#\{'
     language: ruby
     severity: error
     category: insecure_pattern
