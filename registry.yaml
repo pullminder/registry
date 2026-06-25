@@ -1,5 +1,5 @@
 schema_version: 1
-version: 8
+version: 9
 packs:
 - slug: secrets
   name: Secrets Detection
@@ -301,7 +301,7 @@ packs:
   name: Swift Security
   kind: detection
   action: warn
-  version: 2
+  version: 3
   tags:
   - swift
   - ios

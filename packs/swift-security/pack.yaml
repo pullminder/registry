@@ -3,7 +3,7 @@ name: Swift Security
 schema_version: 1
 kind: detection
 action: warn
-version: 2
+version: 3
 author: pullminder
 max_weight: 10
 scoring:
@@ -18,6 +18,7 @@ patterns:
     language: swift
     severity: warning
     category: insecure_pattern
+    suggestion: "Use OSLog with proper log levels and redaction. Sensitive data should never be logged. Consider using a logging wrapper that strips secrets automatically."
 
   - name: App Transport Security bypass
     rule_id: SWIFT_ATS_BYPASS
@@ -28,6 +29,7 @@ patterns:
     window_lines: 2
     severity: error
     category: insecure_pattern
+    suggestion: "Remove NSAllowsArbitraryLoads=true from Info.plist. Use NSAppTransportSecurity exception domains for specific hosts that require HTTP. Consider using HTTPS for all connections."
 
   - name: Insecure keychain access level
     rule_id: SWIFT_KEYCHAIN_ACCESS
@@ -35,6 +37,7 @@ patterns:
     language: swift
     severity: error
     category: insecure_pattern
+    suggestion: "Use kSecAttrAccessibleWhenUnlocked or kSecAttrAccessibleAfterFirstUnlock instead of Always/AlwaysThisDeviceOnly to restrict keychain access to unlocked states."
 
   - name: Hardcoded staging/dev URL
     rule_id: SWIFT_HARDCODED_URL
@@ -42,6 +45,7 @@ patterns:
     language: swift
     severity: warning
     category: insecure_pattern
+    suggestion: "Use Info.plist environment-specific configuration or xcconfig files for environment URLs. Never hardcode non-production URLs in source."
 
   - name: UIPasteboard data exposure
     rule_id: SWIFT_PASTEBOARD
@@ -49,6 +53,7 @@ patterns:
     language: swift
     severity: warning
     category: insecure_pattern
+    suggestion: "Clear UIPasteboard.general after use with UIPasteboard.general.string = '' or use a custom pasteboard. Sensitive data should not remain on the system clipboard."
 
   - name: Biometric auth without server verification
     rule_id: SWIFT_BIOMETRIC_BYPASS
@@ -56,6 +61,7 @@ patterns:
     language: swift
     severity: critical
     category: insecure_pattern
+    suggestion: "Ensure biometric authentication results are verified against a server. Use LAContext evaluatePolicy and validate the result remotely rather than relying solely on canEvaluatePolicy."
 
 overrides:
   scoring:
