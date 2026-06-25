@@ -44,7 +44,7 @@ patterns:
 
   - name: Raw SQL execution in migration
     rule_id: MIGRATION_RAW_SQL
-    regex: '(?i)(?:execute|exec|run)\s*\(\s*["\x{27}](?:DELETE|TRUNCATE|DROP|ALTER)\b'
+    regex: '(?i)\b(?:execute|exec|run)\s*\(\s*["\x{27}](?:DELETE|TRUNCATE|DROP|ALTER)\b'
     language: "*"
     severity: warning
     category: insecure_pattern

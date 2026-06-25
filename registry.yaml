@@ -379,7 +379,7 @@ packs:
     missing defaults)
   default: false
   author: pullminder
-  sha256: c32fc3b7fa6d9f6a4591d67c443ed09131eae408978bd3f739c14a0632fb3591
+  sha256: d3932f459bb6891efa0bb32e4d1c6a3f76eda95320d2bbbb7ac558771708cbbf
 - slug: license-risk
   name: License Risk Detection
   kind: detection
