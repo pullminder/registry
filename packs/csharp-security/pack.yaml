@@ -1,5 +1,5 @@
 slug: csharp-security
-name: "C# Security"
+name: C# Security
 schema_version: 1
 kind: detection
 action: warn
@@ -7,139 +7,123 @@ version: 2
 author: pullminder
 max_weight: 10
 scoring:
-  - min_findings: 1
-    score: 5
-  - min_findings: 3
-    score: 10
+- min_findings: 1
+  score: 5
+- min_findings: 3
+  score: 10
 patterns:
-  - name: SQL injection via SqlCommand string concatenation
-    rule_id: CSHARP_SQL_CONCAT
-    regex: '(?is)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
-    language: csharp
-    severity: error
-    category: insecure_pattern
-    window_lines: 2
-    fix_templates:
-      csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
-
-  - name: Unsafe formatter deserialization
-    rule_id: CSHARP_UNSAFE_DESER
-    regex: '(?i)(?:BinaryFormatter|SoapFormatter|LosFormatter|ObjectStateFormatter|NetDataContractSerializer)\s*\(\s*\)\s*\.(?:Deserialize|ReadObject)\s*\('
-    language: csharp
-    severity: critical
-    category: insecure_pattern
-    fix_templates:
-      csharp: 'Replace BinaryFormatter with a safe serializer: System.Text.Json.JsonSerializer or XmlSerializer. Never deserialize untrusted data with BinaryFormatter.'
-
-  - name: Non-chained unsafe deserialization call
-    rule_id: CSHARP_UNSAFE_DESER_CALL
-    regex: '(?i)\.Deserialize\s*\('
-    language: csharp
-    severity: critical
-    category: insecure_pattern
-    exclude_pattern: '(?i)(?:JsonSerializer|new\s+(?:Binary|Soap|Los|ObjectState)Formatter).*\.Deserialize'
-    fix_templates:
-      csharp: 'Audit all .Deserialize() call sites. Replace BinaryFormatter, SoapFormatter, LosFormatter, or ObjectStateFormatter usage with System.Text.Json.JsonSerializer or XmlSerializer.'
-
-  - name: Json.NET TypeNameHandling set to All
-    rule_id: CSHARP_TYPENAME_HANDLING
-    regex: '(?i)TypeNameHandling\s*=\s*TypeNameHandling\.All'
-    language: csharp
-    severity: critical
-    category: insecure_pattern
-    fix_templates:
-      csharp: 'Set TypeNameHandling to None (the default). Only use Auto or Objects when deserializing to a known sealed type, never All. Prefer System.Text.Json which does not support TypeNameHandling.'
-
-  - name: Process.Start with user input
-    rule_id: CSHARP_PROCESS_START
-    regex: '(?is)(?:Process\.Start\s*\(.*|Arguments\s*=.*)\+\s*(?:request|input|param|user|args|query|model|form|Request)'
-    language: csharp
-    severity: critical
-    category: insecure_pattern
-    window_lines: 2
-    fix_templates:
-      csharp: 'Validate and whitelist command arguments. Avoid passing user input directly to Process.Start. Use a strict allowlist of permitted commands.'
-
-  - name: XmlDocument construction may lead to XXE
-    rule_id: CSHARP_XXE
-    regex: '(?i)new\s+XmlDocument\s*\(\s*\)\s*[;{]'
-    language: csharp
-    severity: warning
-    category: insecure_pattern
-    exclude_pattern: '(?i)XmlResolver\s*=\s*null'
-    fix_templates:
-      csharp: 'Set XmlResolver = null explicitly, or use XmlReader.Create with XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }.'
-
-  - name: Weak cryptographic hash (MD5/SHA1) -- review for security-sensitive use
-    rule_id: CSHARP_WEAK_CRYPTO
-    regex: '(?i)(?:MD5|SHA1)\.(?:Create|ComputeHash)'
-    language: csharp
-    severity: info
-    category: insecure_pattern
-    exclude_pattern: '(?i)(?:etag|checksum|dedup|fingerprint)'
-    fix_templates:
-      csharp: 'Replace MD5/SHA1 with SHA256 or stronger (SHA-2 family) for security uses. For non-security checksums, this finding may not apply.'
-
-  - name: Hardcoded connection string
-    rule_id: CSHARP_HARDCODED_CONN
-    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:Server|Data Source|Host).*["\x{27}]'
-    language: csharp
-    severity: error
-    category: insecure_pattern
-    exclude_pattern: '(?i)(?:Password|Pwd|User[ _]?Id|UID)'
-    fix_templates:
-      csharp: 'Move connection strings to environment variables or a secrets manager (Azure Key Vault, AWS Secrets Manager). Use IConfiguration.GetConnectionString() instead.'
-
-  - name: Connection string with embedded credentials
-    rule_id: CSHARP_HARDCODED_CONN_CREDENTIALS
-    regex: '(?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:(?:Server|Data Source|Host).*?(?:Password|Pwd|User[ _]?Id|UID)|(?:Password|Pwd|User[ _]?Id|UID).*?(?:Server|Data Source|Host)).*["\x{27}]'
-    language: csharp
-    severity: error
-    category: secret
-    fix_templates:
-      csharp: 'Remove credentials from the connection string literal. Store passwords in environment variables or a secrets manager (Azure Key Vault, AWS Secrets Manager) and inject via IConfiguration.'
-
-  - name: LDAP injection via string concatenation
-    rule_id: CSHARP_LDAP_INJECT
-    regex: '(?is)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)'
-    language: csharp
-    severity: error
-    category: insecure_pattern
-    window_lines: 2
-    fix_templates:
-      csharp: 'Encode user input with an LDAP encoder before including it in filter strings. Consider using library utilities like AntiXss.LdapFilterEncode.'
-
-  - name: Response.Write without encoding
-    rule_id: CSHARP_XSS_RESPONSE
-    regex: '(?i)Response\.Write\s*\(\s*(?:request|input|param|user|args|query|model|form|Request)'
-    language: csharp
-    severity: error
-    category: insecure_pattern
-    fix_templates:
-      csharp: 'HTML-encode output before writing: use HttpUtility.HtmlEncode or Server.HtmlEncode. Prefer returning a View over Response.Write.'
-
-  - name: XmlTextReader construction may lead to XXE
-    rule_id: CSHARP_XXE_READER
-    regex: '(?i)new\s+XmlTextReader\s*\('
-    language: csharp
-    severity: warning
-    category: insecure_pattern
-    exclude_pattern: '(?i)DtdProcessing\s*=\s*DtdProcessing\.(?:Ignore|Prohibit)'
-    fix_templates:
-      csharp: 'Replace XmlTextReader with XmlReader.Create(stream, new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }) to prevent XXE attacks.'
-
-  - name: XmlReaderSettings enables DTD processing (XXE risk)
-    rule_id: CSHARP_XXE_SETTINGS
-    regex: '(?i)DtdProcessing\s*=\s*DtdProcessing\.Parse'
-    language: csharp
-    severity: warning
-    category: insecure_pattern
-    fix_templates:
-      csharp: 'Change DtdProcessing.Parse to DtdProcessing.Ignore or DtdProcessing.Prohibit to prevent XXE attacks via DTD processing.'
-
+- name: SQL injection via SqlCommand string concatenation
+  rule_id: CSHARP_SQL_CONCAT
+  regex: (?is)(?:SqlCommand|SqlDataAdapter)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)
+  language: csharp
+  severity: error
+  category: insecure_pattern
+  fix_templates:
+    csharp: 'Use SqlCommand with @parameters: cmd.Parameters.AddWithValue("@param", value)'
+- name: Unsafe formatter deserialization
+  rule_id: CSHARP_UNSAFE_DESER
+  regex: (?i)(?:BinaryFormatter|SoapFormatter|LosFormatter|ObjectStateFormatter|NetDataContractSerializer)\s*\(\s*\)\s*\.(?:Deserialize|ReadObject)\s*\(
+  language: csharp
+  severity: critical
+  category: insecure_pattern
+  fix_templates:
+    csharp: 'Replace BinaryFormatter with a safe serializer: System.Text.Json.JsonSerializer or XmlSerializer. Never deserialize untrusted data with BinaryFormatter.'
+- name: Non-chained unsafe deserialization call
+  rule_id: CSHARP_UNSAFE_DESER_CALL
+  regex: (?i)\.Deserialize\s*\(
+  language: csharp
+  severity: critical
+  category: insecure_pattern
+  exclude_pattern: (?i)(?:JsonSerializer|new\s+(?:Binary|Soap|Los|ObjectState)Formatter).*\.Deserialize
+  fix_templates:
+    csharp: Audit all .Deserialize() call sites. Replace BinaryFormatter, SoapFormatter, LosFormatter, or ObjectStateFormatter usage with System.Text.Json.JsonSerializer or XmlSerializer.
+- name: Json.NET TypeNameHandling set to All
+  rule_id: CSHARP_TYPENAME_HANDLING
+  regex: (?i)TypeNameHandling\s*=\s*TypeNameHandling\.All
+  language: csharp
+  severity: critical
+  category: insecure_pattern
+  fix_templates:
+    csharp: Set TypeNameHandling to None (the default). Only use Auto or Objects when deserializing to a known sealed type, never All. Prefer System.Text.Json which does not support TypeNameHandling.
+- name: Process.Start with user input
+  rule_id: CSHARP_PROCESS_START
+  regex: (?is)(?:Process\.Start\s*\(.*|Arguments\s*=.*)\+\s*(?:request|input|param|user|args|query|model|form|Request)
+  language: csharp
+  severity: critical
+  category: insecure_pattern
+  fix_templates:
+    csharp: Validate and whitelist command arguments. Avoid passing user input directly to Process.Start. Use a strict allowlist of permitted commands.
+- name: XmlDocument construction may lead to XXE
+  rule_id: CSHARP_XXE
+  regex: (?i)new\s+XmlDocument\s*\(\s*\)\s*[;{]
+  language: csharp
+  severity: warning
+  category: insecure_pattern
+  exclude_pattern: (?i)XmlResolver\s*=\s*null
+  fix_templates:
+    csharp: Set XmlResolver = null explicitly, or use XmlReader.Create with XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }.
+- name: Weak cryptographic hash (MD5/SHA1) -- review for security-sensitive use
+  rule_id: CSHARP_WEAK_CRYPTO
+  regex: (?i)(?:MD5|SHA1)\.(?:Create|ComputeHash)
+  language: csharp
+  severity: info
+  category: insecure_pattern
+  exclude_pattern: (?i)(?:etag|checksum|dedup|fingerprint)
+  fix_templates:
+    csharp: Replace MD5/SHA1 with SHA256 or stronger (SHA-2 family) for security uses. For non-security checksums, this finding may not apply.
+- name: Hardcoded connection string
+  rule_id: CSHARP_HARDCODED_CONN
+  regex: (?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:Server|Data Source|Host).*["\x{27}]
+  language: csharp
+  severity: error
+  category: insecure_pattern
+  exclude_pattern: (?i)(?:Password|Pwd|User[ _]?Id|UID)
+  fix_templates:
+    csharp: Move connection strings to environment variables or a secrets manager (Azure Key Vault, AWS Secrets Manager). Use IConfiguration.GetConnectionString() instead.
+- name: Connection string with embedded credentials
+  rule_id: CSHARP_HARDCODED_CONN_CREDENTIALS
+  regex: (?i)(?:connectionString|ConnectionString)\s*=\s*["\x{27}](?:(?:Server|Data Source|Host).*?(?:Password|Pwd|User[ _]?Id|UID)|(?:Password|Pwd|User[ _]?Id|UID).*?(?:Server|Data Source|Host)).*["\x{27}]
+  language: csharp
+  severity: error
+  category: secret
+  fix_templates:
+    csharp: Remove credentials from the connection string literal. Store passwords in environment variables or a secrets manager (Azure Key Vault, AWS Secrets Manager) and inject via IConfiguration.
+- name: LDAP injection via string concatenation
+  rule_id: CSHARP_LDAP_INJECT
+  regex: (?is)(?:DirectorySearcher|SearchRequest|DirectoryEntry)\s*\(.*\+\s*(?:request|input|param|user|args|query|model|form|Request)
+  language: csharp
+  severity: error
+  category: insecure_pattern
+  fix_templates:
+    csharp: Encode user input with an LDAP encoder before including it in filter strings. Consider using library utilities like AntiXss.LdapFilterEncode.
+- name: Response.Write without encoding
+  rule_id: CSHARP_XSS_RESPONSE
+  regex: (?i)Response\.Write\s*\(\s*(?:request|input|param|user|args|query|model|form|Request)
+  language: csharp
+  severity: error
+  category: insecure_pattern
+  fix_templates:
+    csharp: 'HTML-encode output before writing: use HttpUtility.HtmlEncode or Server.HtmlEncode. Prefer returning a View over Response.Write.'
+- name: XmlTextReader construction may lead to XXE
+  rule_id: CSHARP_XXE_READER
+  regex: (?i)new\s+XmlTextReader\s*\(
+  language: csharp
+  severity: warning
+  category: insecure_pattern
+  exclude_pattern: (?i)DtdProcessing\s*=\s*DtdProcessing\.(?:Ignore|Prohibit)
+  fix_templates:
+    csharp: Replace XmlTextReader with XmlReader.Create(stream, new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }) to prevent XXE attacks.
+- name: XmlReaderSettings enables DTD processing (XXE risk)
+  rule_id: CSHARP_XXE_SETTINGS
+  regex: (?i)DtdProcessing\s*=\s*DtdProcessing\.Parse
+  language: csharp
+  severity: warning
+  category: insecure_pattern
+  fix_templates:
+    csharp: Change DtdProcessing.Parse to DtdProcessing.Ignore or DtdProcessing.Prohibit to prevent XXE attacks via DTD processing.
 overrides:
   scoring:
     type: scored_tiers
-    label: "Scoring Tiers"
-    description: "Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores"
+    label: Scoring Tiers
+    description: Finding count thresholds and their corresponding weight scores; higher finding counts yield higher scores
     default_from: scoring
