@@ -73,7 +73,7 @@ packs:
   name: Ruby Security
   kind: detection
   action: warn
-  version: 8
+  version: 9
   tags:
   - ruby
   - injection
@@ -85,7 +85,7 @@ packs:
     and Rails vulnerabilities
   default: false
   author: pullminder
-  sha256: 92e4a5677bf8cee5544ed65c0381deff535a4ca74a49f878ad4ac5d3974aa95b
+  sha256: 942e7bbbdd273f8e3e877039a09470210eb952130872d198b36f35514ac7a1b0
 - slug: php-security
   name: PHP Security
   kind: detection

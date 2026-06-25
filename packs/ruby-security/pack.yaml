@@ -2,7 +2,7 @@ slug: ruby-security
 name: Ruby Security
 kind: detection
 action: warn
-version: 8
+version: 9
 schema_version: 1
 author: pullminder
 max_weight: 10
@@ -18,6 +18,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Command injection via interpolation
     rule_id: RUBY_CMD_INJECT
@@ -25,6 +26,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Command injection via backtick interpolation
     rule_id: RUBY_CMD_INJECT_BACKTICK
@@ -32,6 +34,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Dynamic dispatch with user input
     rule_id: RUBY_SEND_INJECT
@@ -39,6 +42,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Mass assignment bypass
     rule_id: RUBY_MASS_ASSIGN
@@ -46,6 +50,7 @@ patterns:
     language: ruby
     severity: warning
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: SQL injection via interpolation
     rule_id: RUBY_SQL_INJECT
@@ -53,6 +58,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Unsafe deserialization with Marshal
     rule_id: RUBY_MARSHAL_LOAD
@@ -60,6 +66,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Hardcoded credentials
     rule_id: RUBY_HARDCODED_CREDS
@@ -67,6 +74,7 @@ patterns:
     language: ruby
     severity: critical
     category: secret
+    exclude_pattern: '^\s*#'
 
   - name: Unsafe constantize on user input
     rule_id: RUBY_CONSTANTIZE
@@ -74,6 +82,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
     fix_templates:
       ruby: 'Use an allowlist: ALLOWED_CLASSES.fetch(params[:type])'
 
@@ -93,6 +102,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
 
   - name: Raw SQL in ActiveRecord
     rule_id: RUBY_RAW_SQL
@@ -100,6 +110,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
     fix_templates:
       ruby: 'Use parameterized queries: where("col = ?", value)'
 
@@ -109,6 +120,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
     fix_templates:
       ruby: 'Validate and allowlist URLs before opening'
 
@@ -118,6 +130,7 @@ patterns:
     language: ruby
     severity: error
     category: insecure_pattern
+    exclude_pattern: '^\s*#'
     fix_templates:
       ruby: 'Use YAML.safe_load() instead'
 
