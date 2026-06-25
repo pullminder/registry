@@ -21,7 +21,7 @@ patterns:
 
   - name: Eval on external input
     rule_id: SHELL_EVAL
-    regex: 'eval\s+.*\$(?:\{?\w+\}?|\()'
+    regex: 'eval\s+.*\$(?:\{?\w+\}?|[@*#?!-]|\()'
     language: shell
     severity: critical
     category: insecure_pattern
