@@ -3,7 +3,7 @@ name: Swift Security
 schema_version: 1
 kind: detection
 action: warn
-version: 1
+version: 2
 author: pullminder
 max_weight: 10
 scoring:
@@ -12,9 +12,9 @@ scoring:
   - min_findings: 3
     score: 10
 patterns:
-  - name: NSLog with sensitive data
+  - name: Sensitive data in logs
     rule_id: SWIFT_NSLOG_SENSITIVE
-    regex: '(?i)NSLog\s*\(.*(?:password|token|secret|credential|apiKey|accessToken|auth)'
+    regex: '(?i)(?:NSLog|os_log|print|debugPrint|\.log)\s*\(.*(?:password|token|secret|credential|apiKey|accessToken|authToken|authKey|authSecret)'
     language: swift
     severity: warning
     category: insecure_pattern
