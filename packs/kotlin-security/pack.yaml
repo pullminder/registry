@@ -21,7 +21,7 @@ patterns:
 
   - name: Cleartext traffic allowed
     rule_id: KOTLIN_CLEARTEXT
-    regex: '(?i)(?:cleartextTrafficPermitted|usesCleartextTraffic)\s*=\s*["\x{27}]?true'
+    regex: '(?i)(?:cleartextTrafficPermitted|usesCleartextTraffic)\s*=\s*["\x{27}]?true\b'
     language: kotlin
     severity: error
     category: insecure_pattern
