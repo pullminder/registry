@@ -120,6 +120,7 @@ patterns:
     language: ruby
     severity: warning
     category: insecure_pattern
+    exclude_pattern: 'params:\s'
     fix_templates:
       ruby: 'Validate redirect URLs against allowlist'
 
