@@ -329,7 +329,7 @@ packs:
   description: Shell/Bash security patterns including eval injection, curl-pipe, chmod
   default: false
   author: pullminder
-  sha256: 7e454afdf3d77be6ec741a77ee52310ef2de39aaacb544b092cdfaba2cb1827e
+  sha256: 76edcc649f69fe082f9d3b82ad6418863c6a9c27eda8b1a12e3d2d841c5207cd
 - slug: crypto-anti-patterns
   name: Cryptographic Anti-Patterns
   kind: detection
