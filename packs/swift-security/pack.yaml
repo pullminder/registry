@@ -21,8 +21,11 @@ patterns:
 
   - name: App Transport Security bypass
     rule_id: SWIFT_ATS_BYPASS
-    regex: '(?i)NSAllowsArbitraryLoads.*true'
-    language: swift
+    regex: '(?i)<key>NSAllowsArbitraryLoads</key>\s*<true\s*/>'
+    language: "*"
+    path_patterns:
+      - "**/Info.plist"
+    window_lines: 2
     severity: error
     category: insecure_pattern
 
