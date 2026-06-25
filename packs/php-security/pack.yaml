@@ -68,7 +68,7 @@ patterns:
 
   - name: Hardcoded Credentials
     rule_id: PHP_HARDCODED_CREDS
-    regex: '(?i)(password|passwd|pwd)\s*[:=]\s*[''"][^''"]{4,}[''"]'
+    regex: '(?i)(password|passwd|pwd)["\x{27}]?\s*[:=]\s*[''"][^''"]{4,}[''"]'
     language: php
     severity: error
     category: insecure_pattern

@@ -39,7 +39,7 @@ patterns:
 
   - name: Hardcoded initialization vector
     rule_id: CRYPTO_HARDCODED_IV
-    regex: '(?i)(?:iv|initialization.?vector|nonce)\s*[:=]\s*(?:["\x{27}][A-Fa-f0-9]{16,}["\x{27}]|\[\s*(?:0x[0-9a-f]+\s*,?\s*){4,})'
+    regex: '(?i)(?:iv|initialization.?vector|nonce)["\x{27}]?\s*[:=]\s*(?:["\x{27}][A-Fa-f0-9]{16,}["\x{27}]|\[\s*(?:0x[0-9a-f]+\s*,?\s*){4,})'
     language: "*"
     severity: error
     category: insecure_pattern
@@ -53,7 +53,7 @@ patterns:
 
   - name: Small AES key size
     rule_id: CRYPTO_SMALL_AES
-    regex: '(?i)(?:AES|key.?(?:size|length|bits))\s*[:=]\s*64\b'
+    regex: '(?i)(?:AES|key.?(?:size|length|bits))["\x{27}]?\s*[:=]\s*64\b'
     language: "*"
     severity: warning
     category: insecure_pattern
@@ -67,7 +67,7 @@ patterns:
 
   - name: Insecure random for security
     rule_id: CRYPTO_INSECURE_RANDOM
-    regex: '(?i)(?:(?:Math\.random|rand\(\)|random\.random|Random\(\)).*(?:token|key|secret|nonce|salt|password|session|csrf)|(?:token|key|secret|nonce|salt|password|session|csrf)\w*\s*[:=].*(?:Math\.random|rand\(\)|random\.random|Random\(\)))'
+    regex: '(?i)(?:(?:Math\.random|rand\(\)|random\.random|Random\(\)).*(?:token|key|secret|nonce|salt|password|session|csrf)|(?:token|key|secret|nonce|salt|password|session|csrf)\w*["\x{27}]?\s*[:=].*(?:Math\.random|rand\(\)|random\.random|Random\(\)))'
     language: "*"
     severity: error
     category: insecure_pattern

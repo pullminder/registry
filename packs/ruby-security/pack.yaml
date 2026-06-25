@@ -70,7 +70,7 @@ patterns:
 
   - name: Hardcoded credentials
     rule_id: RUBY_HARDCODED_CREDS
-    regex: '(?i)(password|secret_key|api_key)\s*[:=]\s*[''"][^''"]{4,}[''"]'
+    regex: '(?i)(password|secret_key|api_key)["\x{27}]?\s*[:=]\s*[''"][^''"]{4,}[''"]'
     language: ruby
     severity: critical
     category: secret

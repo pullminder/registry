@@ -48,7 +48,7 @@ patterns:
 
   - name: Hardcoded credentials
     rule_id: JS_HARDCODED_CREDS
-    regex: '(?i)(password|passwd|secret|api_key|apikey|token)\s*[:=]\s*[''"][^''"]{8,}[''"]'
+    regex: '(?i)(password|passwd|secret|api_key|apikey|token)["\x{27}]?\s*[:=]\s*[''"][^''"]{8,}[''"]'
     language: "*"
     path_patterns: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
     severity: error

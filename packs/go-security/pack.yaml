@@ -42,14 +42,14 @@ patterns:
 
   - name: JWT built by string concatenation
     rule_id: GO_JWT_CONCAT
-    regex: '(?i)(token|jwt)\s*[:=].*["'']ey[A-Za-z0-9].*["'']\s*\+'
+    regex: '(?i)(token|jwt)["\x{27}]?\s*[:=].*["'']ey[A-Za-z0-9].*["'']\s*\+'
     language: go
     severity: error
     category: insecure_pattern
 
   - name: Token built by multi-segment concatenation
     rule_id: GO_TOKEN_CONCAT
-    regex: '(?i)(token|jwt)\s*[:=]\s*[^+\n]+\+\s*[^+\n]+\+'
+    regex: '(?i)(token|jwt)["\x{27}]?\s*[:=]\s*[^+\n]+\+\s*[^+\n]+\+'
     language: go
     severity: error
     category: insecure_pattern
